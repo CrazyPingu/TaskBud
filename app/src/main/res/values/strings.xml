@@ -4,4 +4,5 @@
     <string name="placeholder_password">Password</string>
     <string name="login_button">Log in</string>
     <string name="signup_button">Sign up</string>
+    <string name="logo_description">Logo</string>
 </resources>
