@@ -51,7 +51,7 @@
         android:textSize="15dp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username"
+        android:id="@+id/username_layout"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/gps"
@@ -59,6 +59,7 @@
         android:layout_marginTop="20dp">
 
         <EditText
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo"
@@ -70,15 +71,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password"
+        android:id="@+id/password_layout"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/username"
+        android:layout_below="@+id/username_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         app:passwordToggleEnabled="true">
 
         <EditText
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="password"
@@ -88,15 +90,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/confirm_password"
+        android:id="@+id/confirm_password_layout"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
+        android:layout_below="@+id/password_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         app:passwordToggleEnabled="true">
 
         <EditText
+            android:id="@+id/confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="password"
@@ -109,7 +112,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/confirm_password"
+        android:layout_below="@id/confirm_password_layout"
         android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
