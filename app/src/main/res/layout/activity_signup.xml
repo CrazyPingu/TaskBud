@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    tools:context=".MainActivity">
+    android:gravity="center_vertical">
 
     <LinearLayout
         android:id="@+id/title_layout"
@@ -19,8 +17,8 @@
             android:id="@+id/logo"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:contentDescription="@string/logo_description"
             android:layout_marginRight="20dp"
+            android:contentDescription="@string/logo_description"
             android:src="@drawable/ic_baseline_check_box_24" />
 
         <TextView
@@ -28,18 +26,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/logo"
-            android:text="@string/login"
+            android:text="@string/signup"
             android:textSize="25dp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/profile_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/title_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_baseline_person_24" />
+
+    <TextView
+        android:id="@+id/gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_pic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/gps"
+        android:textSize="15dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title_layout"
+        android:layout_below="@+id/gps"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="20dp">
 
         <EditText
             android:layout_width="match_parent"
@@ -48,8 +65,7 @@
             android:layout_centerHorizontal="true"
             android:autofillHints="username"
             android:hint="@string/placeholder_username"
-            android:inputType="text"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,18 +83,43 @@
             android:layout_height="wrap_content"
             android:autofillHints="password"
             android:hint="@string/placeholder_password"
-            android:inputType="textPassword"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/confirm_password"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:passwordToggleEnabled="true">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="password"
+            android:hint="@string/placeholder_confirm_password"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/password"
+        android:layout_below="@id/confirm_password"
         android:layout_marginTop="30dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="80dp"
+            android:text="@string/login" />
 
         <Button
             android:id="@+id/signup_button"
@@ -86,13 +127,5 @@
             android:layout_height="wrap_content"
             android:text="@string/signup" />
 
-        <Button
-            android:id="@+id/login_button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:text="@string/login" />
-
     </LinearLayout>
-
 </RelativeLayout>
