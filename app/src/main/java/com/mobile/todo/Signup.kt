@@ -3,21 +3,59 @@ package com.mobile.todo
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.mobile.todo.database.User
+import com.mobile.todo.database.UserDatabase
+import com.mobile.todo.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class Signup : AppCompatActivity() {
 
-    private var loginButton : Button? = null
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var userDb: UserDatabase
+    private lateinit var loginButton: Button
+    private lateinit var signupButton: Button
+    private lateinit var usernameEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var confirmPasswordEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
         loginButton = findViewById(R.id.login_button)
+        signupButton = findViewById(R.id.signup_button)
+        usernameEditText = findViewById(R.id.username)
+        passwordEditText = findViewById(R.id.password)
+        confirmPasswordEditText = findViewById(R.id.confirm_password)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        userDb = UserDatabase.getDatabase(this)
 
         // Redirect to Login Activity
         loginButton?.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        signupButton.setOnClickListener {
+            writeData()
+        }
+    }
+
+
+    private fun writeData() {
+        val username = usernameEditText.text.toString()
+        val password = passwordEditText.text.toString()
+        val confirmPassword = confirmPasswordEditText.text.toString()
+
+        if (password == confirmPassword) {
+            val user = User(username, password)
+            GlobalScope.launch(Dispatchers.IO) {
+                userDb.userDao().insertUser(user)
+            }
         }
     }
 }
