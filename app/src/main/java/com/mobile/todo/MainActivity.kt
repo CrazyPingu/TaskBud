@@ -9,8 +9,8 @@ import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var username : EditText
-    private lateinit var signupButton : Button
+    private lateinit var username: EditText
+    private lateinit var signupButton: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         signupButton = findViewById(R.id.signup_button)
 
         // Redirect to Signup Activity
-        signupButton?.setOnClickListener {
+        signupButton.setOnClickListener {
             startActivity(Intent(this, Signup::class.java))
         }
 

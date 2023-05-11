@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.mobile.todo.database.dao.UserDao
 import com.mobile.todo.database.dataset.Folder
+import com.mobile.todo.database.dataset.Habit
 import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.database.dataset.User
 
 @Database(
-    entities = [User::class, Folder::class, ToDo::class],
+    entities = [User::class, Folder::class, ToDo::class, Habit::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
