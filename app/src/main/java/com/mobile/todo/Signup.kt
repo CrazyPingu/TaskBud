@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.mobile.todo.database.User
-import com.mobile.todo.database.UserDatabase
+import com.mobile.todo.database.dataset.User
+import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class Signup : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var userDb: UserDatabase
+    private lateinit var userDb: AppDatabase
     private lateinit var loginButton: Button
     private lateinit var signupButton: Button
     private lateinit var usernameEditText: EditText
@@ -33,10 +33,10 @@ class Signup : AppCompatActivity() {
         confirmPasswordEditText = findViewById(R.id.confirm_password)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        userDb = UserDatabase.getDatabase(this)
+        userDb = AppDatabase.getDatabase(this)
 
         // Redirect to Login Activity
-        loginButton?.setOnClickListener {
+        loginButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
@@ -51,7 +51,7 @@ class Signup : AppCompatActivity() {
         val password = passwordEditText.text.toString()
         val confirmPassword = confirmPasswordEditText.text.toString()
 
-        if (password == confirmPassword) {
+        if (password == confirmPassword && username.isNotEmpty() && password.isNotEmpty()) {
             val user = User(username, password)
             GlobalScope.launch(Dispatchers.IO) {
                 userDb.userDao().insertUser(user)

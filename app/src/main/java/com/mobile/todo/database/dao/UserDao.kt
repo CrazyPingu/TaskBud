@@ -1,6 +1,7 @@
-package com.mobile.todo.database
+package com.mobile.todo.database.dao
 
 import androidx.room.*
+import com.mobile.todo.database.dataset.User
 
 @Dao
 interface UserDao {
