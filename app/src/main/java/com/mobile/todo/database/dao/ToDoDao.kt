@@ -7,7 +7,6 @@ import com.mobile.todo.database.dataset.ToDo
 
 @Dao
 interface ToDoDao {
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertFolder(toDo: ToDo)
 }
