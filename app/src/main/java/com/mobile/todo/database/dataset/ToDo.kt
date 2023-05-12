@@ -1,8 +1,6 @@
 package com.mobile.todo.database.dataset
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.sql.Date
 
 @Entity(
@@ -14,6 +12,7 @@ import java.sql.Date
         onDelete = ForeignKey.CASCADE
     )]
 )
+@TypeConverters(DateTypeConverter::class)
 data class ToDo(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
@@ -23,3 +22,15 @@ data class ToDo(
     val completed: Boolean = false,
     val folderId: Int,
 )
+
+class DateTypeConverter {
+    @TypeConverter
+    fun toDate(timestamp: Long?): Date? {
+        return timestamp?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun toTimestamp(date: java.sql.Date?): Long? {
+        return date?.time
+    }
+}
