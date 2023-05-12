@@ -96,15 +96,44 @@ class Signup : AppCompatActivity() {
                 if (location != null) {
                     // Case gps is enabled
                     gpsTextView.text = getCityName(location.latitude, location.longitude)
-                }else{
+                } else {
                     // Case gps is disabled
-                    gpsTextView.text = "Enable location"
+                    startLocationUpdates()
                 }
             }
-                // Case random error
+            // Case random error
             .addOnFailureListener { e: Exception ->
                 gpsTextView.text = "GPS not found"
             }
+    }
+
+
+    private fun startLocationUpdates() {
+        val locationRequest = LocationRequest.create().apply {
+            interval = 10000
+            fastestInterval = 5000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
+
+        val locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                val location = locationResult.lastLocation
+                if (location != null) {
+                    getCityName(location.latitude, location.longitude)?.let {
+                        gpsTextView.setText(it)
+                    }
+                }
+                fusedLocationClient.removeLocationUpdates(this)
+            }
+        }
+
+        if (Utils.checkPermission(this)) {
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        }
     }
 
     private fun getCityName(latitude: Double, longitude: Double): String {

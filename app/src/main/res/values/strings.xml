@@ -4,7 +4,7 @@
     <string name="placeholder_password">Password</string>
     <string name="placeholder_confirm_password">Confirm password</string>
     <string name="logo_description">Logo</string>
-    <string name="gps">GPS location</string>
+    <string name="gps">Location Disabled</string>
     <string name="login">Log in</string>
     <string name="signup">Sign up</string>
 </resources>
