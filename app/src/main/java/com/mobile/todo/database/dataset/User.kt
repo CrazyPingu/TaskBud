@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey
 data class User(
     val username: String,
     val password: String,
+    val GPS: String,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 

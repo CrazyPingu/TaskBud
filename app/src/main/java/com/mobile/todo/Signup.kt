@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mobile.todo.database.dataset.User
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.databinding.ActivityMainBinding
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,6 +21,7 @@ class Signup : AppCompatActivity() {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var confirmPasswordEditText: EditText
+    private lateinit var GPS: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,12 @@ class Signup : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         userDb = AppDatabase.getDatabase(this)
+
+        if (Utils.checkPermission(this)) {
+            //GPS = Utils.getGPS(this)
+        } else {
+            Utils.askPermission(this)
+        }
 
         // Redirect to Login Activity
         loginButton.setOnClickListener {
@@ -53,7 +59,7 @@ class Signup : AppCompatActivity() {
         val confirmPassword = confirmPasswordEditText.text.toString()
 
         if (password == confirmPassword && username.isNotEmpty() && password.isNotEmpty()) {
-            val user = User(username, password)
+            val user = User(username, password, GPS)
             GlobalScope.launch(Dispatchers.IO) {
                 userDb.userDao().insertUser(user)
             }
