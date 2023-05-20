@@ -4,9 +4,15 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
-import android.widget.Toast
+import android.widget.TextView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.mobile.todo.Utils
 
-class GpsBR : BroadcastReceiver(){
+class GpsBR(
+    private var fusedLocationClient: FusedLocationProviderClient,
+    private var gpsTextView: TextView,
+) : BroadcastReceiver() {
+
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == LocationManager.PROVIDERS_CHANGED_ACTION) {
@@ -14,9 +20,8 @@ class GpsBR : BroadcastReceiver(){
             val gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
             if (gpsEnabled) {
-                // GPS is enabled
-                // Do something here, such as notifying the user or triggering a specific action
-                Toast.makeText(context, "GPS is enabled", Toast.LENGTH_SHORT).show()
+                gpsTextView.text = "Loading city ..."
+                Utils.getCurrentLocation(fusedLocationClient, gpsTextView, context)
             }
         }
     }

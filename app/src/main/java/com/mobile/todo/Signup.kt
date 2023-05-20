@@ -1,31 +1,21 @@
 package com.mobile.todo
 
-import android.Manifest
-import com.google.android.gms.location.LocationRequest
-
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
 import android.location.*
 import android.os.Bundle
-import android.os.Looper
-import android.util.Log
-import android.widget.AbsListView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import com.mobile.todo.broadcast.GpsBR
 import com.mobile.todo.database.dataset.User
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.databinding.ActivityMainBinding
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -42,7 +32,7 @@ class Signup : AppCompatActivity() {
     private lateinit var confirmPasswordEditText: EditText
 
     private lateinit var gpsTextView: TextView
-    private var gpsBR : GpsBR = GpsBR()
+    private lateinit var gpsBR: GpsBR
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -60,10 +50,11 @@ class Signup : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         userDb = AppDatabase.getDatabase(this)
 
-        if (Utils.checkPermission(this)) {
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            getCurrentLocation()
-        } else {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        if (Utils.checkPermission(this) && Utils.isGpsEnabled(this)) {
+            Utils.getCurrentLocation(fusedLocationClient, gpsTextView, this)
+        } else if (!Utils.checkPermission(this)) {
             Utils.askPermission(this)
         }
 
@@ -76,6 +67,8 @@ class Signup : AppCompatActivity() {
             writeData()
         }
 
+        // Register broadcast receiver to listen to GPS status
+        gpsBR = GpsBR(fusedLocationClient, gpsTextView)
         registerReceiver(gpsBR, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
     }
 
@@ -85,6 +78,7 @@ class Signup : AppCompatActivity() {
         unregisterReceiver(gpsBR)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun writeData() {
         val username = usernameEditText.text.toString()
         val password = passwordEditText.text.toString()
@@ -95,65 +89,10 @@ class Signup : AppCompatActivity() {
             GlobalScope.launch(Dispatchers.IO) {
                 userDb.userDao().insertUser(user)
             }
-        }
-    }
-
-    private fun getCurrentLocation() {
-        if (!Utils.checkPermission(this)) {
-            return
-        }
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    // Case gps is enabled
-                    gpsTextView.text = getCityName(location.latitude, location.longitude)
-                } else {
-                    // Case gps is disabled
-                    startLocationUpdates()
-                }
-            }
-            // Case random error
-            .addOnFailureListener { e: Exception ->
-                gpsTextView.text = "GPS not found"
-            }
-    }
-
-
-    private fun startLocationUpdates() {
-        val locationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }
-
-        val locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                val location = locationResult.lastLocation
-                if (location != null) {
-                    getCityName(location.latitude, location.longitude)?.let {
-                        gpsTextView.setText(it)
-                    }
-                }
-                fusedLocationClient.removeLocationUpdates(this)
-            }
-        }
-
-        if (Utils.checkPermission(this)) {
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.getMainLooper()
-            )
-        }
-    }
-
-    private fun getCityName(latitude: Double, longitude: Double): String {
-        val geocoder = Geocoder(this, Locale.getDefault())
-        val addressList = geocoder.getFromLocation(latitude, longitude, 1)
-        return if (addressList != null && addressList.isNotEmpty()) {
-            addressList[0].locality
-        } else {
-            "ERROR"
+        }else if(password != confirmPassword){
+            Toast.makeText(this, "Password and Confirm Password must be the same", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(this, "Username and Password must not be empty", Toast.LENGTH_SHORT).show()
         }
     }
 }
