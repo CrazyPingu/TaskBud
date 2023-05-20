@@ -12,8 +12,3 @@ data class User(
     val GPS: String,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
-
-
-
-
-

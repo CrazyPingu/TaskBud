@@ -5,6 +5,7 @@ import com.google.android.gms.location.LocationRequest
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.*
 import android.os.Bundle
@@ -21,6 +22,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
+import com.mobile.todo.broadcast.GpsBR
 import com.mobile.todo.database.dataset.User
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.databinding.ActivityMainBinding
@@ -40,6 +42,7 @@ class Signup : AppCompatActivity() {
     private lateinit var confirmPasswordEditText: EditText
 
     private lateinit var gpsTextView: TextView
+    private var gpsBR : GpsBR = GpsBR()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -72,6 +75,14 @@ class Signup : AppCompatActivity() {
         signupButton.setOnClickListener {
             writeData()
         }
+
+        registerReceiver(gpsBR, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(gpsBR)
     }
 
     private fun writeData() {
