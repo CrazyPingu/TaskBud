@@ -19,7 +19,7 @@
             android:layout_height="70dp"
             android:layout_marginRight="20dp"
             android:contentDescription="@string/logo_description"
-            android:src="@drawable/ic_baseline_check_box_24" />
+            android:src="@drawable/logo_icon" />
 
         <TextView
             android:id="@+id/title"

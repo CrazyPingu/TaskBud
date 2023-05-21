@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navbar_todo"
+        android:enabled="true"
+        android:icon="@drawable/navbar_todo_icon"
+        android:title="To Do's" />
+    <item
+        android:id="@+id/navbar_habit"
+        android:enabled="true"
+        android:icon="@drawable/navbar_habit_icon"
+        android:title="Habits" />
+    <item
+        android:id="@+id/navbar_profile"
+        android:enabled="true"
+        android:icon="@drawable/navbar_profile_icon"
+        android:title="Profile" />
+    <item
+        android:id="@+id/navbar_settings"
+        android:enabled="true"
+        android:icon="@drawable/navbar_settings_icon"
+        android:title="Settings" />
+</menu>

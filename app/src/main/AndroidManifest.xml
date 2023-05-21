@@ -40,6 +40,8 @@
         
         <activity android:name=".Camera" />
 
+        <activity android:name=".HomePage" />
+
         <receiver
             android:name=".broadcast.GpsBR"
             android:enabled="true"

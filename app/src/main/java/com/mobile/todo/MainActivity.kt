@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var username: EditText
     private lateinit var signupButton: Button
-
+    private lateinit var loginButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,11 +19,17 @@ class MainActivity : AppCompatActivity() {
 
         username = findViewById(R.id.username)
         signupButton = findViewById(R.id.signup_button)
+        loginButton = findViewById(R.id.login_button)
 
         // Redirect to Signup Activity
         signupButton.setOnClickListener {
             startActivity(Intent(this, Signup::class.java))
         }
+
+        loginButton.setOnClickListener {
+            startActivity(Intent(this, HomePage::class.java))
+        }
+
 
     }
 }
