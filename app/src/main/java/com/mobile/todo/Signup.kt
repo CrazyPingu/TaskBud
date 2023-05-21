@@ -94,12 +94,6 @@ class Signup : AppCompatActivity() {
         registerReceiver(gpsBR, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(gpsBR)
-    }
-
     @OptIn(DelicateCoroutinesApi::class)
     private fun writeData() {
         val username = usernameEditText.text.toString()
@@ -141,5 +135,14 @@ class Signup : AppCompatActivity() {
             Toast.makeText(this, "Username and Password must not be empty", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(gpsBR)
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
     }
 }

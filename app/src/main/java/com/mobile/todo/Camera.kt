@@ -21,9 +21,9 @@ class Camera : AppCompatActivity() {
     private lateinit var confirmButton: Button
     private lateinit var cancelButton: Button
 
-    private lateinit var profilePicImage : Uri
+    private lateinit var profilePicImage: Uri
 
-    private var profilePicImagePassed : Uri? = null
+    private var profilePicImagePassed: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class Camera : AppCompatActivity() {
         confirmButton = findViewById(R.id.confirm)
         cancelButton = findViewById(R.id.cancel)
 
-        if(intent.hasExtra("profilePic")) {
+        if (intent.hasExtra("profilePic")) {
             profilePicImagePassed = intent.getParcelableExtra<Uri>("profilePic")
             profilePic.setImageURI(intent.getParcelableExtra<Uri>("profilePic"))
         }
@@ -53,7 +53,7 @@ class Camera : AppCompatActivity() {
 
         cancelButton.setOnClickListener {
             intent = Intent(this, Signup::class.java)
-            if(profilePicImagePassed != null) {
+            if (profilePicImagePassed != null) {
                 intent.putExtra("profilePic", profilePicImagePassed)
             }
             startActivity(intent)
@@ -91,4 +91,12 @@ class Camera : AppCompatActivity() {
         return Uri.parse(path)
     }
 
+
+    override fun onBackPressed() {
+        intent = Intent(this, Signup::class.java)
+        if (profilePicImagePassed != null) {
+            intent.putExtra("profilePic", profilePicImagePassed)
+        }
+        startActivity(intent)
+    }
 }
