@@ -1,13 +1,19 @@
 package com.mobile.todo
 
+import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.location.*
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -30,11 +36,20 @@ class Signup : AppCompatActivity() {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var confirmPasswordEditText: EditText
+    private lateinit var profilePic: ImageView
 
     private lateinit var gpsTextView: TextView
     private lateinit var gpsBR: GpsBR
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                profilePic.setImageBitmap(data?.extras?.getParcelable<Bitmap>("data") as Bitmap)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +61,7 @@ class Signup : AppCompatActivity() {
         passwordEditText = findViewById(R.id.password)
         confirmPasswordEditText = findViewById(R.id.confirm_password)
         gpsTextView = findViewById(R.id.gps)
+        profilePic = findViewById(R.id.profile_pic)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         userDb = AppDatabase.getDatabase(this)
@@ -67,10 +83,15 @@ class Signup : AppCompatActivity() {
             writeData()
         }
 
+        profilePic.setOnClickListener {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            resultLauncher.launch(intent)
+        }
         // Register broadcast receiver to listen to GPS status
         gpsBR = GpsBR(fusedLocationClient, gpsTextView)
         registerReceiver(gpsBR, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
     }
+
 
 
     override fun onDestroy() {
@@ -89,10 +110,15 @@ class Signup : AppCompatActivity() {
             GlobalScope.launch(Dispatchers.IO) {
                 userDb.userDao().insertUser(user)
             }
-        }else if(password != confirmPassword){
-            Toast.makeText(this, "Password and Confirm Password must be the same", Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(this, "Username and Password must not be empty", Toast.LENGTH_SHORT).show()
+        } else if (password != confirmPassword) {
+            Toast.makeText(
+                this,
+                "Password and Confirm Password must be the same",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(this, "Username and Password must not be empty", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 }
