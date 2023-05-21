@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.hardware.camera2.CameraCharacteristics
 import android.location.*
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -43,15 +44,10 @@ class Signup : AppCompatActivity() {
     private lateinit var gpsTextView: TextView
     private lateinit var gpsBR: GpsBR
 
+    private var profilePicImage : Uri? = null
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private var resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = result.data
-                profilePic.setImageBitmap(data?.extras?.getParcelable<Bitmap>("data") as Bitmap)
-            }
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +72,13 @@ class Signup : AppCompatActivity() {
             Utils.askPermission(this)
         }
 
+        if(intent.hasExtra("profilePic")) {
+            profilePicImage = intent.getParcelableExtra<Uri>("profilePic")!!
+            profilePic.setImageURI(profilePicImage)
+        }else{
+            profilePicImage = null
+        }
+
         // Redirect to Login Activity
         loginButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
@@ -86,30 +89,14 @@ class Signup : AppCompatActivity() {
         }
 
         profilePic.setOnClickListener {
-//            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-//                intent.putExtra("android.intent.extras.LENS_FACING_FRONT", 1)
-//                intent.putExtra("android.intent.extras.CAMERA_FACING", 1)
-//            intent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true)
-
-
-
-
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && Build.VERSION.SDK_INT < Build.VERSION_CODES.O -> {
-                    cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT)  // Tested on API 24 Android version 7.0(Samsung S6)
-                }
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
-                    cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", CameraCharacteristics.LENS_FACING_FRONT) // Tested on API 27 Android version 8.0(Nexus 6P)
-                    cameraIntent.putExtra("android.intent.extra.USE_FRONT_CAMERA", true)
-                }
-                else -> cameraIntent.putExtra("android.intent.extras.CAMERA_FACING", 1)  // Tested API 21 Android version 5.0.1(Samsung S4)
+            intent = Intent(this, Camera::class.java)
+            if(profilePicImage != null) {
+                intent.putExtra("profilePic", profilePicImage)
             }
-
-            resultLauncher.launch(cameraIntent)
-
+            startActivity(intent)
         }
+
+
         // Register broadcast receiver to listen to GPS status
         gpsBR = GpsBR(fusedLocationClient, gpsTextView)
         registerReceiver(gpsBR, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
