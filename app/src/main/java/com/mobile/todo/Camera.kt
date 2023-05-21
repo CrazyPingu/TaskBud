@@ -23,6 +23,8 @@ class Camera : AppCompatActivity() {
 
     private lateinit var profilePicImage : Uri
 
+    private var profilePicImagePassed : Uri? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_pic)
@@ -34,6 +36,7 @@ class Camera : AppCompatActivity() {
         cancelButton = findViewById(R.id.cancel)
 
         if(intent.hasExtra("profilePic")) {
+            profilePicImagePassed = intent.getParcelableExtra<Uri>("profilePic")
             profilePic.setImageURI(intent.getParcelableExtra<Uri>("profilePic"))
         }
 
@@ -50,6 +53,9 @@ class Camera : AppCompatActivity() {
 
         cancelButton.setOnClickListener {
             intent = Intent(this, Signup::class.java)
+            if(profilePicImagePassed != null) {
+                intent.putExtra("profilePic", profilePicImagePassed)
+            }
             startActivity(intent)
         }
 
