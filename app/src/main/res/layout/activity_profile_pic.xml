@@ -28,7 +28,7 @@
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:src="@drawable/ic_baseline_person_24" />
+        android:src="@drawable/default_profile_pic" />
 
     <LinearLayout
         android:id="@+id/select_source"

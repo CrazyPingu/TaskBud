@@ -85,7 +85,7 @@ class Camera : AppCompatActivity() {
         val path = MediaStore.Images.Media.insertImage(
             this.contentResolver,
             inImage,
-            "Title",
+            null,
             null
         )
         return Uri.parse(path)
