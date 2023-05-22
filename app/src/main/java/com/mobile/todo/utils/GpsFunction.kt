@@ -1,11 +1,9 @@
 package com.mobile.todo.utils
 
-import android.app.Activity
 import android.content.Context
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import android.media.audiofx.Visualizer.MeasurementPeakRms
 import android.os.Looper
 import android.widget.TextView
 import com.google.android.gms.location.*

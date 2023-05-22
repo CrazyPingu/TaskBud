@@ -5,6 +5,7 @@
     <string name="placeholder_confirm_password">Confirm password</string>
     <string name="logo_description">Logo</string>
     <string name="gps">Location Disabled</string>
+    <string name="gps_permission_denied">Enable location permission</string>
     <string name="login">Log in</string>
     <string name="signup">Sign up</string>
     <string name="select_photo">Select photo</string>

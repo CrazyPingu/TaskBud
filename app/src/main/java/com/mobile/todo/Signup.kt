@@ -3,6 +3,7 @@ package com.mobile.todo
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.location.*
 import android.net.Uri
 import android.os.Bundle
@@ -58,8 +59,8 @@ class Signup : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        if (Permission.checkLocationPermission(this) && GpsFunction.isGpsEnabled(this)) {
-            GpsFunction.getCurrentLocation(fusedLocationClient, gpsTextView, this)
+        if (Permission.checkLocationPermission(this)) {
+            startTracking()
         } else {
             Permission.askLocationPermission(this)
         }
@@ -74,6 +75,8 @@ class Signup : AppCompatActivity() {
         gpsTextView.setOnClickListener {
             if (gpsTextView.text.equals(this.resources.getString(R.string.gps))) {
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            } else if(gpsTextView.text.equals(this.resources.getString(R.string.gps_permission_denied))) {
+                Permission.openSettings(this)
             }
         }
 
@@ -87,7 +90,7 @@ class Signup : AppCompatActivity() {
         }
 
         profilePic.setOnClickListener {
-            if(Permission.checkCameraPermission(this)) {
+            if (Permission.checkCameraPermission(this)) {
                 intent = Intent(this, Camera::class.java)
                 if (profilePicImage != null) {
                     intent.putExtra("profilePic", profilePicImage)
@@ -97,11 +100,6 @@ class Signup : AppCompatActivity() {
                 Permission.askCameraPermission(this)
             }
         }
-
-
-        // Register broadcast receiver to listen to GPS status
-        gpsBR = GpsBR(fusedLocationClient, gpsTextView)
-        registerReceiver(gpsBR, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -123,7 +121,8 @@ class Signup : AppCompatActivity() {
                 User(
                     username,
                     password,
-                    if (gpsTextView.text.equals(this.resources.getString(R.string.gps))) {
+                    if (gpsTextView.text.equals(this.resources.getString(R.string.gps)) || gpsTextView.text.equals(
+                            this.resources.getString(R.string.gps_permission_denied))) {
                         "Unknown"
                     } else {
                         gpsTextView.text.toString()
@@ -147,12 +146,58 @@ class Signup : AppCompatActivity() {
         }
     }
 
+
+    private fun startTracking(){
+        if (GpsFunction.isGpsEnabled(this)) {
+            GpsFunction.getCurrentLocation(fusedLocationClient, gpsTextView, this)
+        } else {
+            gpsBR = GpsBR(fusedLocationClient, gpsTextView)
+            registerReceiver(gpsBR, IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION))
+        }
+    }
+
     override fun onDestroy() {
+        if (::gpsBR.isInitialized) {
+            unregisterReceiver(gpsBR)
+        }
         super.onDestroy()
-        unregisterReceiver(gpsBR)
     }
 
     override fun onBackPressed() {
         startActivity(Intent(this, Login::class.java))
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            Permission.LOCATION_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Start the receiver in case the user give permission
+                    startTracking()
+                } else {
+                    // Change the text to ask the permission
+                    gpsTextView.text = this.resources.getString(R.string.gps_permission_denied)
+                    // Permission denied, show the dialog
+                    Permission.showDialog(this)
+                }
+            }
+            Permission.CAMERA_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission granted, send to camera activity
+                    intent = Intent(this, Camera::class.java)
+                    if (profilePicImage != null) {
+                        intent.putExtra("profilePic", profilePicImage)
+                    }
+                    startActivity(intent)
+                } else {
+                    // Permission denied, show the dialog
+                    Permission.showDialog(this)
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

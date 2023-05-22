@@ -14,6 +14,8 @@ import com.mobile.todo.BuildConfig
 class Permission {
     companion object {
         private var isDialogShown: Boolean = false
+        const val CAMERA_PERMISSION_CODE = 1
+        const val LOCATION_PERMISSION_CODE = 2
 
         private val LOCATION_PERMISSION = arrayOf(
             android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -27,12 +29,14 @@ class Permission {
         )
 
 
-        fun askCameraPermission(activity: Activity) {
-            ActivityCompat.requestPermissions(activity, CAMERA_PERMISSION, 1)
+        fun askCameraPermission(activity: Activity, showDialog: Boolean = false) {
+            ActivityCompat.requestPermissions(activity, CAMERA_PERMISSION, CAMERA_PERMISSION_CODE)
+            checkPermission(activity, CAMERA_PERMISSION, showDialog)
         }
 
-        fun askLocationPermission(activity: Activity) {
-            ActivityCompat.requestPermissions(activity, LOCATION_PERMISSION, 2)
+        fun askLocationPermission(activity: Activity, showDialog: Boolean = false) {
+            ActivityCompat.requestPermissions(activity, LOCATION_PERMISSION, LOCATION_PERMISSION_CODE)
+            checkPermission(activity, LOCATION_PERMISSION, showDialog)
         }
 
 
@@ -61,7 +65,7 @@ class Permission {
         }
 
 
-        private fun showDialog(context: Context) {
+        fun showDialog(context: Context) {
             if (isDialogShown) return
             AlertDialog.Builder(context).setTitle("Permissions Required")
                 .setMessage("Please grant all the required permissions or else the app won't work properly.")
@@ -73,7 +77,7 @@ class Permission {
             isDialogShown = true
         }
 
-        private fun openSettings(context: Context) {
+        fun openSettings(context: Context) {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
             val uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
             intent.data = uri
