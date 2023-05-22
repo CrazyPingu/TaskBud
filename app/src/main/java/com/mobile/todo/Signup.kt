@@ -111,35 +111,44 @@ class Signup : AppCompatActivity() {
             Toast.makeText(this, "Username and Password must not be empty", Toast.LENGTH_SHORT)
                 .show()
         } else {
-            val user =
-                User(
-                    username,
-                    password,
-                    if (gpsTextView.text.equals(this.resources.getString(R.string.gps)) || gpsTextView.text.equals(
-                            this.resources.getString(R.string.gps_permission_denied))) {
-                        "Unknown"
-                    } else {
-                        gpsTextView.text.toString()
-                    },
-                    if (profilePicImage == null) {
-                        // Set default profile pic
-                        Uri.parse(
-                            ContentResolver.SCHEME_ANDROID_RESOURCE
-                                    + "://" + this.resources
-                                .getResourcePackageName(R.drawable.default_profile_pic)
-                                    + '/' + this.resources.getResourceTypeName(R.drawable.default_profile_pic)
-                                    + '/' + this.resources.getResourceEntryName(R.drawable.default_profile_pic)
-                        ).toString()
-                    } else {
-                        profilePicImage.toString()
-                    }
-                )
-            GlobalScope.launch(Dispatchers.IO) {
-                AppDatabase.getDatabase(this@Signup).userDao().insertUser(user)
-            }
 
-            // Redirect to login
-            startActivity(Intent(this, Login::class.java))
+            GlobalScope.launch {
+                if (AppDatabase.getDatabase(this@Signup).userDao().getUser(username) == null) {
+                    val user =
+                        User(
+                            username,
+                            password,
+                            if (gpsTextView.text.equals(this@Signup.resources.getString(R.string.gps)) || gpsTextView.text.equals(
+                                    this@Signup.resources.getString(R.string.gps_permission_denied)
+                                )
+                            ) {
+                                "Unknown"
+                            } else {
+                                gpsTextView.text.toString()
+                            },
+                            if (profilePicImage == null) {
+                                // Set default profile pic
+                                Uri.parse(
+                                    ContentResolver.SCHEME_ANDROID_RESOURCE
+                                            + "://" + this@Signup.resources
+                                        .getResourcePackageName(R.drawable.default_profile_pic)
+                                            + '/' + this@Signup.resources.getResourceTypeName(R.drawable.default_profile_pic)
+                                            + '/' + this@Signup.resources.getResourceEntryName(R.drawable.default_profile_pic)
+                                ).toString()
+                            } else {
+                                profilePicImage.toString()
+                            }
+                        )
+                    AppDatabase.getDatabase(this@Signup).userDao().insertUser(user)
+                    // Redirect to login
+                    startActivity(Intent(this@Signup, Login::class.java))
+                } else {
+                    runOnUiThread {
+                        Toast.makeText(this@Signup, "Username already exists", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
         }
     }
 
