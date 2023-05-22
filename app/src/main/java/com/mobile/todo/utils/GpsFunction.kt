@@ -1,51 +1,24 @@
-package com.mobile.todo
+package com.mobile.todo.utils
 
 import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.media.audiofx.Visualizer.MeasurementPeakRms
 import android.os.Looper
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.Priority
+import com.google.android.gms.location.*
 import java.util.*
 
-class Utils {
+
+class GpsFunction {
     companion object {
-        private val PERMISSION = arrayOf(
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.ACCESS_COARSE_LOCATION,
-            android.Manifest.permission.CAMERA,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-
-        fun askPermission(activity: Activity) {
-            ActivityCompat.requestPermissions(activity, PERMISSION, 1)
-        }
-
-        fun checkPermission(context: Context): Boolean {
-            for (permission in PERMISSION) {
-                if (context.checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false
-                }
-            }
-            return true
-        }
-
-
-        // Gps functions
         fun getCurrentLocation(
             fusedLocationClient: FusedLocationProviderClient,
             gpsTextView: TextView, context: Context
         ) {
-            if (!checkPermission(context)) {
+            if (!Permission.checkLocationPermission(context)) {
                 return
             }
             fusedLocationClient.lastLocation
@@ -66,7 +39,8 @@ class Utils {
             fusedLocationClient: FusedLocationProviderClient,
             gpsTextView: TextView, context: Context
         ) {
-            val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000).build()
+            val locationRequest =
+                LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000).build()
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
                     val location = locationResult.lastLocation
@@ -79,7 +53,7 @@ class Utils {
                 }
             }
 
-            if (checkPermission(context)) {
+            if (Permission.checkLocationPermission(context)) {
                 fusedLocationClient.requestLocationUpdates(
                     locationRequest,
                     locationCallback,
@@ -99,7 +73,8 @@ class Utils {
         }
 
         fun isGpsEnabled(context: Context): Boolean {
-            val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val locationManager =
+                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         }
     }

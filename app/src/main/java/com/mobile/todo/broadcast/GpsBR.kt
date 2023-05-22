@@ -4,24 +4,27 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
+import android.util.Log
 import android.widget.TextView
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.mobile.todo.Utils
+import com.mobile.todo.utils.GpsFunction
+import com.mobile.todo.utils.Permission
 
 class GpsBR(
     private var fusedLocationClient: FusedLocationProviderClient,
     private var gpsTextView: TextView,
 ) : BroadcastReceiver() {
 
-
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == LocationManager.PROVIDERS_CHANGED_ACTION) {
-            val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val locationManager =
+                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
-            if (gpsEnabled) {
+
+            if (Permission.checkLocationPermission(context, true) && gpsEnabled) {
                 gpsTextView.text = "Loading city ..."
-                Utils.getCurrentLocation(fusedLocationClient, gpsTextView, context)
+                GpsFunction.getCurrentLocation(fusedLocationClient, gpsTextView, context)
             }
         }
     }

@@ -13,7 +13,10 @@ import com.google.android.gms.location.LocationServices
 import com.mobile.todo.broadcast.GpsBR
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.User
-import com.mobile.todo.databinding.ActivityMainBinding
+import android.provider.Settings
+import android.util.Log
+import com.mobile.todo.utils.Permission
+import com.mobile.todo.utils.GpsFunction
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -23,7 +26,6 @@ import java.util.*
 
 class Signup : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
     private lateinit var userDb: AppDatabase
     private lateinit var loginButton: Button
     private lateinit var signupButton: Button
@@ -52,15 +54,14 @@ class Signup : AppCompatActivity() {
         gpsTextView = findViewById(R.id.gps)
         profilePic = findViewById(R.id.profile_pic)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
         userDb = AppDatabase.getDatabase(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        if (Utils.checkPermission(this) && Utils.isGpsEnabled(this)) {
-            Utils.getCurrentLocation(fusedLocationClient, gpsTextView, this)
-        } else if (!Utils.checkPermission(this)) {
-            Utils.askPermission(this)
+        if (Permission.checkLocationPermission(this) && GpsFunction.isGpsEnabled(this)) {
+            GpsFunction.getCurrentLocation(fusedLocationClient, gpsTextView, this)
+        } else {
+            Permission.askLocationPermission(this)
         }
 
         if (intent.hasExtra("profilePic")) {
@@ -68,6 +69,12 @@ class Signup : AppCompatActivity() {
             profilePic.setImageURI(profilePicImage)
         } else {
             profilePicImage = null
+        }
+
+        gpsTextView.setOnClickListener {
+            if (gpsTextView.text.equals(this.resources.getString(R.string.gps))) {
+                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+            }
         }
 
         // Redirect to Login Activity
@@ -80,11 +87,15 @@ class Signup : AppCompatActivity() {
         }
 
         profilePic.setOnClickListener {
-            intent = Intent(this, Camera::class.java)
-            if (profilePicImage != null) {
-                intent.putExtra("profilePic", profilePicImage)
+            if(Permission.checkCameraPermission(this)) {
+                intent = Intent(this, Camera::class.java)
+                if (profilePicImage != null) {
+                    intent.putExtra("profilePic", profilePicImage)
+                }
+                startActivity(intent)
+            } else {
+                Permission.askCameraPermission(this)
             }
-            startActivity(intent)
         }
 
 
@@ -98,7 +109,16 @@ class Signup : AppCompatActivity() {
         val username = usernameEditText.text.toString()
         val password = passwordEditText.text.toString()
         val confirmPassword = confirmPasswordEditText.text.toString()
-        if (password == confirmPassword && username.isNotEmpty() && password.isNotEmpty()) {
+        if (password != confirmPassword) {
+            Toast.makeText(
+                this,
+                "Password and Confirm Password must be the same",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            Toast.makeText(this, "Username and Password must not be empty", Toast.LENGTH_SHORT)
+                .show()
+        } else {
             val user =
                 User(
                     username,
@@ -124,15 +144,6 @@ class Signup : AppCompatActivity() {
             GlobalScope.launch(Dispatchers.IO) {
                 userDb.userDao().insertUser(user)
             }
-        } else if (password != confirmPassword) {
-            Toast.makeText(
-                this,
-                "Password and Confirm Password must be the same",
-                Toast.LENGTH_SHORT
-            ).show()
-        } else {
-            Toast.makeText(this, "Username and Password must not be empty", Toast.LENGTH_SHORT)
-                .show()
         }
     }
 
