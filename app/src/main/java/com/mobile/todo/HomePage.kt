@@ -20,7 +20,7 @@ class HomePage : AppCompatActivity() {
         // TODO - Get the user ID from the login page
         val userId = 1
 
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+        bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navbar_todo -> {
                     changeFragment(TodoPage.newInstance(userId))

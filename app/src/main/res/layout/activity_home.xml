@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        app:itemRippleColor="@null"
         app:menu="@menu/bottom_nav" />
 
 </RelativeLayout>
