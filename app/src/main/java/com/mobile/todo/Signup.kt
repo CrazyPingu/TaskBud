@@ -6,7 +6,6 @@ import android.content.IntentFilter
 import android.location.*
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -73,7 +72,7 @@ class Signup : AppCompatActivity() {
 
         // Redirect to Login Activity
         loginButton.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, Login::class.java))
         }
 
         signupButton.setOnClickListener {
@@ -143,6 +142,6 @@ class Signup : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, Login::class.java))
     }
 }

@@ -2,7 +2,10 @@ package com.mobile.todo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mobile.todo.fragment.HabitPage
+import com.mobile.todo.fragment.TodoPage
 
 class HomePage : AppCompatActivity() {
 
@@ -11,17 +14,18 @@ class HomePage : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        // TODO - Get the user ID from the login page
+        val userId = 1
+
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navbar_todo -> {
-                    val fragment = TodoPage()
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, fragment)
-                        .commit()
+                    changeFragment(TodoPage.newInstance(userId))
                     true
                 }
                 R.id.navbar_habit -> {
-                    // Handle item 2 selection
+                    changeFragment(HabitPage.newInstance(userId))
                     true
                 }
                 R.id.navbar_profile -> {
@@ -36,6 +40,13 @@ class HomePage : AppCompatActivity() {
             }
         }
 
+        // Preset the navbar "To Do's" page
+        bottomNavigationView.selectedItemId = R.id.navbar_todo
+    }
 
+    private fun changeFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 }

@@ -4,20 +4,20 @@
         android:id="@+id/navbar_todo"
         android:enabled="true"
         android:icon="@drawable/navbar_todo_icon"
-        android:title="To Do's" />
+        android:title="@string/title_todo" />
     <item
         android:id="@+id/navbar_habit"
         android:enabled="true"
         android:icon="@drawable/navbar_habit_icon"
-        android:title="Habits" />
+        android:title="@string/title_habit" />
     <item
         android:id="@+id/navbar_profile"
         android:enabled="true"
         android:icon="@drawable/navbar_profile_icon"
-        android:title="Profile" />
+        android:title="@string/title_profile" />
     <item
         android:id="@+id/navbar_settings"
         android:enabled="true"
         android:icon="@drawable/navbar_settings_icon"
-        android:title="Settings" />
+        android:title="@string/title_settings" />
 </menu>

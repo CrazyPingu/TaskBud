@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 
 
-class MainActivity : AppCompatActivity() {
+class Login : AppCompatActivity() {
 
     private lateinit var username: EditText
     private lateinit var signupButton: Button
