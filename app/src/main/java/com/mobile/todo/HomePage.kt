@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.todo.fragment.HabitPage
 import com.mobile.todo.fragment.ProfilePage
+import com.mobile.todo.fragment.SettingsPage
 import com.mobile.todo.fragment.TodoPage
 
 class HomePage : AppCompatActivity() {
@@ -34,7 +35,7 @@ class HomePage : AppCompatActivity() {
                     true
                 }
                 R.id.navbar_settings -> {
-                    // Handle item 3 selection
+                    changeFragment(SettingsPage.newInstance(userId))
                     true
                 }
                 else -> false
