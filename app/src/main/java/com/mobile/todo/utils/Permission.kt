@@ -68,7 +68,7 @@ class Permission {
         fun showDialog(context: Context) {
             if (isDialogShown) return
             AlertDialog.Builder(context).setTitle("Permissions Required")
-                .setMessage("Please grant all the required permissions or else the app won't work properly.")
+                .setMessage("Please grant all the required permissions and restart the app or else the app won't work properly.")
                 .setPositiveButton("OK") { dialog, _ ->
                     isDialogShown = false
                     openSettings(context)

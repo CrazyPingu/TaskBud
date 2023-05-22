@@ -15,25 +15,18 @@ import com.mobile.todo.broadcast.GpsBR
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.User
 import android.provider.Settings
-import android.util.Log
 import com.mobile.todo.utils.Permission
 import com.mobile.todo.utils.GpsFunction
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 class Signup : AppCompatActivity() {
 
-    private lateinit var userDb: AppDatabase
-    private lateinit var loginButton: Button
-    private lateinit var signupButton: Button
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var confirmPasswordEditText: EditText
-    private lateinit var profilePic: ImageView
 
     private lateinit var gpsTextView: TextView
     private lateinit var gpsBR: GpsBR
@@ -47,15 +40,11 @@ class Signup : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
-        loginButton = findViewById(R.id.login_button)
-        signupButton = findViewById(R.id.signup_button)
         usernameEditText = findViewById(R.id.username)
         passwordEditText = findViewById(R.id.password)
         confirmPasswordEditText = findViewById(R.id.confirm_password)
         gpsTextView = findViewById(R.id.gps)
-        profilePic = findViewById(R.id.profile_pic)
-
-        userDb = AppDatabase.getDatabase(this)
+        val profilePic = findViewById<ImageView>(R.id.profile_pic)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -75,34 +64,39 @@ class Signup : AppCompatActivity() {
         gpsTextView.setOnClickListener {
             if (gpsTextView.text.equals(this.resources.getString(R.string.gps))) {
                 startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            } else if(gpsTextView.text.equals(this.resources.getString(R.string.gps_permission_denied))) {
+            } else if (gpsTextView.text.equals(this.resources.getString(R.string.gps_permission_denied))) {
                 Permission.openSettings(this)
             }
         }
 
         // Redirect to Login Activity
-        loginButton.setOnClickListener {
+        findViewById<Button>(R.id.login_button).setOnClickListener {
             startActivity(Intent(this, Login::class.java))
         }
 
-        signupButton.setOnClickListener {
+        // Signup button
+        findViewById<Button>(R.id.signup_button).setOnClickListener {
             writeData()
         }
 
+        // Redirect to Camera Activity
         profilePic.setOnClickListener {
-            if (Permission.checkCameraPermission(this)) {
-                intent = Intent(this, Camera::class.java)
-                if (profilePicImage != null) {
-                    intent.putExtra("profilePic", profilePicImage)
-                }
-                startActivity(intent)
-            } else {
-                Permission.askCameraPermission(this)
-            }
+            redirectToCamera()
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
+    private fun redirectToCamera() {
+        if (Permission.checkCameraPermission(this)) {
+            intent = Intent(this, Camera::class.java)
+            if (profilePicImage != null) {
+                intent.putExtra("profilePic", profilePicImage)
+            }
+            startActivity(intent)
+        } else {
+            Permission.askCameraPermission(this)
+        }
+    }
+
     private fun writeData() {
         val username = usernameEditText.text.toString()
         val password = passwordEditText.text.toString()
@@ -141,13 +135,16 @@ class Signup : AppCompatActivity() {
                     }
                 )
             GlobalScope.launch(Dispatchers.IO) {
-                userDb.userDao().insertUser(user)
+                AppDatabase.getDatabase(this@Signup).userDao().insertUser(user)
             }
+
+            // Redirect to login
+            startActivity(Intent(this, Login::class.java))
         }
     }
 
 
-    private fun startTracking(){
+    private fun startTracking() {
         if (GpsFunction.isGpsEnabled(this)) {
             GpsFunction.getCurrentLocation(fusedLocationClient, gpsTextView, this)
         } else {
@@ -187,11 +184,7 @@ class Signup : AppCompatActivity() {
             Permission.CAMERA_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted, send to camera activity
-                    intent = Intent(this, Camera::class.java)
-                    if (profilePicImage != null) {
-                        intent.putExtra("profilePic", profilePicImage)
-                    }
-                    startActivity(intent)
+                    redirectToCamera()
                 } else {
                     // Permission denied, show the dialog
                     Permission.showDialog(this)
