@@ -17,7 +17,6 @@ import com.mobile.todo.database.dataset.User
 import android.provider.Settings
 import com.mobile.todo.utils.Permission
 import com.mobile.todo.utils.GpsFunction
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 

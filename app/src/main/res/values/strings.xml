@@ -16,4 +16,11 @@
     <string name="title_habit">Habits</string>
     <string name="title_profile">Profile</string>
     <string name="title_settings">Settings</string>
+    <string name="theme_mode_toggle_title">Theme: </string>
+    <!-- Settings   -->
+    <string-array name="spinner_items">
+        <item>System</item>
+        <item>Dark Mode</item>
+        <item>Light Mode</item>
+    </string-array>
 </resources>
