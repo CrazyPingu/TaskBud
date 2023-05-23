@@ -2,6 +2,7 @@ package com.mobile.todo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.todo.fragment.HabitPage
@@ -10,12 +11,11 @@ import com.mobile.todo.fragment.SettingsPage
 import com.mobile.todo.fragment.TodoPage
 
 class HomePage : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val bottomNavigationView : BottomNavigationView = findViewById(R.id.bottom_navigation)
 
         // TODO - Get the user ID from the login page
         val userId = 1
@@ -35,7 +35,13 @@ class HomePage : AppCompatActivity() {
                     true
                 }
                 R.id.navbar_settings -> {
-                    changeFragment(SettingsPage.newInstance(userId))
+                    changeFragment(
+                        SettingsPage.newInstance(
+                            userId,
+                            this@HomePage,
+                            AppCompatDelegate.getDefaultNightMode()
+                        )
+                    )
                     true
                 }
                 else -> false
