@@ -11,11 +11,15 @@ import com.mobile.todo.fragment.SettingsPage
 import com.mobile.todo.fragment.TodoPage
 
 class HomePage : AppCompatActivity() {
+
+
+    private lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val bottomNavigationView : BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
 
         // TODO - Get the user ID from the login page
         val userId = 1
@@ -49,7 +53,7 @@ class HomePage : AppCompatActivity() {
         }
 
         // Preset the navbar "To Do's" page
-        bottomNavigationView.selectedItemId = R.id.navbar_todo
+//        bottomNavigationView.selectedItemId = R.id.navbar_todo
     }
 
     private fun changeFragment(fragment: Fragment) {
@@ -57,4 +61,10 @@ class HomePage : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+
+    override fun onResume() {
+        super.onResume()
+        bottomNavigationView.selectedItemId = R.id.navbar_todo
+    }
+
 }

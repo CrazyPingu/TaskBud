@@ -2,7 +2,6 @@ package com.mobile.todo.fragment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat.recreate
 import com.mobile.todo.R
-import kotlin.properties.Delegates
 
 
 class SettingsPage : Fragment() {
@@ -46,19 +44,16 @@ class SettingsPage : Fragment() {
                     when (parent.getItemAtPosition(position).toString()) {
                         this@SettingsPage.resources.getString(R.string.system_title) -> {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                            recreate(ACTIVITY)
                         }
                         this@SettingsPage.resources.getString(R.string.light_mode_title) -> {
-                            // Action for Light Theme
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                            recreate(ACTIVITY)
                         }
                         this@SettingsPage.resources.getString(R.string.dark_mode_title) -> {
-                            // Action for Dark Theme
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                            recreate(ACTIVITY)
+
                         }
                     }
+                    recreate(ACTIVITY)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
