@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
@@ -29,7 +30,6 @@ class ProfilePage : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-
         GlobalScope.launch {
             val user = AppDatabase.getDatabase(requireContext()).userDao().getUser(USER_ID)
             var profilePicUri = user.profilePic
@@ -49,6 +49,8 @@ class ProfilePage : Fragment() {
             // Switch to the main (UI) thread to update the ImageView
             launch(Dispatchers.Main) {
                 view.findViewById<ImageView>(R.id.profile_pic).setImageURI(profilePicUri)
+                view.findViewById<TextView>(R.id.username).text = user.username
+                
             }
         }
         return view
