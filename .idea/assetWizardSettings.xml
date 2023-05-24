@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/insert_photo/baseline_insert_photo_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/check_box/baseline_check_box_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,8 +33,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="2727ff" />
-                            <entry key="outputName" value="ic_baseline_insert_photo_24" />
+                            <entry key="outputName" value="navbar_todo_icon" />
                             <entry key="sourceFile" value="C:\Users\samud\Desktop\todolist" />
                           </map>
                         </option>

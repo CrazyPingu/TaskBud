@@ -23,7 +23,6 @@ import java.io.InputStream
 
 class ProfilePage : Fragment() {
 
-    private var USER_ID: Int = 0
     private var PROFILE_PIC_IMAGE: Uri = Uri.EMPTY
 
     override fun onCreateView(
@@ -34,11 +33,11 @@ class ProfilePage : Fragment() {
 
 
         GlobalScope.launch {
-            val user = AppDatabase.getDatabase(requireContext()).userDao().getUser(USER_ID)
+            val user = AppDatabase.getDatabase(requireContext()).userDao().getUser(HomePage.USER_ID)
             var profilePicUri = user.profilePic
             if (PROFILE_PIC_IMAGE != Uri.EMPTY) {
                 AppDatabase.getDatabase(requireContext()).userDao().updateProfilePic(
-                    USER_ID,
+                    HomePage.USER_ID,
                     PROFILE_PIC_IMAGE.toString()
                 )
                 profilePicUri = PROFILE_PIC_IMAGE
@@ -52,7 +51,7 @@ class ProfilePage : Fragment() {
                 } catch (e: IOException) {
                     // Case profile pic is not found
                     AppDatabase.getDatabase(requireContext()).userDao().updateProfilePic(
-                        USER_ID,
+                        HomePage.USER_ID,
                         Constant.getDefaultIcon(requireContext()).toString()
                     )
                     profilePicUri = Constant.getDefaultIcon(requireContext())
@@ -77,10 +76,9 @@ class ProfilePage : Fragment() {
 
 
     companion object {
-        fun newInstance(idUser: Int, profilePicImage: Uri = Uri.EMPTY) =
+        fun newInstance(profilePicImage: Uri = Uri.EMPTY) =
             ProfilePage().apply {
                 arguments = Bundle().apply {
-                    USER_ID = idUser
                     PROFILE_PIC_IMAGE = profilePicImage
                 }
             }
