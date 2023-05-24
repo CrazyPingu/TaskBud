@@ -1,5 +1,6 @@
 package com.mobile.todo
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -21,8 +22,7 @@ class HomePage : AppCompatActivity() {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
 
-        // TODO - Get the user ID from the login page
-        val userId = 1
+        val userId = intent.getIntExtra("userId", 0)
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -41,7 +41,6 @@ class HomePage : AppCompatActivity() {
                 R.id.navbar_settings -> {
                     changeFragment(
                         SettingsPage.newInstance(
-                            userId,
                             this@HomePage,
                             AppCompatDelegate.getDefaultNightMode()
                         )
@@ -51,9 +50,6 @@ class HomePage : AppCompatActivity() {
                 else -> false
             }
         }
-
-        // Preset the navbar "To Do's" page
-//        bottomNavigationView.selectedItemId = R.id.navbar_todo
     }
 
     private fun changeFragment(fragment: Fragment) {
@@ -64,6 +60,7 @@ class HomePage : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        // Select the first item by default
         bottomNavigationView.selectedItemId = R.id.navbar_todo
     }
 

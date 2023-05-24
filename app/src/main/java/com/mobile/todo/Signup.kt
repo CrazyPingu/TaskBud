@@ -133,9 +133,9 @@ class Signup : AppCompatActivity() {
                                         .getResourcePackageName(R.drawable.default_profile_pic)
                                             + '/' + this@Signup.resources.getResourceTypeName(R.drawable.default_profile_pic)
                                             + '/' + this@Signup.resources.getResourceEntryName(R.drawable.default_profile_pic)
-                                ).toString()
+                                )!!
                             } else {
-                                profilePicImage.toString()
+                                profilePicImage!!
                             }
                         )
                     AppDatabase.getDatabase(this@Signup).userDao().insertUser(user)

@@ -5,7 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.mobile.todo.R
+import com.mobile.todo.database.AppDatabase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class ProfilePage : Fragment() {
@@ -21,6 +25,10 @@ class ProfilePage : Fragment() {
 
         // Add all the code inside here
 
+        GlobalScope.launch {
+            val user = AppDatabase.getDatabase(requireContext()).userDao().getUser(USER_ID)
+            view.findViewById<ImageView>(R.id.profile_pic).setImageURI(user.profilePic)
+        }
         return view
     }
 

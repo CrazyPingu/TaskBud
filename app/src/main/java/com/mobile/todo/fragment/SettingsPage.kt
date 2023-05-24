@@ -15,7 +15,6 @@ import com.mobile.todo.R
 
 class SettingsPage : Fragment() {
 
-    private var USER_ID: Int = 0
     private lateinit var ACTIVITY: AppCompatActivity
     private var SELECTED_THEME: Int = 0
 
@@ -67,14 +66,14 @@ class SettingsPage : Fragment() {
 
 
     companion object {
-        fun newInstance(idUser: Int, activity: AppCompatActivity, selectedTheme: Int) =
+        fun newInstance(activity: AppCompatActivity, selectedTheme: Int) =
             SettingsPage().apply {
                 arguments = Bundle().apply {
-                    USER_ID = idUser
                     ACTIVITY = activity
                     SELECTED_THEME =
                         if (selectedTheme == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED ||
-                            selectedTheme == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) 0 else selectedTheme
+                            selectedTheme == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                        ) 0 else selectedTheme
                 }
             }
     }

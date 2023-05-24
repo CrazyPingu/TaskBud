@@ -53,7 +53,9 @@ class Login : AppCompatActivity() {
             }
             runOnUiThread {
                 if (user != null) {
-                    startActivity(Intent(this@Login, HomePage::class.java))
+                    val intent = Intent(this@Login, HomePage::class.java)
+                    intent.putExtra("userId", user.id)
+                    startActivity(intent)
                 } else {
                     Toast.makeText(
                         this@Login,
