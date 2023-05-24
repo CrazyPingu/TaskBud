@@ -54,6 +54,7 @@ class Login : AppCompatActivity() {
             runOnUiThread {
                 if (user != null) {
                     val intent = Intent(this@Login, HomePage::class.java)
+                    HomePage.pageToShow = R.id.navbar_todo
                     intent.putExtra("userId", user.id)
                     startActivity(intent)
                 } else {

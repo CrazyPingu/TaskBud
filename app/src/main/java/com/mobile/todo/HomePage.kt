@@ -15,7 +15,7 @@ import com.mobile.todo.fragment.TodoPage
 class HomePage : AppCompatActivity() {
 
     companion object {
-        private var pageToShow: Int = R.id.navbar_todo
+        var pageToShow: Int = R.id.navbar_todo
     }
 
     private lateinit var bottomNavigationView: BottomNavigationView

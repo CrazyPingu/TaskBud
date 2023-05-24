@@ -12,6 +12,7 @@ import android.widget.ImageView
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -27,7 +28,6 @@ class ProfilePage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         GlobalScope.launch {
@@ -45,7 +45,11 @@ class ProfilePage : Fragment() {
                 )
                 profilePicUri = Constant.getDefaultIcon(requireContext())
             }
-            view.findViewById<ImageView>(R.id.profile_pic).setImageURI(profilePicUri)
+
+            // Switch to the main (UI) thread to update the ImageView
+            launch(Dispatchers.Main) {
+                view.findViewById<ImageView>(R.id.profile_pic).setImageURI(profilePicUri)
+            }
         }
         return view
     }
