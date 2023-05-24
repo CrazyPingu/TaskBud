@@ -11,9 +11,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.utils.Constant
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.IOException
+import java.io.InputStream
 
 
 class ProfilePage : Fragment() {
@@ -27,32 +30,23 @@ class ProfilePage : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        // Add all the code inside here
-
         GlobalScope.launch {
             val user = AppDatabase.getDatabase(requireContext()).userDao().getUser(USER_ID)
-            val profilePicUri = user.profilePic
-
-            if (!File(profilePicUri.path) .exists()) {
-                // Handle case when the image file does not exist
-                // Change the profile pic in the database to the default profile pic
+            var profilePicUri = user.profilePic
+            try {
+                // Search for profile pic
+                val inputStream: InputStream? = context?.contentResolver?.openInputStream(profilePicUri)
+                inputStream?.close()
+            } catch (e: IOException) {
+                // Case profile pic is not found
                 AppDatabase.getDatabase(requireContext()).userDao().updateProfilePic(
                     USER_ID,
-                    Uri.parse(
-                        ContentResolver.SCHEME_ANDROID_RESOURCE
-                                + "://" + this@ProfilePage.resources
-                            .getResourcePackageName(R.drawable.default_profile_pic)
-                                + '/' + this@ProfilePage.resources.getResourceTypeName(R.drawable.default_profile_pic)
-                                + '/' + this@ProfilePage.resources.getResourceEntryName(R.drawable.default_profile_pic)
-                    )!!.toString()
+                    Constant.getDefaultIcon(requireContext()).toString()
                 )
-                view.findViewById<ImageView>(R.id.profile_pic)
-                    .setImageResource(R.drawable.default_profile_pic)
+                profilePicUri = Constant.getDefaultIcon(requireContext())
             }
-
             view.findViewById<ImageView>(R.id.profile_pic).setImageURI(profilePicUri)
         }
-
         return view
     }
 

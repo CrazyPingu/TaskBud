@@ -15,6 +15,7 @@ import com.mobile.todo.broadcast.GpsBR
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.User
 import android.provider.Settings
+import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Permission
 import com.mobile.todo.utils.GpsFunction
 import kotlinx.coroutines.GlobalScope
@@ -127,13 +128,7 @@ class Signup : AppCompatActivity() {
                             },
                             if (profilePicImage == null) {
                                 // Set default profile pic
-                                Uri.parse(
-                                    ContentResolver.SCHEME_ANDROID_RESOURCE
-                                            + "://" + this@Signup.resources
-                                        .getResourcePackageName(R.drawable.default_profile_pic)
-                                            + '/' + this@Signup.resources.getResourceTypeName(R.drawable.default_profile_pic)
-                                            + '/' + this@Signup.resources.getResourceEntryName(R.drawable.default_profile_pic)
-                                )!!
+                                Constant.getDefaultIcon(this@Signup)
                             } else {
                                 profilePicImage!!
                             }
