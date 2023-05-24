@@ -90,6 +90,7 @@ class Signup : AppCompatActivity() {
             if (profilePicImage != null) {
                 intent.putExtra("profilePic", profilePicImage)
             }
+            Camera.PAGE_TO_RETURN = Signup::class
             startActivity(intent)
         } else {
             Permission.askCameraPermission(this)

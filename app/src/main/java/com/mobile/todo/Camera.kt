@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import kotlin.reflect.KClass
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.ImageView
@@ -14,6 +15,10 @@ import java.io.ByteArrayOutputStream
 
 
 class Camera : AppCompatActivity() {
+
+    companion object {
+        lateinit var PAGE_TO_RETURN : KClass<*>
+    }
 
     private lateinit var profilePic: ImageView
     private lateinit var selectCamera: ImageView
@@ -52,7 +57,7 @@ class Camera : AppCompatActivity() {
         }
 
         cancelButton.setOnClickListener {
-            intent = Intent(this, Signup::class.java)
+            intent = Intent(this, Camera.PAGE_TO_RETURN.java)
             if (profilePicImagePassed != null) {
                 intent.putExtra("profilePic", profilePicImagePassed)
             }
@@ -60,7 +65,7 @@ class Camera : AppCompatActivity() {
         }
 
         confirmButton.setOnClickListener {
-            intent = Intent(this, Signup::class.java)
+            intent = Intent(this, Camera.PAGE_TO_RETURN.java)
             if(::profilePicImage.isInitialized) {
                 intent.putExtra("profilePic", profilePicImage)
             }
@@ -95,7 +100,7 @@ class Camera : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-        intent = Intent(this, Signup::class.java)
+        intent = Intent(this, Camera.PAGE_TO_RETURN.java)
         if (profilePicImagePassed != null) {
             intent.putExtra("profilePic", profilePicImagePassed)
         }

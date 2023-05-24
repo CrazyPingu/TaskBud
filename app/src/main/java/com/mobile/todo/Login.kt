@@ -55,7 +55,7 @@ class Login : AppCompatActivity() {
                 if (user != null) {
                     val intent = Intent(this@Login, HomePage::class.java)
                     HomePage.pageToShow = R.id.navbar_todo
-                    intent.putExtra("userId", user.id)
+                    HomePage.USER_ID = user.id
                     startActivity(intent)
                 } else {
                     Toast.makeText(

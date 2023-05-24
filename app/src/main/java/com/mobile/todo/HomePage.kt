@@ -1,8 +1,8 @@
 package com.mobile.todo
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -11,11 +11,13 @@ import com.mobile.todo.fragment.HabitPage
 import com.mobile.todo.fragment.ProfilePage
 import com.mobile.todo.fragment.SettingsPage
 import com.mobile.todo.fragment.TodoPage
+import kotlin.properties.Delegates
 
 class HomePage : AppCompatActivity() {
 
     companion object {
         var pageToShow: Int = R.id.navbar_todo
+        var USER_ID by Delegates.notNull<Int>()
     }
 
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -26,21 +28,24 @@ class HomePage : AppCompatActivity() {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
 
-        val userId = intent.getIntExtra("userId",0)
-
         bottomNavigationView.setOnItemSelectedListener { item ->
             pageToShow = item.itemId
             when (item.itemId) {
                 R.id.navbar_todo -> {
-                    changeFragment(TodoPage.newInstance(userId))
+                    changeFragment(TodoPage.newInstance(USER_ID))
                     true
                 }
                 R.id.navbar_habit -> {
-                    changeFragment(HabitPage.newInstance(userId))
+                    changeFragment(HabitPage.newInstance(USER_ID))
                     true
                 }
                 R.id.navbar_profile -> {
-                    changeFragment(ProfilePage.newInstance(userId))
+                    if(intent.hasExtra("profilePic")){
+                        val profilePic = intent.getParcelableExtra<Uri>("profilePic")
+                        changeFragment(ProfilePage.newInstance(USER_ID, profilePic!!))
+                    }else{
+                        changeFragment(ProfilePage.newInstance(USER_ID))
+                    }
                     true
                 }
                 R.id.navbar_settings -> {
@@ -63,5 +68,9 @@ class HomePage : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         bottomNavigationView.selectedItemId = pageToShow
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, Login::class.java))
     }
 }
