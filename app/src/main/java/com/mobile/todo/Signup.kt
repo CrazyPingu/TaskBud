@@ -1,6 +1,5 @@
 package com.mobile.todo
 
-import android.content.ContentResolver
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager

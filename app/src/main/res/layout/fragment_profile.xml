@@ -38,5 +38,28 @@
         android:layout_below="@id/profile_pic"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_pic"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/badge_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/badge_button" />
+
+    <Button
+        android:id="@+id/habits_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/badge_button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/habits_button" />
 
 </RelativeLayout>
