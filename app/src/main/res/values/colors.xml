@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_dark">#2e2e2e</color>
     <color name="background_light">#E0E0E0</color>
+    <color name="lavender">#8692f7</color>
 </resources>
