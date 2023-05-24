@@ -20,4 +20,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user WHERE id = :userId LIMIT 1;")
     fun getUser(userId: Int): User
+
+    @Query("UPDATE user SET profilePic = :profilePic WHERE id = :userId")
+    fun updateProfilePic(userId: Int, profilePic: String)
 }

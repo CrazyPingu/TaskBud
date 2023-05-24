@@ -1,5 +1,6 @@
 package com.mobile.todo.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -10,12 +11,12 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat.recreate
+import com.mobile.todo.HomePage
 import com.mobile.todo.R
 
 
 class SettingsPage : Fragment() {
 
-    private lateinit var ACTIVITY: AppCompatActivity
     private var SELECTED_THEME: Int = 0
 
     override fun onCreateView(
@@ -49,10 +50,8 @@ class SettingsPage : Fragment() {
                         }
                         this@SettingsPage.resources.getString(R.string.dark_mode_title) -> {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-
                         }
                     }
-                    recreate(ACTIVITY)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -66,10 +65,9 @@ class SettingsPage : Fragment() {
 
 
     companion object {
-        fun newInstance(activity: AppCompatActivity, selectedTheme: Int) =
+        fun newInstance(selectedTheme: Int) =
             SettingsPage().apply {
                 arguments = Bundle().apply {
-                    ACTIVITY = activity
                     SELECTED_THEME =
                         if (selectedTheme == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED ||
                             selectedTheme == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM

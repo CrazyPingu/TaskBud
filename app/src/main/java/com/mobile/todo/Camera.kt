@@ -61,7 +61,9 @@ class Camera : AppCompatActivity() {
 
         confirmButton.setOnClickListener {
             intent = Intent(this, Signup::class.java)
-            intent.putExtra("profilePic", profilePicImage)
+            if(::profilePicImage.isInitialized) {
+                intent.putExtra("profilePic", profilePicImage)
+            }
             startActivity(intent)
         }
     }

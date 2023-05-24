@@ -2,6 +2,7 @@ package com.mobile.todo
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -13,6 +14,9 @@ import com.mobile.todo.fragment.TodoPage
 
 class HomePage : AppCompatActivity() {
 
+    companion object {
+        private var pageToShow: Int = R.id.navbar_todo
+    }
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -22,9 +26,10 @@ class HomePage : AppCompatActivity() {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
 
-        val userId = intent.getIntExtra("userId", 0)
+        val userId = intent.getIntExtra("userId",0)
 
         bottomNavigationView.setOnItemSelectedListener { item ->
+            pageToShow = item.itemId
             when (item.itemId) {
                 R.id.navbar_todo -> {
                     changeFragment(TodoPage.newInstance(userId))
@@ -40,10 +45,7 @@ class HomePage : AppCompatActivity() {
                 }
                 R.id.navbar_settings -> {
                     changeFragment(
-                        SettingsPage.newInstance(
-                            this@HomePage,
-                            AppCompatDelegate.getDefaultNightMode()
-                        )
+                        SettingsPage.newInstance(AppCompatDelegate.getDefaultNightMode())
                     )
                     true
                 }
@@ -60,8 +62,6 @@ class HomePage : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Select the first item by default
-        bottomNavigationView.selectedItemId = R.id.navbar_todo
+        bottomNavigationView.selectedItemId = pageToShow
     }
-
 }
