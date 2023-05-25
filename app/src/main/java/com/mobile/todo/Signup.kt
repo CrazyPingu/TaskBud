@@ -120,6 +120,8 @@ class Signup : AppCompatActivity() {
                             password,
                             if (gpsTextView.text.equals(this@Signup.resources.getString(R.string.gps)) || gpsTextView.text.equals(
                                     this@Signup.resources.getString(R.string.gps_permission_denied)
+                                ) || gpsTextView.text.equals(
+                                    this@Signup.resources.getString(R.string.loading_city)
                                 )
                             ) {
                                 "Unknown"

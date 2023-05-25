@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
-import android.util.Log
 import android.widget.TextView
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.mobile.todo.R
 import com.mobile.todo.utils.GpsFunction
 import com.mobile.todo.utils.Permission
 
@@ -23,7 +23,7 @@ class GpsBR(
 
 
             if (Permission.checkLocationPermission(context, true) && gpsEnabled) {
-                gpsTextView.text = "Loading city ..."
+                gpsTextView.text = context.getString(R.string.loading_city)
                 GpsFunction.getCurrentLocation(fusedLocationClient, gpsTextView, context)
             }
         }

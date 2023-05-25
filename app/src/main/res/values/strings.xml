@@ -11,6 +11,7 @@
     <string name="select_photo">Select photo</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
+    <string name="loading_city">Loading city…</string>
     <!-- Bottom navigation -->
     <string name="title_todo">To Do\'s</string>
     <string name="title_habit">Habits</string>
