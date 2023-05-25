@@ -5,131 +5,134 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical">
 
-    <LinearLayout
-        android:id="@+id/title_layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_margin="30dp"
+        android:background="@drawable/background_card">
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginRight="20dp"
-            android:contentDescription="@string/logo_description"
-            android:src="@drawable/logo_icon" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/logo"
-            android:text="@string/signup"
-            android:textSize="25dp" />
-
-    </LinearLayout>
-
-    <include
-        android:id="@+id/profile_pic_container"
-        layout="@layout/template_profile_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/title_layout"
-        android:layout_centerHorizontal="true" />
-
-
-    <TextView
-        android:id="@+id/gps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_pic_container"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="@string/gps"
-        android:textSize="15dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/username_layout"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gps"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp">
-
-        <EditText
-            android:id="@+id/username"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/logo"
-            android:layout_centerHorizontal="true"
-            android:autofillHints="username"
-            android:hint="@string/placeholder_username"
-            android:inputType="text" />
+            android:layout_margin="@dimen/width_stroke_card"
+            android:backgroundTintMode="@color/lavender"
+            app:cardCornerRadius="@dimen/corner_values_card">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="24dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/password_layout"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/username_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        app:passwordToggleEnabled="true">
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/signup"
+                    android:textSize="25sp" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="password"
-            android:hint="@string/placeholder_password"
-            android:inputType="textPassword" />
+                <include
+                    android:id="@+id/profile_pic_container"
+                    layout="@layout/template_profile_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/gps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/gps"
+                    android:textSize="15sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/confirm_password_layout"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        app:passwordToggleEnabled="true">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/username_layout"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp">
 
-        <EditText
-            android:id="@+id/confirm_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="password"
-            android:hint="@string/placeholder_confirm_password"
-            android:inputType="textPassword" />
+                    <EditText
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/logo"
+                        android:layout_centerHorizontal="true"
+                        android:autofillHints="username"
+                        android:hint="@string/placeholder_username"
+                        android:inputType="text" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_layout"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    app:passwordToggleEnabled="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/confirm_password_layout"
-        android:layout_marginTop="30dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="password"
+                        android:hint="@string/placeholder_password"
+                        android:inputType="textPassword" />
 
-        <Button
-            android:id="@+id/login_button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="80dp"
-            android:text="@string/login" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/signup_button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/signup" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/confirm_password_layout"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    app:passwordToggleEnabled="true">
 
-    </LinearLayout>
+                    <EditText
+                        android:id="@+id/confirm_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="password"
+                        android:hint="@string/placeholder_confirm_password"
+                        android:inputType="textPassword" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/login_button"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="80dp"
+                        android:backgroundTint="@color/lavender"
+                        android:text="@string/login" />
+
+                    <Button
+                        android:id="@+id/signup_button"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/lavender"
+                        android:text="@string/signup" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
 </RelativeLayout>
