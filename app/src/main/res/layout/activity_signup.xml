@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:gravity="center_vertical">
 
     <FrameLayout
@@ -15,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/width_stroke_card"
-            android:backgroundTintMode="@color/lavender"
             app:cardCornerRadius="@dimen/corner_values_card">
 
             <LinearLayout
@@ -117,14 +117,12 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="80dp"
-                        android:backgroundTint="@color/lavender"
                         android:text="@string/login" />
 
                     <Button
                         android:id="@+id/signup_button"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/lavender"
                         android:text="@string/signup" />
 
                 </LinearLayout>

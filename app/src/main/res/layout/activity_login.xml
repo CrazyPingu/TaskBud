@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/width_stroke_card"
-            android:backgroundTintMode="@color/lavender"
             app:cardCornerRadius="@dimen/corner_values_card">
 
             <LinearLayout
@@ -86,7 +85,6 @@
                         android:id="@+id/signup_button"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/lavender"
                         android:text="@string/signup" />
 
                     <Button
@@ -94,7 +92,6 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="80dp"
-                        android:backgroundTint="@color/lavender"
                         android:text="@string/login" />
 
                 </LinearLayout>
