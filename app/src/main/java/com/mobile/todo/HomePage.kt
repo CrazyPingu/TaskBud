@@ -36,14 +36,14 @@ class HomePage : AppCompatActivity() {
                     true
                 }
                 R.id.navbar_habit -> {
-                    changeFragment(HabitPage.newInstance(USER_ID))
+                    changeFragment(HabitPage())
                     true
                 }
                 R.id.navbar_profile -> {
-                    if(intent.hasExtra("profilePic")){
+                    if (intent.hasExtra("profilePic")) {
                         val profilePic = intent.getParcelableExtra<Uri>("profilePic")
                         changeFragment(ProfilePage.newInstance(profilePic!!))
-                    }else{
+                    } else {
                         changeFragment(ProfilePage.newInstance())
                     }
                     true

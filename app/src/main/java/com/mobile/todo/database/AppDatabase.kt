@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.mobile.todo.database.dao.UserDao
+import com.mobile.todo.database.dao.*
 import com.mobile.todo.database.dataset.Badge
 import com.mobile.todo.database.dataset.Folder
 import com.mobile.todo.database.dataset.Habit
@@ -19,6 +19,12 @@ import com.mobile.todo.database.dataset.UserBadge
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+    abstract fun folderDao(): FolderDao
+    abstract fun toDoDao(): ToDoDao
+    abstract fun habitDao(): HabitDao
+    abstract fun badgeDao(): BadgeDao
+    abstract fun userBadgeDao(): UserBadgeDao
+
 
     companion object {
 

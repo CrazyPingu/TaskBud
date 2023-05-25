@@ -21,7 +21,7 @@
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
         android:text="@string/title_settings"
-        android:textSize="25sp" />
+        android:textSize="@dimen/title_fragment" />
 
     <RelativeLayout
         android:id="@+id/title_layout"
@@ -36,8 +36,8 @@
             android:id="@+id/theme_toggle_title"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:layout_centerVertical="true"
+            android:gravity="end"
             android:text="@string/theme_mode_toggle_title"
             android:textSize="20sp" />
 

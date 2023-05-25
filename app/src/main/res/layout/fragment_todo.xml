@@ -8,6 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/title_todo" />
+        android:text="@string/title_todo"
+        android:textSize="@dimen/title_fragment" />
 
 </FrameLayout>
