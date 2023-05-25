@@ -33,8 +33,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="navbar_todo_icon" />
-                            <entry key="sourceFile" value="C:\Users\samud\Desktop\todolist" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="edit_image" />
+                            <entry key="sourceFile" value="C:\Users\samud\Downloads\pencil-svgrepo-com.svg" />
                           </map>
                         </option>
                       </PersistentState>

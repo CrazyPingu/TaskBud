@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="lavender">#8D66E6</color>
+    <color name="inverse">#FFFFFFFF</color>
+    <color name="normal">#FF000000</color>
 </resources>

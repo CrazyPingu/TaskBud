@@ -31,20 +31,36 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/profile_pic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/title_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/default_profile_pic" />
+    <FrameLayout
+        android:id="@+id/profile_pic_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_layout"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/default_profile_pic" />
+
+        <ImageView
+            android:id="@+id/small_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="bottom|end"
+            android:background="@null"
+            android:src="@drawable/edit_image" />
+
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/gps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_pic"
+        android:layout_below="@+id/profile_pic_container"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="@string/gps"
