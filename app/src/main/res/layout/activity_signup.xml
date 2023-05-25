@@ -31,29 +31,14 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <include
         android:id="@+id/profile_pic_container"
+        layout="@layout/template_profile_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_layout"
-        android:layout_centerHorizontal="true">
-
-        <ImageView
-            android:id="@+id/profile_pic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/default_profile_pic" />
-
-        <ImageView
-            android:id="@+id/small_image"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="bottom|end"
-            android:background="@null"
-            android:src="@drawable/edit_image" />
-
-    </FrameLayout>
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/title_layout"
+        android:layout_centerHorizontal="true" />
 
 
     <TextView

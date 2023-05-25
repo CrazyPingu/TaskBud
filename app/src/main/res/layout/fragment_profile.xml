@@ -23,26 +23,20 @@
         android:text="@string/title_profile"
         android:textSize="25sp" />
 
-    <ImageView
-        android:id="@+id/profile_pic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/logo_description"
-        android:src="@drawable/default_profile_pic" />
-
-    <TextView
+    <include
+        android:id="@+id/profile_pic_container"
+        layout="@layout/template_profile_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profile_pic"
+        android:layout_below="@+id/title"
         android:layout_centerHorizontal="true" />
+
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profile_pic"
+        android:layout_below="@id/profile_pic_container"
         android:layout_centerHorizontal="true" />
 
     <Button
