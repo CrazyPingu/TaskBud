@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Card values -->
+    <dimen name="corner_values_card">30dp</dimen>
+    <dimen name="width_stroke_card">2dp</dimen>
+</resources>
