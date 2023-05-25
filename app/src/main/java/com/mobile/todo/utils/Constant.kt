@@ -18,11 +18,17 @@ class Constant {
         }
 
 
-        fun setTheme(context: Context, theme: Int) {
+        fun saveTheme(context: Context, theme: Int) {
             context.getSharedPreferences(
                 context.resources.getString(R.string.shared_preferance_name),
                 Context.MODE_PRIVATE
             ).edit().putInt("theme", theme).apply()
+
+            setTheme(context)
+        }
+
+        fun setTheme(context: Context) {
+            AppCompatDelegate.setDefaultNightMode(getTheme(context))
         }
 
         fun getDefaultIcon(context: Context): Uri {

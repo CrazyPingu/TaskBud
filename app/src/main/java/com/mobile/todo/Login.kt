@@ -25,7 +25,7 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        AppCompatDelegate.setDefaultNightMode(Constant.getTheme(this))
+        Constant.setTheme(this)
 
         username = findViewById(R.id.username)
         password = findViewById(R.id.password)
