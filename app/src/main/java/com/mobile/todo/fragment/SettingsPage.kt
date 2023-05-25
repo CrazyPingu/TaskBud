@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat.recreate
 import com.mobile.todo.HomePage
 import com.mobile.todo.R
+import com.mobile.todo.utils.Constant
 
 
 class SettingsPage : Fragment() {
@@ -44,14 +45,27 @@ class SettingsPage : Fragment() {
                     when (parent.getItemAtPosition(position).toString()) {
                         this@SettingsPage.resources.getString(R.string.system_title) -> {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                            Constant.setTheme(
+                                requireContext(),
+                                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                            )
                         }
                         this@SettingsPage.resources.getString(R.string.light_mode_title) -> {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                            Constant.setTheme(
+                                requireContext(),
+                                AppCompatDelegate.MODE_NIGHT_NO
+                            )
                         }
                         this@SettingsPage.resources.getString(R.string.dark_mode_title) -> {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                            Constant.setTheme(
+                                requireContext(),
+                                AppCompatDelegate.MODE_NIGHT_YES
+                            )
                         }
                     }
+
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
