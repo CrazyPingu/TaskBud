@@ -31,14 +31,14 @@ class HabitPage : Fragment() {
         val database = AppDatabase.getDatabase(requireContext())
 
         GlobalScope.launch {
-//            val habit = database.habitDao().getHabits(HomePage.USER_ID)
+            val habit = database.habitDao().getHabits(HomePage.USER_ID)
 
             // Remove comment to test
-            val habit = listOf(
-                Habit(1, "Habit 1", "Description 1", 1, 1),
-                Habit(2, "Habit 2", "Description 2", 1, 1),
-                Habit(3, "Habit 3", "Description 3", 1, 1),
-            )
+//            val habit = listOf(
+//                Habit(1, "Habit 1", "Description 1", 1, 1),
+//                Habit(2, "Habit 2", "Description 2", 1, 1),
+//                Habit(3, "Habit 3", "Description 3", 1, 1),
+//            )
             recyclerView.adapter = CustomAdapter(habit)
             recyclerView.layoutManager = LinearLayoutManager(context)
         }
