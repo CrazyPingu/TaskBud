@@ -42,6 +42,7 @@
 
         <activity android:name=".HomePage" />
 
+        <activity android:name=".EditTodoHabit" />
         <receiver
             android:name=".broadcast.GpsBR"
             android:enabled="true"
