@@ -105,10 +105,10 @@ class EditTodoHabit : AppCompatActivity() {
             TODO
         }
 
-        fun newInstance(context: Context, data: TYPE, id: Int = -1): Intent {
+        fun newInstance(context: Context, data: TYPE, id: Int? = null): Intent {
             return Intent(context, EditTodoHabit::class.java).apply {
                 putExtra(TYPE_EXTRA, data)
-                if (id != -1) {
+                if (id != null) {
                     putExtra(ID_EXTRA, id)
                 }
             }
