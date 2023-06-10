@@ -32,7 +32,18 @@
             android:layout_toEndOf="@+id/title"
             android:src="@drawable/star_icon_empty" />
 
+        <EditText
+            android:id="@+id/tag"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:background="@drawable/background_square"
+            android:hint="Insert tag"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
     </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/description_container"
@@ -40,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_container"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/title_description"
@@ -50,6 +61,7 @@
             android:textSize="17dp" />
 
         <EditText
+            android:id="@+id/description"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_below="@+id/title_description"
@@ -82,18 +94,18 @@
         android:layout_marginTop="20dp">
 
         <Button
-            android:id="@+id/confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/confirm" />
-
-        <Button
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_toEndOf="@+id/confirm"
             android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_toEndOf="@+id/cancel"
+            android:text="@string/confirm" />
 
     </RelativeLayout>
 

@@ -25,7 +25,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun badgeDao(): BadgeDao
     abstract fun userBadgeDao(): UserBadgeDao
 
-
     companion object {
 
         @Volatile
@@ -35,12 +34,9 @@ abstract class AppDatabase : RoomDatabase() {
 
             val tempInstance = INSTANCE
             if(tempInstance != null) {
-
                 return tempInstance
-
             }
             synchronized(this) {
-
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(
     foreignKeys = [ForeignKey(
-        entity = Folder::class,
+        entity = User::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("userId"),
         onUpdate = ForeignKey.CASCADE,
@@ -14,10 +14,9 @@ import androidx.room.PrimaryKey
     )]
 )
 data class Habit(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
     val title: String,
     val description: String,
-    val streak: Int = 0,
     val userId: Int,
+    val streak: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
