@@ -50,11 +50,12 @@
 
         <EditText
             android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
+            android:padding="10dp"
             android:gravity="top|start"
             android:layout_below="@+id/title_description"
             android:layout_marginTop="10dp"
-            android:background="@null"
+            android:background="@drawable/background_square"
             android:hint="click here to edit" />
 
 

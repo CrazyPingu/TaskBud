@@ -4,4 +4,6 @@
     <dimen name="corner_values_card">30dp</dimen>
     <dimen name="width_stroke_card">2dp</dimen>
     <dimen name="title_fragment">25sp</dimen>
+    <!-- Background edit text -->
+    <dimen name="width_stroke_edit">@dimen/width_stroke_card</dimen>
 </resources>
