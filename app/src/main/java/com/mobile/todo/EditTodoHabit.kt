@@ -1,6 +1,5 @@
 package com.mobile.todo
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -27,10 +26,16 @@ class EditTodoHabit : AppCompatActivity() {
         val title = findViewById<EditText>(R.id.title)
         val description = findViewById<EditText>(R.id.description)
 
-        if (intent.hasExtra(EXTRA_DATA)) {
-            val data = intent.getSerializableExtra(EXTRA_DATA) as TYPE
-            if (data == TYPE.HABIT) {
-                dateButton.visibility = View.GONE
+        val type = intent.getSerializableExtra(TYPE_EXTRA) as TYPE
+        if (type == TYPE.HABIT) {
+            dateButton.visibility = View.GONE
+        }
+
+        if(intent.hasExtra(ID_EXTRA)) {
+            GlobalScope.launch {
+                val habit = AppDatabase.getDatabase(this@EditTodoHabit).habitDao().getHabit(intent.getSerializableExtra(ID_EXTRA) as Int)
+                title.setText(habit.title)
+                description.setText(habit.description)
             }
         }
 
@@ -56,18 +61,32 @@ class EditTodoHabit : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.confirm).setOnClickListener {
-            if(title.text.toString() == ""){
+            if (title.text.toString() == "") {
                 Toast.makeText(this, "Title must not be empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             GlobalScope.launch {
-                AppDatabase.getDatabase(this@EditTodoHabit).habitDao().insertHabit(
-                    Habit(
-                        title.text.toString(),
-                        description.text.toString(),
-                        HomePage.USER_ID.toInt()
-                    )
-                )
+                if (type == TYPE.HABIT) {
+                    if (intent.hasExtra(ID_EXTRA)) {
+                        Log.d("EditTodoHabit", "Updating habit with ${title.text}")
+                        AppDatabase.getDatabase(this@EditTodoHabit).habitDao().updateHabit(
+                            intent.getSerializableExtra(ID_EXTRA) as Int,
+                            title.text.toString(),
+                            description.text.toString(),
+                        )
+                    } else {
+                        AppDatabase.getDatabase(this@EditTodoHabit).habitDao().insertHabit(
+                            Habit(
+                                title.text.toString(),
+                                description.text.toString(),
+                                HomePage.USER_ID.toInt()
+                            )
+                        )
+                    }
+                } else if (type == TYPE.TODO) {
+                    // Insert / Update Todo
+                }
+
                 startActivity(Intent(this@EditTodoHabit, HomePage::class.java))
             }
         }
@@ -78,16 +97,20 @@ class EditTodoHabit : AppCompatActivity() {
     }
 
     companion object {
-        private const val EXTRA_DATA = "type"
+        private const val TYPE_EXTRA = "type"
+        private const val ID_EXTRA = "id"
 
         enum class TYPE {
             HABIT,
             TODO
         }
 
-        fun newInstance(context: Context, data: TYPE): Intent {
+        fun newInstance(context: Context, data: TYPE, id: Int = -1): Intent {
             return Intent(context, EditTodoHabit::class.java).apply {
-                putExtra(EXTRA_DATA, data)
+                putExtra(TYPE_EXTRA, data)
+                if (id != -1) {
+                    putExtra(ID_EXTRA, id)
+                }
             }
         }
     }

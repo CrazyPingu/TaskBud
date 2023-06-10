@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,6 @@ import com.mobile.todo.HomePage
 import com.mobile.todo.R
 import com.mobile.todo.adapter.CustomAdapter
 import com.mobile.todo.database.AppDatabase
-import com.mobile.todo.database.dataset.Habit
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -35,7 +33,7 @@ class HabitPage : Fragment() {
         val database = AppDatabase.getDatabase(requireContext())
 
         GlobalScope.launch {
-            val habit = database.habitDao().getHabits(HomePage.USER_ID)
+            val habit = database.habitDao().getHabitsByUserId(HomePage.USER_ID)
             recyclerView.adapter = CustomAdapter(habit.toMutableList())
             recyclerView.layoutManager = LinearLayoutManager(context)
         }
