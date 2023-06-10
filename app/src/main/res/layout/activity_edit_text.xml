@@ -35,6 +35,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/description_container"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_container"
@@ -50,14 +51,49 @@
 
         <EditText
             android:layout_width="300dp"
-            android:layout_height="350dp"
-            android:padding="10dp"
-            android:gravity="top|start"
+            android:layout_height="300dp"
             android:layout_below="@+id/title_description"
             android:layout_marginTop="10dp"
             android:background="@drawable/background_square"
-            android:hint="click here to edit" />
+            android:gravity="top|start"
+            android:hint="click here to edit"
+            android:padding="10dp" />
 
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/lavender"
+        android:drawableEnd="@drawable/calendar_icon"
+        android:text="Select date" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm" />
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_toEndOf="@+id/confirm"
+            android:text="@string/cancel" />
 
     </RelativeLayout>
 
