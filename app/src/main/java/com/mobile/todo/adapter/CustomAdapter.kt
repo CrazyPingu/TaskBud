@@ -8,13 +8,20 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.mobile.todo.HomePage
 import com.mobile.todo.R
+import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Habit
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class CustomAdapter(private val itemList: List<Habit>) :
+class CustomAdapter(private var itemList: MutableList<Habit>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
+    private lateinit var context: ViewGroup
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        context = parent // Store the reference to the parent ViewGroup
         return ViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_item, parent, false)
@@ -24,11 +31,18 @@ class CustomAdapter(private val itemList: List<Habit>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
         holder.textView.text = item.title
-        // Add any other bindings or listeners you need
         holder.delete.setOnClickListener {
-            Log.d("CustomAdapter", "Delete button clicked $position")
+            GlobalScope.launch {
+                AppDatabase.getDatabase(context.context).habitDao().deleteHabit(item)
+            }
+            val currentPosition = itemList.indexOf(item)
+            if (currentPosition != -1) {
+                itemList.removeAt(currentPosition)
+                notifyItemRemoved(currentPosition)
+            }
         }
     }
+
 
     override fun getItemCount(): Int {
         return itemList.size
@@ -38,6 +52,5 @@ class CustomAdapter(private val itemList: List<Habit>) :
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
         val textView: TextView = itemView.findViewById(R.id.textView)
         val delete: ImageView = itemView.findViewById(R.id.delete)
-        // Add references to other views or settings
     }
 }

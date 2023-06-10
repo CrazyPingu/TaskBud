@@ -1,6 +1,7 @@
 package com.mobile.todo.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -18,4 +19,7 @@ interface HabitDao {
 
     @Query("UPDATE habit SET title = :title and description = :description WHERE id = :habitId")
     fun updateHabit(habitId: Int, title: String, description : String)
+
+    @Delete
+    fun deleteHabit(habit: Habit)
 }
