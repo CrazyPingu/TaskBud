@@ -9,9 +9,6 @@ android {
     compileSdk 33
     compileSdkPreview "UpsideDownCake"
 
-    lintOptions {
-        checkReleaseBuilds false
-    }
 
     dataBinding {
         enabled = true
@@ -41,6 +38,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    lint {
+        checkReleaseBuilds false
     }
 }
 
