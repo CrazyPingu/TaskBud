@@ -1,7 +1,10 @@
 package com.mobile.todo
 
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
@@ -13,6 +16,13 @@ class EditTodoHabit : AppCompatActivity() {
         setContentView(R.layout.activity_edit_text)
 
         val dateButton = findViewById<Button>(R.id.date)
+
+        if (intent.hasExtra(EXTRA_DATA)) {
+            val data = intent.getSerializableExtra(EXTRA_DATA) as TYPE
+            if (data == TYPE.HABIT) {
+                dateButton.visibility = View.GONE
+            }
+        }
 
         dateButton.setOnClickListener {
             // Get current date
@@ -27,6 +37,19 @@ class EditTodoHabit : AppCompatActivity() {
                 dateButton.text = "$dayOfMonth/${monthOfYear + 1}/$year"
             }, year, month, day)
             dpd.show() // Show DatePickerDialog
+        }
+    }
+
+    companion object {
+        private const val EXTRA_DATA = "type"
+        enum class TYPE {
+            HABIT,
+            TODO
+        }
+        fun newInstance(context: Context, data: TYPE): Intent {
+            return Intent(context, EditTodoHabit::class.java).apply {
+                putExtra(EXTRA_DATA, data)
+            }
         }
     }
 }
