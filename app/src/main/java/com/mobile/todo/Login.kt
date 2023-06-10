@@ -33,7 +33,7 @@ class Login : AppCompatActivity() {
 
         // Redirect to Signup Activity
         findViewById<Button>(R.id.signup_button).setOnClickListener {
-            startActivity(Intent(this, EditTodoHabit::class.java))
+            startActivity(Intent(this, Signup::class.java))
         }
 
         findViewById<Button>(R.id.login_button).setOnClickListener {
