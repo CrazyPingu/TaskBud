@@ -24,7 +24,6 @@ class CustomAdapter(private val itemList: List<Habit>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
         holder.textView.text = item.title
-        holder.checkbox.isChecked = true
         // Add any other bindings or listeners you need
         holder.delete.setOnClickListener {
             Log.d("CustomAdapter", "Delete button clicked $position")
