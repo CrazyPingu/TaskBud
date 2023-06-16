@@ -1,6 +1,8 @@
 package com.mobile.todo.adapter
 
 import android.content.Intent
+import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +34,10 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
         holder.textView.text = item.title
+        if(holder.checkbox.isChecked){
+            holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+        }
+
         holder.delete.setOnClickListener {
             GlobalScope.launch {
                 AppDatabase.getDatabase(context.context).habitDao().deleteHabit(item)
@@ -52,6 +58,13 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
                     )
                 ), null
             )
+        }
+
+        holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
+            if(!isChecked){
+                GlobalScope.launch {  }
+            }
+            holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
 

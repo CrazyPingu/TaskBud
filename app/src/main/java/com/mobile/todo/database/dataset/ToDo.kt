@@ -1,6 +1,7 @@
 package com.mobile.todo.database.dataset
 
 import androidx.room.*
+import com.mobile.todo.database.converter.DateTypeConverter
 import java.sql.Date
 
 @Entity(
@@ -23,14 +24,3 @@ data class ToDo(
     val folderId: Int,
 )
 
-class DateTypeConverter {
-    @TypeConverter
-    fun toDate(timestamp: Long?): Date? {
-        return timestamp?.let { Date(it) }
-    }
-
-    @TypeConverter
-    fun toTimestamp(date: java.sql.Date?): Long? {
-        return date?.time
-    }
-}
