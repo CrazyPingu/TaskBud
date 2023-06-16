@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mobile.todo.database.converter.DateTypeConverter
+import com.mobile.todo.database.converter.UriTypeConverter
 import com.mobile.todo.database.dao.*
 import com.mobile.todo.database.dataset.Badge
 import com.mobile.todo.database.dataset.Folder
@@ -18,7 +19,7 @@ import com.mobile.todo.database.dataset.UserBadge
     entities = [User::class, Folder::class, ToDo::class, Habit::class, Badge::class, UserBadge::class],
     version = 1
 )
-@TypeConverters(DateTypeConverter::class)
+@TypeConverters(DateTypeConverter::class, UriTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

@@ -22,7 +22,6 @@ data class Habit(
     val description: String,
     val userId: Int,
     val streak: Int = 0,
-    val isCompleted: Boolean = false,
     val lastDayCompleted : Date? = null,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )

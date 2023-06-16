@@ -22,11 +22,11 @@ interface HabitDao {
     @Query("UPDATE habit SET title = :title, description = :description WHERE id = :habitId")
     fun updateHabit(habitId: Int, title: String, description: String)
 
-    @Query("UPDATE habit SET streak = streak + 1 WHERE id = :habitId")
-    fun increaseStreak(habitId: Int) : Void
+    @Query("UPDATE habit SET streak = streak + 1, lastDayCompleted = :currentDate WHERE id = :habitId")
+    fun increaseStreak(habitId: Int, currentDate: Date) : Void
 
-    @Query("SELECT COUNT(*) FROM habit WHERE id = :habitId AND lastDayCompleted = :currentDate")
-    fun isLastDayCompleted(habitId: Int, currentDate: Date): Boolean
+    @Query("UPDATE habit SET streak = streak - 1, lastDayCompleted = null WHERE id = :habitId")
+    fun resetLastDay(habitId: Int)
 
     @Delete
     fun deleteHabit(habit: Habit)

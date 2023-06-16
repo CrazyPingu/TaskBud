@@ -35,7 +35,8 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
         holder.textView.text = item.title
-        if(holder.checkbox.isChecked){
+        if (item.lastDayCompleted == Constant.getCurrentDate()) {
+            holder.checkbox.isChecked = true
             holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         }
 
@@ -62,14 +63,21 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
         }
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
-            if(!isChecked){
-//                GlobalScope.launch {  }
-                Log.d("HabitAdapter", Constant.getCurrentDate().toString())
+            if (isChecked) {
+                GlobalScope.launch {
+                    AppDatabase.getDatabase(context.context).habitDao()
+                        .increaseStreak(item.id, Constant.getCurrentDate())
+                }
+                holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            }else{
+                GlobalScope.launch {
+                    AppDatabase.getDatabase(context.context).habitDao()
+                        .resetLastDay(item.id)
+                }
+                holder.textView.paintFlags = holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
-            holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         }
     }
-
 
     override fun getItemCount(): Int {
         return itemList.size

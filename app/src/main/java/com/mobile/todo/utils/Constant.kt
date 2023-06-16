@@ -5,8 +5,10 @@ import android.content.Context
 import android.net.Uri
 import androidx.appcompat.app.AppCompatDelegate
 import com.mobile.todo.R
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 class Constant {
 
@@ -44,8 +46,10 @@ class Constant {
         }
 
         fun getCurrentDate(): Date {
-            val calendar = Calendar.getInstance()
-            return calendar.time
+            val currentDate = Date()
+            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = formatter.format(currentDate)
+            return formatter.parse(formattedDate)!!
         }
     }
 }
