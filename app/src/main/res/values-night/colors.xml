@@ -4,4 +4,7 @@
     <color name="inverse">#FFFFFFFF</color>
     <color name="normal">#FF000000</color>
     <color name="background">#2e2e2e</color>
+
+    <color name="piechart_completed">#742DCC</color>
+    <color name="piechart_incompleted">#4C1616</color>
 </resources>

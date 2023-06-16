@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.mobile.todo.Camera
+import com.mobile.todo.HabitStats
 import com.mobile.todo.HomePage
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
@@ -31,6 +33,9 @@ class ProfilePage : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        view.findViewById<Button>(R.id.habits_stats).setOnClickListener {
+            startActivity(Intent(context, HabitStats::class.java))
+        }
 
         GlobalScope.launch {
             val user = AppDatabase.getDatabase(requireContext()).userDao().getUser(HomePage.USER_ID)

@@ -28,6 +28,12 @@ interface HabitDao {
     @Query("UPDATE habit SET streak = streak - 1, lastDayCompleted = null WHERE id = :habitId")
     fun resetLastDay(habitId: Int)
 
+    @Query("SELECT COUNT(*) FROM habit WHERE lastDayCompleted IS NOT NULL AND userId = :userId")
+    fun getCompletedHabitsCount(userId: Int): Int
+
+    @Query("SELECT COUNT(*) FROM habit WHERE userId = :userId")
+    fun getUserHabitsCount(userId: Int): Int
+
     @Delete
     fun deleteHabit(habit: Habit)
 }

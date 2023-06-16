@@ -11,4 +11,7 @@
     <color name="lavender">#8692f7</color>
     <color name="inverse">#FF000000</color>
     <color name="normal">#FFFFFFFF</color>
+
+    <color name="piechart_completed">#FFBB86FC</color>
+    <color name="piechart_incompleted">#C84242</color>
 </resources>

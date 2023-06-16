@@ -43,6 +43,8 @@
         <activity android:name=".HomePage" />
 
         <activity android:name=".EditTodoHabit" />
+
+        <activity android:name=".HabitStats" />
         <receiver
             android:name=".broadcast.GpsBR"
             android:enabled="true"
