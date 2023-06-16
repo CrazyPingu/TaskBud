@@ -1,7 +1,6 @@
 package com.mobile.todo.adapter
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +10,14 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.EditTodoHabit
-import com.mobile.todo.HomePage
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Habit
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class CustomAdapter(private var itemList: MutableList<Habit>) :
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class HabitAdapter(private var itemList: MutableList<Habit>) :
+    RecyclerView.Adapter<HabitAdapter.ViewHolder>() {
 
     private lateinit var context: ViewGroup
 

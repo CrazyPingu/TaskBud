@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.HomePage
 import com.mobile.todo.R
-import com.mobile.todo.adapter.CustomAdapter
+import com.mobile.todo.adapter.HabitAdapter
 import com.mobile.todo.database.AppDatabase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,7 +34,7 @@ class HabitPage : Fragment() {
 
         GlobalScope.launch {
             val habit = database.habitDao().getHabitsByUserId(HomePage.USER_ID)
-            recyclerView.adapter = CustomAdapter(habit.toMutableList())
+            recyclerView.adapter = HabitAdapter(habit.toMutableList())
             recyclerView.layoutManager = LinearLayoutManager(context)
         }
 
