@@ -3,11 +3,13 @@ package com.mobile.todo
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.todo.database.AppDatabase
@@ -29,6 +31,8 @@ class EditTodoHabit : AppCompatActivity() {
         val type = intent.getSerializableExtra(TYPE_EXTRA) as TYPE
         if (type == TYPE.HABIT) {
             dateButton.visibility = View.GONE
+            findViewById<EditText>(R.id.tag).visibility = View.GONE
+            findViewById<ImageView>(R.id.favourite).visibility = View.GONE
         }
 
         if(intent.hasExtra(ID_EXTRA)) {
