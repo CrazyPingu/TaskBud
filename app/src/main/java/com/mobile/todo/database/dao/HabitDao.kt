@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.mobile.todo.database.dataset.Habit
+import java.util.Date
 
 @Dao
 interface HabitDao {
@@ -20,6 +21,12 @@ interface HabitDao {
 
     @Query("UPDATE habit SET title = :title, description = :description WHERE id = :habitId")
     fun updateHabit(habitId: Int, title: String, description: String)
+
+    @Query("UPDATE habit SET streak = streak + 1 WHERE id = :habitId")
+    fun increaseStreak(habitId: Int) : Void
+
+    @Query("SELECT COUNT(*) FROM habit WHERE id = :habitId AND lastDayCompleted = :currentDate")
+    fun isLastDayCompleted(habitId: Int, currentDate: Date): Boolean
 
     @Delete
     fun deleteHabit(habit: Habit)

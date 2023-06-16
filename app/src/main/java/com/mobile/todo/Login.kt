@@ -31,6 +31,9 @@ class Login : AppCompatActivity() {
         password = findViewById(R.id.password)
         database = AppDatabase.getDatabase(this)
 
+        username.text.append("a")
+        password.text.append("a")
+
         // Redirect to Signup Activity
         findViewById<Button>(R.id.signup_button).setOnClickListener {
             startActivity(Intent(this, Signup::class.java))

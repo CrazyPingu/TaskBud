@@ -3,6 +3,8 @@ package com.mobile.todo.database.dataset
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.mobile.todo.database.converter.DateTypeConverter
 import java.util.Date
 
 @Entity(
@@ -14,6 +16,7 @@ import java.util.Date
         onDelete = ForeignKey.CASCADE
     )]
 )
+@TypeConverters(DateTypeConverter::class)
 data class Habit(
     val title: String,
     val description: String,

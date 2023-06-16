@@ -19,7 +19,7 @@ data class ToDo(
     val id: Int = 0,
     val title: String,
     val description: String,
-    val date: Date,
+    val date: Date? = null,
     val completed: Boolean = false,
     val folderId: Int,
 )

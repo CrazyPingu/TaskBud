@@ -5,6 +5,8 @@ import android.content.Context
 import android.net.Uri
 import androidx.appcompat.app.AppCompatDelegate
 import com.mobile.todo.R
+import java.util.Calendar
+import java.util.Date
 
 class Constant {
 
@@ -39,6 +41,11 @@ class Constant {
                         + '/' + context.resources.getResourceTypeName(R.drawable.default_profile_pic)
                         + '/' + context.resources.getResourceEntryName(R.drawable.default_profile_pic)
             )!!
+        }
+
+        fun getCurrentDate(): Date {
+            val calendar = Calendar.getInstance()
+            return calendar.time
         }
     }
 }

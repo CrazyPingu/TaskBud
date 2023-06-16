@@ -15,6 +15,7 @@ import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Habit
+import com.mobile.todo.utils.Constant
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -62,7 +63,8 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             if(!isChecked){
-                GlobalScope.launch {  }
+//                GlobalScope.launch {  }
+                Log.d("HabitAdapter", Constant.getCurrentDate().toString())
             }
             holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         }
