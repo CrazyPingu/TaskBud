@@ -2,7 +2,7 @@ package com.mobile.todo.database.dataset
 
 import androidx.room.*
 import com.mobile.todo.database.converter.DateTypeConverter
-import java.sql.Date
+import java.util.Date
 
 @Entity(
     foreignKeys = [ForeignKey(

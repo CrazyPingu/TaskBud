@@ -1,16 +1,17 @@
 package com.mobile.todo.database.converter
 
 import androidx.room.TypeConverter
-import java.sql.Date
+import java.util.Date
 
 class DateTypeConverter {
+
     @TypeConverter
-    fun toDate(timestamp: Long?): Date? {
-        return timestamp?.let { Date(it) }
+    fun fromDate(date: Date): Long {
+        return date.time
     }
 
     @TypeConverter
-    fun toTimestamp(date: java.sql.Date?): Long? {
-        return date?.time
+    fun toDate(timestamp: Long): Date {
+        return Date(timestamp)
     }
 }
