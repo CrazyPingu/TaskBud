@@ -14,11 +14,20 @@ import com.mobile.todo.HomePage
 import com.mobile.todo.R
 import com.mobile.todo.adapter.HabitAdapter
 import com.mobile.todo.database.AppDatabase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class HabitPage : Fragment() {
+
+    private var userId: Int = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        userId = arguments?.getInt(ARG_USER_ID) ?: 0
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,15 +36,16 @@ class HabitPage : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_habit, container, false)
 
-        // Add all the code inside here
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerView)
 
         val database = AppDatabase.getDatabase(requireContext())
 
         GlobalScope.launch {
-            val habit = database.habitDao().getHabitsByUserId(HomePage.USER_ID)
-            recyclerView.adapter = HabitAdapter(habit.toMutableList())
-            recyclerView.layoutManager = LinearLayoutManager(context)
+            val habit = database.habitDao().getHabitsByUserId(userId)
+            withContext(Dispatchers.Main) {
+                recyclerView.adapter = HabitAdapter(habit.toMutableList())
+                recyclerView.layoutManager = LinearLayoutManager(context)
+            }
         }
 
         view.findViewById<ImageView>(R.id.add_habit).setOnClickListener {
@@ -43,5 +53,17 @@ class HabitPage : Fragment() {
         }
 
         return view
+    }
+
+    companion object {
+        private const val ARG_USER_ID = "user_id"
+
+        fun newInstance(userId: Int): HabitPage {
+            val fragment = HabitPage()
+            val args = Bundle()
+            args.putInt(ARG_USER_ID, userId)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

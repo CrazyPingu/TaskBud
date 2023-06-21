@@ -36,7 +36,7 @@ class HomePage : AppCompatActivity() {
                     true
                 }
                 R.id.navbar_habit -> {
-                    changeFragment(HabitPage())
+                    changeFragment(HabitPage.newInstance(USER_ID))
                     true
                 }
                 R.id.navbar_profile -> {
