@@ -22,7 +22,7 @@ class TodoPage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_todo, container, false)
+        val view = inflater.inflate(R.layout.fragment_todo, container, false)
 
 
         searchView = view.findViewById(R.id.search_view)
