@@ -6,21 +6,13 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-//import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.R
-import com.mobile.todo.adapter.TodoAdapter
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.mobile.todo.database.AppDatabase
 
 
 class TodoPage : Fragment() {
 
     private var USER_ID: Int = 0
-    private lateinit var searchView: SearchView
-    //private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: TodoAdapter
     private lateinit var arrayAdapter: ArrayAdapter<String>
 
     override fun onCreateView(
