@@ -22,7 +22,8 @@ class TodoPage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_todo, container, false)
+        var view = inflater.inflate(R.layout.fragment_todo, container, false)
+
 
         searchView = view.findViewById(R.id.search_view)
         val listView = view.findViewById<ListView>(R.id.list_search_view)
@@ -54,8 +55,18 @@ class TodoPage : Fragment() {
             }
         })
 
+        searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                listView.visibility = View.VISIBLE
+            } else {
+                listView.visibility = View.GONE
+            }
+        }
+
         return view
     }
+
+
 
     companion object {
         fun newInstance(idUser: Int) =
