@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
 import kotlinx.coroutines.Dispatchers
