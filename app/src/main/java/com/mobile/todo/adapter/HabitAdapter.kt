@@ -69,12 +69,13 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
                         .increaseStreak(item.id, Constant.getCurrentDate())
                 }
                 holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            }else{
+            } else {
                 GlobalScope.launch {
                     AppDatabase.getDatabase(context.context).habitDao()
                         .resetLastDay(item.id)
                 }
-                holder.textView.paintFlags = holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                holder.textView.paintFlags =
+                    holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
         }
     }

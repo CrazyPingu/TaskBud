@@ -1,88 +1,53 @@
 package com.mobile.todo.adapter
 
-import android.content.Context
+import android.content.Intent
+import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.Filter
-import android.widget.Filterable
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
-import java.util.*
-import kotlin.collections.ArrayList
+import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.database.dataset.Habit
+import com.mobile.todo.database.dataset.ToDo
+import com.mobile.todo.utils.Constant
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class TodoAdapter(
-    private val context: Context,
-    private val itemList: ArrayList<String>
-) : RecyclerView.Adapter<TodoAdapter.ViewHolder>(), Filterable {
+class TodoAdapter(private var itemList: MutableList<ToDo>) :
+    RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
 
-    private val originalItemList: ArrayList<String> = ArrayList(itemList)
-    private val selectedItems: HashSet<String> = HashSet()
+    private lateinit var context: ViewGroup
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
-        return ViewHolder(view)
+        context = parent // Store the reference to the parent ViewGroup
+        return ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.list_item, parent, false)
+        )
     }
+
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
-        holder.bind(item)
+        holder.textView.text = item.title
+
     }
 
     override fun getItemCount(): Int {
         return itemList.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textViewItem: TextView = itemView.findViewById(R.id.textView)
-        private val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
-
-        fun bind(item: String) {
-            textViewItem.text = item
-
-            // Handle checkbox state change
-            checkBox.setOnCheckedChangeListener(null)
-            checkBox.isChecked = item in selectedItems
-            checkBox.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    // Add the item to selectedItems
-                    selectedItems.add(item)
-                } else {
-                    // Remove the item from selectedItems
-                    selectedItems.remove(item)
-                }
-            }
-        }
-    }
-
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence): FilterResults {
-                val filteredList: ArrayList<String> = ArrayList()
-                val query = constraint.toString().toLowerCase(Locale.ROOT).trim()
-
-                if (query.isEmpty()) {
-                    filteredList.addAll(originalItemList)
-                } else {
-                    for (item in originalItemList) {
-                        if (item.toLowerCase(Locale.ROOT).contains(query)) {
-                            filteredList.add(item)
-                        }
-                    }
-                }
-
-                val filterResults = FilterResults()
-                filterResults.values = filteredList
-                return filterResults
-            }
-
-            override fun publishResults(constraint: CharSequence, results: FilterResults) {
-                itemList.clear()
-                itemList.addAll(results.values as ArrayList<String>)
-                notifyDataSetChanged()
-            }
-        }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
+        val textView: TextView = itemView.findViewById(R.id.textView)
+        val delete: ImageView = itemView.findViewById(R.id.delete)
     }
 }

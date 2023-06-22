@@ -16,6 +16,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
 import com.mobile.todo.adapter.TodoAdapter
+import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.database.dataset.ToDo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TodoPage : Fragment() {
 
@@ -33,10 +39,23 @@ class TodoPage : Fragment() {
         val view = inflater.inflate(R.layout.fragment_todo, container, false)
 
         val recyclerViewToDo = view.findViewById<RecyclerView>(R.id.recyclerViewToDo)
-        val layoutManager = LinearLayoutManager(requireContext())
-        recyclerViewToDo.layoutManager = layoutManager
-        val todoAdapter = TodoAdapter(requireContext(), todoList)
-        recyclerViewToDo.adapter = todoAdapter
+
+        val database = AppDatabase.getDatabase(requireContext())
+
+        GlobalScope.launch {
+            val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
+
+//            val todo = listOf<ToDo>(
+//                ToDo("test1", "a", null, false, 1,1),
+//                ToDo("test2", "a", null, false, 1,1),
+//                ToDo("test3", "a", null, false, 1,1),
+//                ToDo("test4", "a", null, false, 1,1)
+//            )
+            withContext(Dispatchers.Main) {
+                recyclerViewToDo.adapter = TodoAdapter(todo.toMutableList())
+                recyclerViewToDo.layoutManager = LinearLayoutManager(context)
+            }
+        }
 
         searchView = view.findViewById(R.id.search_view)
         val listView = view.findViewById<ListView>(R.id.list_search_view)

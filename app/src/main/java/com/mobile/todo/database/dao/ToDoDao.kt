@@ -1,5 +1,7 @@
 package com.mobile.todo.database.dao
 
+import android.net.Uri
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -7,6 +9,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
+import com.mobile.todo.database.dataset.User
 
 @Dao
 interface ToDoDao {
@@ -20,7 +23,7 @@ interface ToDoDao {
     fun insertToDo(todo: ToDo)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTag(tag: Tag)
+    suspend fun insertTag(tag: Tag) : Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertToDoWithTag(todo: ToDo)
@@ -35,9 +38,8 @@ interface ToDoDao {
         val tagId = if (existingTagId != null) {
             existingTagId
         } else {
-            val newTag = Tag(name = tagName)
-            insertTag(newTag)
-            newTag.id
+            val insertedTagId = insertTag(Tag(tagName))
+            insertedTagId.toInt()
         }
 
         val todoWithTag = todo.copy(tagId = tagId)
