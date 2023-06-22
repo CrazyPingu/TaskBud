@@ -1,15 +1,21 @@
 package com.mobile.todo.fragment
+
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
-
+import com.mobile.todo.adapter.TodoAdapter
 
 class TodoPage : Fragment() {
 
@@ -17,6 +23,8 @@ class TodoPage : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var arrayAdapter: ArrayAdapter<String>
     private lateinit var handler: Handler
+    private val todoList: ArrayList<String> = ArrayList()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +32,11 @@ class TodoPage : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_todo, container, false)
 
+        val recyclerViewToDo = view.findViewById<RecyclerView>(R.id.recyclerViewToDo)
+        val layoutManager = LinearLayoutManager(requireContext())
+        recyclerViewToDo.layoutManager = layoutManager
+        val todoAdapter = TodoAdapter(requireContext(), todoList)
+        recyclerViewToDo.adapter = todoAdapter
 
         searchView = view.findViewById(R.id.search_view)
         val listView = view.findViewById<ListView>(R.id.list_search_view)
@@ -42,13 +55,13 @@ class TodoPage : Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // Handle query submit if needed
+                // TODO Handle query submit if needed
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 handler.post {
-                    // Execute query when text changes
+                    // TODO Execute query when text changes
                     arrayAdapter.filter.filter(newText)
                 }
                 return true
@@ -58,15 +71,19 @@ class TodoPage : Fragment() {
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 listView.visibility = View.VISIBLE
+                recyclerViewToDo.visibility = View.GONE
             } else {
                 listView.visibility = View.GONE
+                recyclerViewToDo.visibility = View.VISIBLE
             }
+        }
+
+        view.findViewById<ImageView>(R.id.add_todo).setOnClickListener {
+            startActivity(Intent(EditTodoHabit.newInstance(requireContext(), EditTodoHabit.Companion.TYPE.TODO)))
         }
 
         return view
     }
-
-
 
     companion object {
         fun newInstance(idUser: Int) =
