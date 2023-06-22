@@ -14,8 +14,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Habit
+import com.mobile.todo.database.dataset.Tag
+import com.mobile.todo.database.dataset.ToDo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EditTodoHabit : AppCompatActivity() {
@@ -27,6 +31,7 @@ class EditTodoHabit : AppCompatActivity() {
         val dateButton = findViewById<Button>(R.id.date)
         val title = findViewById<EditText>(R.id.title)
         val description = findViewById<EditText>(R.id.description)
+        val tag = findViewById<EditText>(R.id.tag)
 
         val type = intent.getSerializableExtra(TYPE_EXTRA) as TYPE
         if (type == TYPE.HABIT) {
@@ -72,7 +77,6 @@ class EditTodoHabit : AppCompatActivity() {
             GlobalScope.launch {
                 if (type == TYPE.HABIT) {
                     if (intent.hasExtra(ID_EXTRA)) {
-                        Log.d("EditTodoHabit", "Updating habit with ${title.text}")
                         AppDatabase.getDatabase(this@EditTodoHabit).habitDao().updateHabit(
                             intent.getSerializableExtra(ID_EXTRA) as Int,
                             title.text.toString(),
@@ -83,12 +87,32 @@ class EditTodoHabit : AppCompatActivity() {
                             Habit(
                                 title.text.toString(),
                                 description.text.toString(),
-                                HomePage.USER_ID.toInt()
+                                HomePage.USER_ID
                             )
                         )
                     }
                 } else if (type == TYPE.TODO) {
                     // Insert / Update Todo
+                    if (intent.hasExtra(ID_EXTRA)) {
+                        //TODO update toDo
+                        /*AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().updateToDo(
+                            intent.getSerializableExtra(ID_EXTRA) as Int,
+                            title.text.toString(),
+                            description.text.toString(),
+                        )*/
+                    } else {
+                        AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().insertToDoWithTagCheck(
+                            ToDo(
+                                title.text.toString(),
+                                description.text.toString(),
+                                stringToDate(dateButton.text.toString()),
+                                false, //TODO completed
+                                1, //TODO tag
+                                HomePage.USER_ID
+                            ),
+                            "TAG"
+                        )
+                    }
                 }
 
                 startActivity(Intent(this@EditTodoHabit, HomePage::class.java))
@@ -98,6 +122,11 @@ class EditTodoHabit : AppCompatActivity() {
         findViewById<Button>(R.id.cancel).setOnClickListener {
             onBackPressed()
         }
+    }
+
+    fun stringToDate(date: String): Date {
+        val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return format.parse(date)
     }
 
     companion object {
