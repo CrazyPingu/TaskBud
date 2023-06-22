@@ -45,12 +45,6 @@ class TodoPage : Fragment() {
         GlobalScope.launch {
             val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
 
-//            val todo = listOf<ToDo>(
-//                ToDo("test1", "a", null, false, 1,1),
-//                ToDo("test2", "a", null, false, 1,1),
-//                ToDo("test3", "a", null, false, 1,1),
-//                ToDo("test4", "a", null, false, 1,1)
-//            )
             withContext(Dispatchers.Main) {
                 recyclerViewToDo.adapter = TodoAdapter(todo.toMutableList())
                 recyclerViewToDo.layoutManager = LinearLayoutManager(context)
@@ -66,7 +60,6 @@ class TodoPage : Fragment() {
 
         listView.setOnItemClickListener { _, _, position, _ ->
             val item = arrayAdapter.getItem(position) as String
-            Log.d("ListClick", item)
         }
         listView.adapter = arrayAdapter
 

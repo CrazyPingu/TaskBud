@@ -37,10 +37,6 @@ class HabitStats : AppCompatActivity() {
             // The rest of the pie that is not occupied.
             val notCompleted = total - completed
 
-            Log.d("HabitStats", "completed: $completed")
-            Log.d("HabitStats", "total: $total")
-            Log.d("HabitStats", "notCompleted: $notCompleted")
-
             withContext(Dispatchers.Main) {
 
                 if(total != 0f) {

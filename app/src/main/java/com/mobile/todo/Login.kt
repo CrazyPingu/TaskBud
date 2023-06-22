@@ -34,7 +34,6 @@ class Login : AppCompatActivity() {
             loginUser(Constant.getUser(this))
         }
 
-        Log.d("Shortcut", "Login")
         Shortcut.removeTodoHabit(this)
         Shortcut.addSignup(this)
 
