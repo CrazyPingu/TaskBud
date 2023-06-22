@@ -50,6 +50,13 @@ class Constant {
             ).getInt("user_id", -1)
         }
 
+        fun logoutUser(context: Context){
+            context.getSharedPreferences(
+                context.resources.getString(R.string.shared_preferance_name),
+                Context.MODE_PRIVATE
+            ).edit().putInt("user_id", -1).apply()
+        }
+
         fun getDefaultIcon(context: Context): Uri {
             return Uri.parse(
                 ContentResolver.SCHEME_ANDROID_RESOURCE

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import com.mobile.todo.R
@@ -67,6 +68,11 @@ class SettingsPage : Fragment() {
             }
 
         spinner.setSelection(SELECTED_THEME)
+
+        view.findViewById<Button>(R.id.logout).setOnClickListener {
+            Constant.logoutUser(requireContext())
+            requireActivity().finish()
+        }
         return view
     }
 
