@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import com.mobile.todo.database.AppDatabase
@@ -19,6 +20,7 @@ class Login : AppCompatActivity() {
     private lateinit var username: EditText
     private lateinit var password: EditText
     private lateinit var database: AppDatabase
+    private lateinit var rememberMe: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +28,20 @@ class Login : AppCompatActivity() {
 
         Constant.setTheme(this)
 
+        if(Constant.getUser(this) != -1){
+            HomePage.USER_ID = Constant.getUser(this)
+            startActivity(Intent(this, HomePage::class.java))
+        }
+
         username = findViewById(R.id.username)
         password = findViewById(R.id.password)
+        rememberMe = findViewById(R.id.remember_me)
         database = AppDatabase.getDatabase(this)
 
+        // Remove for production ////////////
         username.text.append("a")
         password.text.append("a")
+        /////////////////////////////////////
 
         // Redirect to Signup Activity
         findViewById<Button>(R.id.signup_button).setOnClickListener {
@@ -59,6 +69,9 @@ class Login : AppCompatActivity() {
             }
             runOnUiThread {
                 if (user != null) {
+                    if(rememberMe.isChecked){
+                        Constant.saveUser(this@Login, user.id)
+                    }
                     val intent = Intent(this@Login, HomePage::class.java)
                     HomePage.pageToShow = R.id.navbar_todo
                     HomePage.USER_ID = user.id

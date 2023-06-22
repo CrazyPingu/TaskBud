@@ -35,6 +35,21 @@ class Constant {
             AppCompatDelegate.setDefaultNightMode(getTheme(context))
         }
 
+
+        fun saveUser(context: Context, id: Int) {
+            context.getSharedPreferences(
+                context.resources.getString(R.string.shared_preferance_name),
+                Context.MODE_PRIVATE
+            ).edit().putInt("user_id", id).apply()
+        }
+
+        fun getUser(context: Context): Int {
+            return context.getSharedPreferences(
+                context.resources.getString(R.string.shared_preferance_name),
+                Context.MODE_PRIVATE
+            ).getInt("user_id", -1)
+        }
+
         fun getDefaultIcon(context: Context): Uri {
             return Uri.parse(
                 ContentResolver.SCHEME_ANDROID_RESOURCE
@@ -51,5 +66,6 @@ class Constant {
             val formattedDate = formatter.format(currentDate)
             return formatter.parse(formattedDate)!!
         }
+
     }
 }
