@@ -4,14 +4,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mobile.todo.database.dataset.Folder
+import com.mobile.todo.database.dataset.Tag
 
 @Dao
-interface FolderDao {
+interface TagDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertFolder(folder: Folder)
+    fun insertTag(tag: Tag)
 
-    @Query("SELECT * FROM folder where userId = :userId")
-    fun getAllFolder(userId: Int): List<Folder>
+    @Query("SELECT * FROM tag where userId = :userId")
+    fun getAllTag(userId: Int): List<Tag>
 }

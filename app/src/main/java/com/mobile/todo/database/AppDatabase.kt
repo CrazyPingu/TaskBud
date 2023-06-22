@@ -9,21 +9,21 @@ import com.mobile.todo.database.converter.DateTypeConverter
 import com.mobile.todo.database.converter.UriTypeConverter
 import com.mobile.todo.database.dao.*
 import com.mobile.todo.database.dataset.Badge
-import com.mobile.todo.database.dataset.Folder
+import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.Habit
 import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.database.dataset.User
 import com.mobile.todo.database.dataset.UserBadge
 
 @Database(
-    entities = [User::class, Folder::class, ToDo::class, Habit::class, Badge::class, UserBadge::class],
+    entities = [User::class, Tag::class, ToDo::class, Habit::class, Badge::class, UserBadge::class],
     version = 1
 )
 @TypeConverters(DateTypeConverter::class, UriTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
-    abstract fun folderDao(): FolderDao
+    abstract fun tagDao(): TagDao
     abstract fun toDoDao(): ToDoDao
     abstract fun habitDao(): HabitDao
     abstract fun badgeDao(): BadgeDao

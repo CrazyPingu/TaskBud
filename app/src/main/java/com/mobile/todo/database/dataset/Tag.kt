@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class Folder(
+data class Tag(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
