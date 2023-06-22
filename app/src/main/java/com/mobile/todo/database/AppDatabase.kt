@@ -11,12 +11,13 @@ import com.mobile.todo.database.dao.*
 import com.mobile.todo.database.dataset.Badge
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.Habit
+import com.mobile.todo.database.dataset.Search
 import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.database.dataset.User
 import com.mobile.todo.database.dataset.UserBadge
 
 @Database(
-    entities = [User::class, Tag::class, ToDo::class, Habit::class, Badge::class, UserBadge::class],
+    entities = [User::class, Tag::class, ToDo::class, Habit::class, Badge::class, UserBadge::class, Search::class],
     version = 1
 )
 @TypeConverters(DateTypeConverter::class, UriTypeConverter::class)
@@ -28,6 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun habitDao(): HabitDao
     abstract fun badgeDao(): BadgeDao
     abstract fun userBadgeDao(): UserBadgeDao
+    abstract fun searchDao(): SearchDao
 
     companion object {
 

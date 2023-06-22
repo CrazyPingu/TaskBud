@@ -10,9 +10,6 @@ import com.mobile.todo.database.dataset.ToDo
 
 @Dao
 interface ToDoDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertTag(toDo: ToDo)
-
     @Query("SELECT * FROM todo where userId = :userId")
     fun getAllToDoByUserId(userId: Int): List<ToDo>
 
@@ -28,17 +25,17 @@ interface ToDoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertToDoWithTag(todo: ToDo)
 
-    @Query("SELECT id FROM Tag WHERE name = :tagName AND userId = :userId")
-    suspend fun getTagIdByName(tagName: String, userId: Int): Int?
+    @Query("SELECT id FROM Tag WHERE name = :tagName")
+    suspend fun getTagIdByName(tagName: String): Int?
 
     @Transaction
-    suspend fun insertToDoWithTagCheck(todo: ToDo, tagName: String, userId: Int) {
-        val existingTagId = getTagIdByName(tagName, userId)
+    suspend fun insertToDoWithTagCheck(todo: ToDo, tagName: String) {
+        val existingTagId = getTagIdByName(tagName)
 
         val tagId = if (existingTagId != null) {
             existingTagId
         } else {
-            val newTag = Tag(name = tagName, userId = userId)
+            val newTag = Tag(name = tagName)
             insertTag(newTag)
             newTag.id
         }
