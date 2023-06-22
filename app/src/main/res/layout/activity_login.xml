@@ -78,6 +78,7 @@
                     android:id="@+id/remember_me"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:buttonTint="@color/lavender"
                     android:text="@string/remember_me" />
 
                 <LinearLayout
