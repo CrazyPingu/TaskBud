@@ -1,14 +1,16 @@
 package com.mobile.todo
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
+import com.mobile.todo.utils.Shortcut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,15 +29,17 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         Constant.setTheme(this)
-
+        rememberMe = findViewById(R.id.remember_me)
         if(Constant.getUser(this) != -1){
-            HomePage.USER_ID = Constant.getUser(this)
-            startActivity(Intent(this, HomePage::class.java))
+            loginUser(Constant.getUser(this))
         }
+
+        Log.d("Shortcut", "Login")
+        Shortcut.removeTodoHabit(this)
+        Shortcut.addSignup(this)
 
         username = findViewById(R.id.username)
         password = findViewById(R.id.password)
-        rememberMe = findViewById(R.id.remember_me)
         database = AppDatabase.getDatabase(this)
 
         // Remove for production ////////////
@@ -49,11 +53,23 @@ class Login : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.login_button).setOnClickListener {
-            loginUser()
+            checkLoginUser()
         }
     }
 
-    private fun loginUser() {
+    private fun loginUser(userId : Int) {
+        if(rememberMe.isChecked){
+            Constant.saveUser(this@Login, userId)
+            Shortcut.removeSignup(this)
+            Shortcut.addTodoHabit(this)
+        }
+
+        HomePage.pageToShow = R.id.navbar_todo
+        HomePage.USER_ID = userId
+        startActivity(Intent(this, HomePage::class.java))
+    }
+
+    private fun checkLoginUser() {
         val enteredUsername = username.text.toString().trim()
         val enteredPassword = password.text.toString().trim()
 
@@ -69,13 +85,7 @@ class Login : AppCompatActivity() {
             }
             runOnUiThread {
                 if (user != null) {
-                    if(rememberMe.isChecked){
-                        Constant.saveUser(this@Login, user.id)
-                    }
-                    val intent = Intent(this@Login, HomePage::class.java)
-                    HomePage.pageToShow = R.id.navbar_todo
-                    HomePage.USER_ID = user.id
-                    startActivity(intent)
+                    loginUser(user.id)
                 } else {
                     Toast.makeText(
                         this@Login,

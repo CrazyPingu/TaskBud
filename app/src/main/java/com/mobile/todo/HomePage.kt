@@ -11,6 +11,7 @@ import com.mobile.todo.fragment.HabitPage
 import com.mobile.todo.fragment.ProfilePage
 import com.mobile.todo.fragment.SettingsPage
 import com.mobile.todo.fragment.TodoPage
+import com.mobile.todo.utils.Constant
 import kotlin.properties.Delegates
 
 class HomePage : AppCompatActivity() {
@@ -25,6 +26,16 @@ class HomePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        if (Constant.getUser(this) != -1) {
+            USER_ID = Constant.getUser(this)
+        }
+
+        if(intent.hasExtra("page")){
+            pageToShow = intent.getIntExtra("page", R.id.navbar_todo)
+        }
+
+        Constant.setTheme(this)
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
 

@@ -39,6 +39,8 @@ class Signup : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
+        Constant.setTheme(this)
+
         usernameEditText = findViewById(R.id.username)
         passwordEditText = findViewById(R.id.password)
         confirmPasswordEditText = findViewById(R.id.confirm_password)

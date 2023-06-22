@@ -1,5 +1,6 @@
 package com.mobile.todo.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
+import com.mobile.todo.Login
 import com.mobile.todo.R
 import com.mobile.todo.utils.Constant
 
@@ -71,7 +73,7 @@ class SettingsPage : Fragment() {
 
         view.findViewById<Button>(R.id.logout).setOnClickListener {
             Constant.logoutUser(requireContext())
-            requireActivity().finish()
+            startActivity(Intent(requireContext(), Login::class.java))
         }
         return view
     }
