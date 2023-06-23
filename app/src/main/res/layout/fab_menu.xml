@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+        <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_toRightOf="@+id/fab_add_habit_label"
+            android:layout_width="wrap_content"
+            android:text="Add habit"
+            android:layout_marginRight="-30dp"
+            android:background="@drawable/btn_round"
+            android:layout_marginTop="15dp"
+            android:paddingTop="5dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/normal"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_height="wrap_content" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_habit"
+            android:layout_toRightOf="@+id/fab_add_habit_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_cross"
+            android:paddingBottom="15dp"
+            android:backgroundTint="@color/lavender"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_toRightOf="@+id/fab_add_todo_label"
+                    android:layout_width="wrap_content"
+                    android:text="Add to do"
+                    android:layout_marginRight="-30dp"
+                    android:background="@drawable/btn_round"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/normal"
+                    android:layout_gravity="center_horizontal|top"
+                    android:layout_height="wrap_content" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_todo"
+                    android:layout_toRightOf="@+id/fab_add_todo_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add_cross"
+                    android:paddingBottom="15dp"
+                    android:backgroundTint="@color/lavender"/>
+
+        </LinearLayout>
+</LinearLayout>

@@ -60,6 +60,9 @@ dependencies {
     implementation 'com.github.blackfizz:eazegraph:1.2.5l@aar'
     implementation 'com.nineoldandroids:library:2.4.0'
 
+    // Floating action button library
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
+
     // room database
     def room_version = "2.5.1"
     implementation "androidx.room:room-ktx:$room_version"

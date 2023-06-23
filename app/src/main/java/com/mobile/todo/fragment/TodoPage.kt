@@ -94,6 +94,11 @@ class TodoPage : Fragment() {
             startActivity(Intent(EditTodoHabit.newInstance(requireContext(), EditTodoHabit.Companion.TYPE.TODO)))
         }
 
+
+        view.findViewById<ImageView>(R.id.add_habit).setOnClickListener {
+            startActivity(Intent(EditTodoHabit.newInstance(requireContext(), EditTodoHabit.Companion.TYPE.HABIT)))
+        }
+
         return view
     }
 
