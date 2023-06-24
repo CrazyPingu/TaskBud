@@ -35,6 +35,8 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
         holder.textView.text = item.title
+        holder.starCheckBox.visibility = View.GONE
+
         if (item.lastDayCompleted == Constant.getCurrentDate()) {
             holder.checkbox.isChecked = true
             holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
@@ -88,5 +90,6 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
         val textView: TextView = itemView.findViewById(R.id.textView)
         val delete: ImageView = itemView.findViewById(R.id.delete)
+        val starCheckBox: CheckBox = itemView.findViewById(R.id.starCheckBox)
     }
 }

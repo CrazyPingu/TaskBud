@@ -26,12 +26,12 @@
             android:hint="Title"
             android:textSize="20dp" />
 
-        <ImageView
-            android:id="@+id/favourite"
+        <CheckBox
+            android:id="@+id/starCheckBox"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_toEndOf="@+id/title"
-            android:src="@drawable/star_icon_empty" />
+            android:button="@drawable/checkbox_star_selector"
+            android:layout_toEndOf="@+id/title" />
 
         <EditText
             android:id="@+id/tag"

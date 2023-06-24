@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -37,7 +38,7 @@ class EditTodoHabit : AppCompatActivity() {
         if (type == TYPE.HABIT) {
             dateButton.visibility = View.GONE
             findViewById<EditText>(R.id.tag).visibility = View.GONE
-            findViewById<ImageView>(R.id.favourite).visibility = View.GONE
+            findViewById<CheckBox>(R.id.starCheckBox).visibility = View.GONE
         }
 
         if(intent.hasExtra(ID_EXTRA)) {
