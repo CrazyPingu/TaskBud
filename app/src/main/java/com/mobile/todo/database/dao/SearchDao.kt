@@ -2,11 +2,18 @@ package com.mobile.todo.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.mobile.todo.database.dataset.Search
 
 @Dao
 interface SearchDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     fun insertSearch(search: Search)
+
+    // USE THIS FOR SEARCH TODO
+    @Query("SELECT tag FROM Search WHERE toDoId = :toDoId")
+    fun getTagsByToDoId(toDoId: Int): List<String>
+
+    @Query("DELETE FROM Search WHERE toDoId = :toDoId AND tag = :tag")
+    fun removeTagFromToDoId(toDoId: Int, tag: String)
 }

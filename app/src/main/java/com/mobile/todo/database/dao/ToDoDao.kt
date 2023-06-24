@@ -6,64 +6,43 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.mobile.todo.database.dataset.Search
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
 import java.util.Date
 
 @Dao
 interface ToDoDao {
-    @Query("SELECT * FROM todo where userId = :userId")
-    fun getAllToDoByUserId(userId: Int): List<ToDo>
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertToDo(todo: ToDo)
 
-    @Query("SELECT * FROM todo where userId = :userId and tagId = :tagId")
-    fun getAllToDoByTagId(userId: Int, tagId: Int): List<ToDo>
+    @Query("SELECT * FROM todo WHERE userId = :userId")
+    fun getAllToDoByUserId(userId: Int): List<ToDo>
 
     @Query("SELECT * FROM todo WHERE id = :todoId")
     fun getToDoById(todoId: Int): ToDo?
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertToDo(todo: ToDo)
+    // Get the last inserted ID in the ToDo table
+    @Query("SELECT MAX(id) FROM ToDo")
+    suspend fun getLastInsertedId(): Int?
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTag(tag: Tag) : Long
+    //@Query("UPDATE todo SET title = :title, description = :description, date = :date, tags = :tags WHERE id = :todoId")
+    //fun updateToDo(todoId: Int, title: String, description: String, date: Date?, tags: List<String>)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertToDoWithTag(todo: ToDo)
+    /*@Transaction
+    suspend fun updateToDoWithTagCheck(todoId: Int, title: String, description: String, date: Date?, tagNames: List<String>) {
+        val existingTagIds = getTagIdsByName(tagNames)
+        val newTagNames = tagNames.filterIndexed { index, _ -> existingTagIds[index] == null }
 
-    @Query("SELECT id FROM Tag WHERE name = :tagName")
-    suspend fun getTagIdByName(tagName: String): Int?
-
-    @Transaction
-    suspend fun insertToDoWithTagCheck(todo: ToDo, tagName: String) {
-        val existingTagId = getTagIdByName(tagName)
-
-        val tagId = if (existingTagId != null) {
-            existingTagId
-        } else {
+        val newTagIds = newTagNames.map { tagName ->
             val insertedTagId = insertTag(Tag(tagName))
-            insertedTagId.toInt()
+            insertedTagId.toString()
         }
 
-        val todoWithTag = todo.copy(tagId = tagId)
-        insertToDoWithTag(todoWithTag)
-    }
+        val tagIds = existingTagIds.mapNotNull { it } + newTagIds
 
-    @Query("UPDATE todo SET title = :title, description = :description, date = :date, tagId = :tagId WHERE id = :todoId")
-    fun updateToDo(todoId: Int, title: String, description: String, date: Date?, tagId: Int)
-
-    @Transaction
-    suspend fun updateToDoWithTagCheck(todoId: Int, title: String, description: String, date: Date?, tagName: String) {
-        val existingTagId = getTagIdByName(tagName)
-
-        val tagId = if (existingTagId != null) {
-            existingTagId
-        } else {
-            val insertedTagId = insertTag(Tag(tagName))
-            insertedTagId.toInt()
-        }
-
-        updateToDo(todoId, title, description, date, tagId)
-    }
+        updateToDo(todoId, title, description, date, tagIds)
+    }*/
 
     @Delete
     fun deleteToDo(todo: ToDo)

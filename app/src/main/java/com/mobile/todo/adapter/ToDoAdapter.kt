@@ -13,10 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.database.dataset.Search
+import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.utils.Constant
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TodoAdapter(private var itemList: MutableList<ToDo>) :
     RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
@@ -78,6 +82,23 @@ class TodoAdapter(private var itemList: MutableList<ToDo>) :
             }
         }
 
+        holder.starCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                GlobalScope.launch {
+                    AppDatabase.getDatabase(context.context).searchDao()
+                        .insertSearch(Search(item.id,  Tag.FAV))
+                }
+                holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                GlobalScope.launch {
+                    AppDatabase.getDatabase(context.context).searchDao()
+                        .removeTagFromToDoId(item.id, Tag.FAV)
+                }
+                holder.textView.paintFlags =
+                    holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -88,5 +109,6 @@ class TodoAdapter(private var itemList: MutableList<ToDo>) :
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
         val textView: TextView = itemView.findViewById(R.id.textView)
         val delete: ImageView = itemView.findViewById(R.id.delete)
+        val starCheckBox: CheckBox = itemView.findViewById(R.id.starCheckBox)
     }
 }

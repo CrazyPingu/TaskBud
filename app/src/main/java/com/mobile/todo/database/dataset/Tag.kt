@@ -5,6 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Tag(
-    val name: String,
-    @PrimaryKey(autoGenerate = true) val id: Int = 0
-)
+    @PrimaryKey val tag: String
+) {
+    companion object {
+        const val FAV = "favorites"
+    }
+}

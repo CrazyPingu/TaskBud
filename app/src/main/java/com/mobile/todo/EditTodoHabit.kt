@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Habit
+import com.mobile.todo.database.dataset.Search
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
 import kotlinx.coroutines.GlobalScope
@@ -94,25 +95,53 @@ class EditTodoHabit : AppCompatActivity() {
                     }
                 } else if (type == TYPE.TODO) {
                     if (intent.hasExtra(ID_EXTRA)) {
-                        AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().updateToDoWithTagCheck(
+                        /*AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().updateToDoWithTagCheck(
                             intent.getSerializableExtra(ID_EXTRA) as Int,
                             title.text.toString(),
                             description.text.toString(),
                             stringToDate(dateButton.text.toString()),
-                            "TAG"
-                        )
+                            tag.text.toString().toLowerCase().split(" ")
+                        )*/
                     } else {
-                        AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().insertToDoWithTagCheck(
+                        // Add to do
+                        AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().insertToDo(
                             ToDo(
                                 title.text.toString(),
                                 description.text.toString(),
                                 stringToDate(dateButton.text.toString()),
-                                false, //TODO completed
-                                1, //TODO tag
+                                false,
                                 HomePage.USER_ID
-                            ),
-                            "TAG"
+                            )
                         )
+
+                        // Add to search table with tag fav if the star checkbox is checked
+                        if (findViewById<CheckBox>(R.id.starCheckBox).isChecked) {
+                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao().insertSearch(
+                                Search(
+                                    AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().getLastInsertedId()!!,
+                                    Tag.FAV
+                                )
+                            )
+                        }
+
+                        // Get a list of all tags in lowercase and add each tag to the tag table and to the search table linked to the to do id
+                        val tagArray = tag.text.toString().toLowerCase()
+                            .split(" ")
+                            .distinct()
+                            .filter { it.isNotBlank() }
+
+                        tagArray.forEach { tag ->
+                            AppDatabase.getDatabase(this@EditTodoHabit).tagDao().insertTag(
+                                Tag(tag)
+                            )
+
+                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao().insertSearch(
+                                Search(
+                                    AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().getLastInsertedId()!!,
+                                    tag
+                                )
+                            )
+                        }
                     }
                 }
 

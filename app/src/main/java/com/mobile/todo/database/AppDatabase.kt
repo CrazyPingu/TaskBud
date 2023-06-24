@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.mobile.todo.database.converter.DateTypeConverter
 import com.mobile.todo.database.converter.UriTypeConverter
 import com.mobile.todo.database.dao.*
@@ -47,7 +48,13 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "user_database"
-                ).build()
+                ).addCallback(object : Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        // Insert the initial row with "favorites" tag
+                        db.execSQL("INSERT INTO Tag (tag) VALUES ('favorites')")
+                    }
+                }).build()
                 INSTANCE = instance
                 return instance
             }
