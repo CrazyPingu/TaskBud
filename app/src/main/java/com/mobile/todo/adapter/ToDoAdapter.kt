@@ -2,7 +2,6 @@ package com.mobile.todo.adapter
 
 import android.content.Intent
 import android.graphics.Paint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
-import com.mobile.todo.database.dataset.Habit
 import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.utils.Constant
 import kotlinx.coroutines.GlobalScope
@@ -33,11 +31,52 @@ class TodoAdapter(private var itemList: MutableList<ToDo>) :
         )
     }
 
-
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
         holder.textView.text = item.title
+        if (item.completed) {
+            holder.checkbox.isChecked = true
+            holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+        }
+
+        holder.delete.setOnClickListener {
+            GlobalScope.launch {
+                AppDatabase.getDatabase(context.context).toDoDao().deleteToDo(item)
+            }
+            val currentPosition = itemList.indexOf(item)
+            if (currentPosition != -1) {
+                itemList.removeAt(currentPosition)
+                notifyItemRemoved(currentPosition)
+            }
+        }
+
+        holder.textView.setOnClickListener {
+            startActivity(
+                context.context,
+                Intent(
+                    EditTodoHabit.newInstance(
+                        context.context, EditTodoHabit.Companion.TYPE.TODO, item.id
+                    )
+                ), null
+            )
+        }
+
+        holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                GlobalScope.launch {
+                    AppDatabase.getDatabase(context.context).toDoDao()
+                        .setCompleted(item.id, isChecked)
+                }
+                holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            } else {
+                GlobalScope.launch {
+                    AppDatabase.getDatabase(context.context).toDoDao()
+                        .setCompleted(item.id, isChecked)
+                }
+                holder.textView.paintFlags =
+                    holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
+        }
 
     }
 

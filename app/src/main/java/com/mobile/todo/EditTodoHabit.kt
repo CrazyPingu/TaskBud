@@ -92,14 +92,14 @@ class EditTodoHabit : AppCompatActivity() {
                         )
                     }
                 } else if (type == TYPE.TODO) {
-                    // Insert / Update Todo
                     if (intent.hasExtra(ID_EXTRA)) {
-                        //TODO update toDo
-                        /*AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().updateToDo(
+                        AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().updateToDoWithTagCheck(
                             intent.getSerializableExtra(ID_EXTRA) as Int,
                             title.text.toString(),
                             description.text.toString(),
-                        )*/
+                            stringToDate(dateButton.text.toString()),
+                            "TAG"
+                        )
                     } else {
                         AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().insertToDoWithTagCheck(
                             ToDo(
