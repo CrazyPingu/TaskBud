@@ -3,7 +3,6 @@ package com.mobile.todo.database.dataset
 import androidx.room.*
 
 @Entity(
-    primaryKeys = ["toDoId", "tag"],
     foreignKeys = [
         ForeignKey(
             entity = ToDo::class,
@@ -25,5 +24,8 @@ import androidx.room.*
 )
 data class Search(
     val toDoId: Int,
-    val tag: String
+    val tag: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0
 )
+
