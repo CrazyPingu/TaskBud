@@ -29,7 +29,6 @@ class TodoPage : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var arrayAdapter: ArrayAdapter<String>
     private lateinit var handler: Handler
-    private val todoList: ArrayList<String> = ArrayList()
 
 
     override fun onCreateView(

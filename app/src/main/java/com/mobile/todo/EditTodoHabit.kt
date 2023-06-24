@@ -39,7 +39,7 @@ class EditTodoHabit : AppCompatActivity() {
         if (type == TYPE.HABIT) {
             dateButton.visibility = View.GONE
             findViewById<EditText>(R.id.tag).visibility = View.GONE
-            findViewById<CheckBox>(R.id.starCheckBox).visibility = View.GONE
+            findViewById<CheckBox>(R.id.starCheckBoxEdit).visibility = View.GONE
         }
 
         if(intent.hasExtra(ID_EXTRA)) {
@@ -115,7 +115,7 @@ class EditTodoHabit : AppCompatActivity() {
                         )
 
                         // Add to search table with tag fav if the star checkbox is checked
-                        if (findViewById<CheckBox>(R.id.starCheckBox).isChecked) {
+                        if (findViewById<CheckBox>(R.id.starCheckBoxEdit).isChecked) {
                             AppDatabase.getDatabase(this@EditTodoHabit).searchDao().insertSearch(
                                 Search(
                                     AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().getLastInsertedId()!!,
@@ -124,7 +124,8 @@ class EditTodoHabit : AppCompatActivity() {
                             )
                         }
 
-                        // Get a list of all tags in lowercase and add each tag to the tag table and to the search table linked to the to do id
+                        // Get a list of all tags in lowercase and
+                        // add each tag to the tag table and to the search table linked to the to do id
                         val tagArray = tag.text.toString().toLowerCase()
                             .split(" ")
                             .distinct()

@@ -19,7 +19,7 @@
         android:layout_weight="1" />
 
     <CheckBox
-        android:id="@+id/starCheckBox"
+        android:id="@+id/starCheckBoxItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:button="@drawable/checkbox_star_selector" />

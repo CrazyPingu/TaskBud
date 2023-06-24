@@ -27,7 +27,7 @@
             android:textSize="20dp" />
 
         <CheckBox
-            android:id="@+id/starCheckBox"
+            android:id="@+id/starCheckBoxEdit"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:button="@drawable/checkbox_star_selector"

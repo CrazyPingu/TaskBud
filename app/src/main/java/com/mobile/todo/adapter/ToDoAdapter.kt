@@ -82,20 +82,17 @@ class TodoAdapter(private var itemList: MutableList<ToDo>) :
             }
         }
 
-        holder.starCheckBox.setOnCheckedChangeListener { _, isChecked ->
+        holder.starCheckBoxItem.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 GlobalScope.launch {
                     AppDatabase.getDatabase(context.context).searchDao()
                         .insertSearch(Search(item.id,  Tag.FAV))
                 }
-                holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             } else {
                 GlobalScope.launch {
                     AppDatabase.getDatabase(context.context).searchDao()
                         .removeTagFromToDoId(item.id, Tag.FAV)
                 }
-                holder.textView.paintFlags =
-                    holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
         }
 
@@ -109,6 +106,6 @@ class TodoAdapter(private var itemList: MutableList<ToDo>) :
         val checkbox: CheckBox = itemView.findViewById(R.id.checkbox)
         val textView: TextView = itemView.findViewById(R.id.textView)
         val delete: ImageView = itemView.findViewById(R.id.delete)
-        val starCheckBox: CheckBox = itemView.findViewById(R.id.starCheckBox)
+        val starCheckBoxItem: CheckBox = itemView.findViewById(R.id.starCheckBoxItem)
     }
 }
