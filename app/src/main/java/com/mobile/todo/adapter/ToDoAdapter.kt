@@ -2,6 +2,7 @@ package com.mobile.todo.adapter
 
 import android.content.Intent
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TodoAdapter(private var itemList: MutableList<ToDo>) :
+class TodoAdapter(private var itemList: MutableList<ToDo>, private var searchList: MutableList<Search>) :
     RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
 
     private lateinit var context: ViewGroup
@@ -41,6 +42,14 @@ class TodoAdapter(private var itemList: MutableList<ToDo>) :
         if (item.completed) {
             holder.checkbox.isChecked = true
             holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+        }
+
+        val result = searchList.any { search ->
+            search.toDoId == item.id && search.tag == Tag.FAV
+        }
+
+        if (result) {
+            holder.starCheckBoxItem.isChecked = true
         }
 
         holder.delete.setOnClickListener {

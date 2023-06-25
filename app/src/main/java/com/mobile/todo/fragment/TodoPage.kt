@@ -43,9 +43,10 @@ class TodoPage : Fragment() {
 
         GlobalScope.launch {
             val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
+            val search = database.searchDao().getAllSearch()
 
             withContext(Dispatchers.Main) {
-                recyclerViewToDo.adapter = TodoAdapter(todo.toMutableList())
+                recyclerViewToDo.adapter = TodoAdapter(todo.toMutableList(), search.toMutableList())
                 recyclerViewToDo.layoutManager = LinearLayoutManager(context)
             }
         }

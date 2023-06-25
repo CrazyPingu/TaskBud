@@ -10,6 +10,9 @@ interface SearchDao {
     @Insert
     fun insertSearch(search: Search)
 
+    @Query("SELECT * FROM Search")
+    fun getAllSearch(): List<Search>
+
     // USE THIS FOR SEARCH TODO
     @Query("SELECT tag FROM Search WHERE toDoId = :toDoId")
     fun getTagsByToDoId(toDoId: Int): List<String>
