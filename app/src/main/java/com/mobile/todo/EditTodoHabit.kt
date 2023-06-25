@@ -45,8 +45,25 @@ class EditTodoHabit : AppCompatActivity() {
         if(intent.hasExtra(ID_EXTRA)) {
             GlobalScope.launch {
                 val habit = AppDatabase.getDatabase(this@EditTodoHabit).habitDao().getHabit(intent.getSerializableExtra(ID_EXTRA) as Int)
-                title.setText(habit.title)
-                description.setText(habit.description)
+                val todo = AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().getToDoById(intent.getSerializableExtra(ID_EXTRA) as Int)
+
+                if (type == TYPE.HABIT) {
+                    title.setText(habit.title)
+                    description.setText(habit.description)
+                } else if (type == TYPE.TODO) {
+                    if (todo != null) {
+                        title.setText(todo.title)
+                        description.setText(todo.description)
+                        val tags = AppDatabase.getDatabase(this@EditTodoHabit).searchDao().getTagsByToDoId(intent.getSerializableExtra(ID_EXTRA) as Int)
+                                                if (todo.date != null)
+                            dateButton.text = dateToString(todo.date)
+                        if (tags.contains(Tag.FAV)) {
+                            findViewById<CheckBox>(R.id.starCheckBoxEdit).isChecked = true
+                        }
+                        findViewById<EditText>(R.id.tag).setText(tags.filter { tag -> tag != Tag.FAV }.joinToString(" "))
+
+                    }
+                }
             }
         }
 
@@ -95,13 +112,37 @@ class EditTodoHabit : AppCompatActivity() {
                     }
                 } else if (type == TYPE.TODO) {
                     if (intent.hasExtra(ID_EXTRA)) {
-                        /*AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().updateToDoWithTagCheck(
+                        // Update to do
+                        AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().updateToDo(
                             intent.getSerializableExtra(ID_EXTRA) as Int,
                             title.text.toString(),
                             description.text.toString(),
-                            stringToDate(dateButton.text.toString()),
-                            tag.text.toString().toLowerCase().split(" ")
-                        )*/
+                            stringToDate(dateButton.text.toString())
+                        )
+
+                        Log.d("EditTodoHabit", AppDatabase.getDatabase(this@EditTodoHabit)
+                            .searchDao().getTagsByToDoId(intent.getSerializableExtra(ID_EXTRA) as Int).toString())
+
+                        // Update search table with tags related to the to do
+                        AppDatabase.getDatabase(this@EditTodoHabit).searchDao().updateTagsForToDoId(
+                            intent.getSerializableExtra(ID_EXTRA) as Int,
+                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao().getTagsByToDoId(intent.getSerializableExtra(ID_EXTRA) as Int),
+                        )
+
+                        // Add to search table with tag fav if the star checkbox is checked
+                        if (findViewById<CheckBox>(R.id.starCheckBoxEdit).isChecked) {
+                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao().insertSearch(
+                                Search(
+                                    AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().getLastInsertedId()!!,
+                                    Tag.FAV
+                                )
+                            )
+                        } else {
+                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao().removeTagFromToDoId(
+                                intent.getSerializableExtra(ID_EXTRA) as Int,
+                                Tag.FAV
+                            )
+                        }
                     } else {
                         // Add to do
                         AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().insertToDo(
@@ -158,6 +199,11 @@ class EditTodoHabit : AppCompatActivity() {
     fun stringToDate(date: String): Date {
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return format.parse(date)
+    }
+
+    fun dateToString(date: Date): String {
+        val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return format.format(date)
     }
 
     companion object {

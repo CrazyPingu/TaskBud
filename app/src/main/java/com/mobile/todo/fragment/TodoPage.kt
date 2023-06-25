@@ -17,6 +17,7 @@ import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
 import com.mobile.todo.adapter.TodoAdapter
 import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -36,14 +37,17 @@ class TodoPage : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_todo, container, false)
-
         val recyclerViewToDo = view.findViewById<RecyclerView>(R.id.recyclerViewToDo)
-
         val database = AppDatabase.getDatabase(requireContext())
+        val itemList = mutableListOf<String>()
 
         GlobalScope.launch {
             val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
             val search = database.searchDao().getAllSearch()
+            val tagList = AppDatabase.getDatabase(requireContext()).tagDao().getAllTag()
+            for (tag in tagList) {
+                itemList.add(tag.tag)
+            }
 
             withContext(Dispatchers.Main) {
                 recyclerViewToDo.adapter = TodoAdapter(todo.toMutableList(), search.toMutableList())
@@ -53,8 +57,6 @@ class TodoPage : Fragment() {
 
         searchView = view.findViewById(R.id.search_view)
         val listView = view.findViewById<ListView>(R.id.list_search_view)
-
-        val itemList = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
 
         arrayAdapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, itemList)
 
@@ -68,12 +70,12 @@ class TodoPage : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // TODO Handle query submit if needed
+                
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 handler.post {
-                    // TODO Execute query when text changes
                     arrayAdapter.filter.filter(newText)
                 }
                 return true
