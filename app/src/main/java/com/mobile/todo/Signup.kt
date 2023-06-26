@@ -14,6 +14,7 @@ import com.mobile.todo.broadcast.GpsBR
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.User
 import android.provider.Settings
+import android.util.Log
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Permission
 import com.mobile.todo.utils.GpsFunction
@@ -82,21 +83,22 @@ class Signup : AppCompatActivity() {
 
         // Redirect to Camera Activity
         profilePic.setOnClickListener {
-            redirectToCamera()
+            if (Permission.checkCameraPermission(this)) {
+                redirectToCamera()
+            } else {
+                Permission.askCameraPermission(this)
+            }
         }
     }
 
     private fun redirectToCamera() {
-        if (Permission.checkCameraPermission(this)) {
-            intent = Intent(this, Camera::class.java)
-            if (profilePicImage != null) {
-                intent.putExtra("profilePic", profilePicImage)
-            }
-            Camera.PAGE_TO_RETURN = Signup::class
-            startActivity(intent)
-        } else {
-            Permission.askCameraPermission(this)
+        intent = Intent(this, Camera::class.java)
+        if (profilePicImage != null) {
+            intent.putExtra("profilePic", profilePicImage)
         }
+        Camera.PAGE_TO_RETURN = Signup::class
+        startActivity(intent)
+
     }
 
     private fun writeData() {
@@ -188,9 +190,11 @@ class Signup : AppCompatActivity() {
                     Permission.showDialog(this)
                 }
             }
+
             Permission.CAMERA_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted, send to camera activity
+                    Log.d("AAA", "Entra")
                     redirectToCamera()
                 } else {
                     // Permission denied, show the dialog

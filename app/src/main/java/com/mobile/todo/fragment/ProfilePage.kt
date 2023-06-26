@@ -1,6 +1,7 @@
 package com.mobile.todo.fragment
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -60,6 +61,7 @@ class ProfilePage : Fragment() {
             } else {
                 // obtain the image URI
                 try {
+                    Log.d("Pro", profilePicUri.toString())
                     // Search for profile pic
                     val inputStream: InputStream? =
                         context?.contentResolver?.openInputStream(profilePicUri)
@@ -74,11 +76,12 @@ class ProfilePage : Fragment() {
                 }
             }
 
+
             // Switch to the main (UI) thread to update the ImageView
             launch(Dispatchers.Main) {
 
                 // Pie chart
-                if(total != 0f) {
+                if (total != 0f) {
                     // Create slices for the PieChart.
                     mPieChart.addPieSlice(
                         PieModel(
@@ -104,7 +107,7 @@ class ProfilePage : Fragment() {
                     // Draw the pie chart.
                     mPieChart.startAnimation()
 
-                }else{
+                } else {
                     view.findViewById<TextView>(R.id.completed).visibility = View.GONE
                     view.findViewById<TextView>(R.id.incompleted).visibility = View.GONE
                     view.findViewById<TextView>(R.id.no_data_message).visibility = View.VISIBLE
@@ -115,23 +118,34 @@ class ProfilePage : Fragment() {
                 view.findViewById<TextView>(R.id.username).text = user.username
 
                 view.findViewById<ImageView>(R.id.profile_pic).setOnClickListener {
-
-                    Log.d("AAA" , "AA12")
-                    if (Permission.checkCameraPermission(requireContext())) {
-                        val intent = Intent(context, Camera::class.java)
-                        Log.d("AAA" , "AA")
-                        intent.putExtra("profilePic", profilePicUri)
-                        Camera.PAGE_TO_RETURN = HomePage::class
-                        startActivity(intent)
-                    } else {
-                        Permission.askCameraPermission(requireActivity())
-                    }
+                    redirectToCamera(profilePicUri)
                 }
             }
         }
         return view
     }
 
+    private fun redirectToCamera(profilePicUri: Uri = Constant.getDefaultIcon(requireContext())) {
+        val intent = Intent(context, Camera::class.java)
+        intent.putExtra("profilePic", profilePicUri)
+        Camera.PAGE_TO_RETURN = HomePage::class
+        startActivity(intent)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            Permission.CAMERA_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    redirectToCamera()
+                }
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 
     companion object {
         fun newInstance(profilePicImage: Uri = Uri.EMPTY) =
