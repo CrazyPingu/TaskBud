@@ -1,5 +1,6 @@
 package com.mobile.todo.database.dataset
 
+import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -9,6 +10,7 @@ data class Badge(
     val description: String,
     val streak_bp: Int,
     val type: Boolean,
+    val icon: Uri,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 

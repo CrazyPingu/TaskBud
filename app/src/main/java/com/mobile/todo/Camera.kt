@@ -7,17 +7,19 @@ import android.net.Uri
 import android.os.Bundle
 import kotlin.reflect.KClass
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.mobile.todo.utils.Permission
 import java.io.ByteArrayOutputStream
 
 
 class Camera : AppCompatActivity() {
 
     companion object {
-        lateinit var PAGE_TO_RETURN : KClass<*>
+        lateinit var PAGE_TO_RETURN: KClass<*>
     }
 
     private lateinit var profilePic: ImageView
@@ -66,7 +68,7 @@ class Camera : AppCompatActivity() {
 
         confirmButton.setOnClickListener {
             intent = Intent(this, Camera.PAGE_TO_RETURN.java)
-            if(::profilePicImage.isInitialized) {
+            if (::profilePicImage.isInitialized) {
                 intent.putExtra("profilePic", profilePicImage)
             }
             startActivity(intent)

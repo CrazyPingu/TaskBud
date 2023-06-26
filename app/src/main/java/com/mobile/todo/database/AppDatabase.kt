@@ -2,6 +2,7 @@ package com.mobile.todo.database
 
 import android.content.Context
 import androidx.room.Database
+import androidx.room.Insert
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -53,6 +54,8 @@ abstract class AppDatabase : RoomDatabase() {
                         super.onCreate(db)
                         // Insert the initial row with "favorites" tag
                         db.execSQL("INSERT INTO Tag (tag) VALUES ('favorites')")
+
+                        // Insert the badge
                     }
                 }).build()
                 INSTANCE = instance

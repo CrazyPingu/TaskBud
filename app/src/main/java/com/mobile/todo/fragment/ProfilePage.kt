@@ -3,24 +3,24 @@ package com.mobile.todo.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.mobile.todo.Camera
-import com.mobile.todo.HabitStats
 import com.mobile.todo.HomePage
 import com.mobile.todo.R
+import com.mobile.todo.Signup
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
+import com.mobile.todo.utils.Permission
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.eazegraph.lib.charts.PieChart
 import org.eazegraph.lib.models.PieModel
 import java.io.IOException
@@ -115,10 +115,17 @@ class ProfilePage : Fragment() {
                 view.findViewById<TextView>(R.id.username).text = user.username
 
                 view.findViewById<ImageView>(R.id.profile_pic).setOnClickListener {
-                    val intent = Intent(context, Camera::class.java)
-                    intent.putExtra("profilePic", profilePicUri)
-                    Camera.PAGE_TO_RETURN = HomePage::class
-                    startActivity(intent)
+
+                    Log.d("AAA" , "AA12")
+                    if (Permission.checkCameraPermission(requireContext())) {
+                        val intent = Intent(context, Camera::class.java)
+                        Log.d("AAA" , "AA")
+                        intent.putExtra("profilePic", profilePicUri)
+                        Camera.PAGE_TO_RETURN = HomePage::class
+                        startActivity(intent)
+                    } else {
+                        Permission.askCameraPermission(requireActivity())
+                    }
                 }
             }
         }

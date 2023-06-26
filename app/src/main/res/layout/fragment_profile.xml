@@ -16,25 +16,25 @@
         android:textSize="@dimen/title_fragment" />
 
     <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/title"
+        android:id="@+id/middle_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:id="@+id/profile_pic_layout"
-            android:layout_marginEnd="30dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp">
 
             <include
                 android:id="@+id/profile_pic_container"
                 layout="@layout/template_profile_pic"
                 android:layout_width="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp" />
 
             <TextView
                 android:id="@+id/username"
@@ -46,7 +46,6 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/center_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -96,21 +95,13 @@
     </LinearLayout>
 
 
-    <!--    <Button-->
-    <!--        android:id="@+id/badge_button"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@+id/profile_pic_layout"-->
-    <!--        android:layout_centerHorizontal="true"-->
-    <!--        android:layout_marginTop="10dp"-->
-    <!--        android:text="@string/badge_button" />-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/zone_badge"
+        android:layout_width="285dp"
+        android:layout_height="250dp"
+        android:layout_below="@+id/middle_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
 
-    <!--    <Button-->
-    <!--        android:id="@+id/habits_stats"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@+id/badge_button"-->
-    <!--        android:layout_centerHorizontal="true"-->
-    <!--        android:text="@string/habits_button" />-->
 
 </RelativeLayout>
