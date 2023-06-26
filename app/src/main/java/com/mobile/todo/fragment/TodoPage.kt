@@ -9,16 +9,16 @@ import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
-import com.mobile.todo.adapter.TodoAdapter
+import com.mobile.todo.adapter.ToDoAdapter
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Tag
-import com.mobile.todo.database.dataset.ToDo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,7 +30,6 @@ class TodoPage : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var arrayAdapter: ArrayAdapter<String>
     private lateinit var handler: Handler
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,11 +45,16 @@ class TodoPage : Fragment() {
             val search = database.searchDao().getAllSearch()
             val tagList = AppDatabase.getDatabase(requireContext()).tagDao().getAllTag()
             for (tag in tagList) {
-                itemList.add(tag.tag)
+                if (database.searchDao().isTagInSearch(tag.tag)||tag.tag == Tag.FAV)
+                    itemList.add(tag.tag)
+            }
+
+            if (todo.isEmpty()) {
+                view.findViewById<TextView>(R.id.no_result).visibility = View.VISIBLE
             }
 
             withContext(Dispatchers.Main) {
-                recyclerViewToDo.adapter = TodoAdapter(todo.toMutableList(), search.toMutableList())
+                recyclerViewToDo.adapter = ToDoAdapter(todo.toMutableList(), search.toMutableList())
                 recyclerViewToDo.layoutManager = LinearLayoutManager(context)
             }
         }
@@ -62,6 +66,7 @@ class TodoPage : Fragment() {
 
         listView.setOnItemClickListener { _, _, position, _ ->
             val item = arrayAdapter.getItem(position) as String
+            performSearch(item, database, recyclerViewToDo, view.findViewById<TextView>(R.id.no_result))
         }
         listView.adapter = arrayAdapter
 
@@ -69,8 +74,7 @@ class TodoPage : Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                // TODO Handle query submit if needed
-                
+                performSearch(query!!, database, recyclerViewToDo, view.findViewById<TextView>(R.id.no_result))
                 return true
             }
 
@@ -104,6 +108,41 @@ class TodoPage : Fragment() {
         return view
     }
 
+    private fun performSearch(query: String, database: AppDatabase, recyclerViewToDo: RecyclerView, viewText: TextView) {
+        // TODO Handle query submit
+        var resultToDoId: List<Int> // List of To Do Ids with submitted tag
+        var isEmpty = false
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
+            if (query != null) {
+                resultToDoId = database.searchDao().getToDoIdsByTag(query)
+                val filteredToDos = todo.filter { resultToDoId.contains(it.id) }
+                val search = database.searchDao().getAllSearch()
+
+                if(filteredToDos.isEmpty())
+                    isEmpty = true
+
+                Log.d("TAG", filteredToDos.toString())
+
+                withContext(Dispatchers.Main) {
+                    // Update the RecyclerView on the main thread
+                    val adapter = ToDoAdapter(filteredToDos.toMutableList(), search.toMutableList())
+                    recyclerViewToDo.adapter = adapter
+                    recyclerViewToDo.layoutManager = LinearLayoutManager(requireContext())
+                }
+            }
+        }
+
+        Log.d("TAG", "isEmpty: $isEmpty")
+        if (isEmpty)
+            viewText.visibility = View.VISIBLE
+
+        searchView.clearFocus()
+    }
+
+
+
     companion object {
         fun newInstance(idUser: Int) =
             TodoPage().apply {
@@ -113,3 +152,5 @@ class TodoPage : Fragment() {
             }
     }
 }
+
+

@@ -14,6 +14,12 @@ interface SearchDao {
     @Query("SELECT * FROM Search")
     fun getAllSearch(): List<Search>
 
+    @Query("SELECT EXISTS(SELECT 1 FROM Search WHERE tag = :tag LIMIT 1)")
+    fun isTagInSearch(tag: String): Boolean
+
+    @Query("SELECT todoId FROM Search WHERE tag = :tag")
+    fun getToDoIdsByTag(tag: String): List<Int>
+
     // USE THIS FOR SEARCH TODO
     @Query("SELECT tag FROM Search WHERE toDoId = :toDoId")
     fun getTagsByToDoId(toDoId: Int): List<String>

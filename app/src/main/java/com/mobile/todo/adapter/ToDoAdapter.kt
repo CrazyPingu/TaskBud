@@ -2,7 +2,6 @@ package com.mobile.todo.adapter
 
 import android.content.Intent
 import android.graphics.Paint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,14 +16,11 @@ import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Search
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
-import com.mobile.todo.utils.Constant
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class TodoAdapter(private var itemList: MutableList<ToDo>, private var searchList: MutableList<Search>) :
-    RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
+class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchList: MutableList<Search>) :
+    RecyclerView.Adapter<ToDoAdapter.ViewHolder>() {
 
     private lateinit var context: ViewGroup
 
@@ -104,7 +100,6 @@ class TodoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
                 }
             }
         }
-
     }
 
     override fun getItemCount(): Int {
