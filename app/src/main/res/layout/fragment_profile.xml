@@ -33,6 +33,7 @@
                 android:id="@+id/profile_pic_container"
                 layout="@layout/template_profile_pic"
                 android:layout_width="wrap_content"
+                android:layout_marginBottom="30dp"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -50,6 +51,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/no_data_message"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:gravity="center_vertical"
+                android:text="No data available"
+                android:visibility="gone" />
 
             <org.eazegraph.lib.charts.PieChart
                 android:id="@+id/piechart"

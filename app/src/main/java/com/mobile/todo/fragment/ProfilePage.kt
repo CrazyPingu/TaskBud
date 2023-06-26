@@ -37,8 +37,19 @@ class ProfilePage : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        val mPieChart = view.findViewById<PieChart>(R.id.piechart)
+
+        val database = AppDatabase.getDatabase(requireContext())
+
         GlobalScope.launch {
-            val user = AppDatabase.getDatabase(requireContext()).userDao().getUser(HomePage.USER_ID)
+            // Variable required for the pie chart
+            val completed = database.habitDao().getCompletedHabitsCount(HomePage.USER_ID).toFloat()
+            val total = database.habitDao().getUserHabitsCount(HomePage.USER_ID).toFloat()
+            // The rest of the pie that is not occupied.
+            val notCompleted = total - completed
+
+            // Profile Pic section
+            val user = database.userDao().getUser(HomePage.USER_ID)
             var profilePicUri = user.profilePic
             if (PROFILE_PIC_IMAGE != Uri.EMPTY) {
                 AppDatabase.getDatabase(requireContext()).userDao().updateProfilePic(
@@ -65,34 +76,8 @@ class ProfilePage : Fragment() {
 
             // Switch to the main (UI) thread to update the ImageView
             launch(Dispatchers.Main) {
-                view.findViewById<ImageView>(R.id.profile_pic).setImageURI(profilePicUri)
-                view.findViewById<TextView>(R.id.username).text = user.username
 
-                view.findViewById<ImageView>(R.id.profile_pic).setOnClickListener {
-                    val intent = Intent(context, Camera::class.java)
-                    intent.putExtra("profilePic", profilePicUri)
-                    Camera.PAGE_TO_RETURN = HomePage::class
-                    startActivity(intent)
-                }
-            }
-        }
-
-
-        val mPieChart = view.findViewById<PieChart>(R.id.piechart)
-
-        // number1 is the total size of the pie.
-        // number2 is the space occupied.
-        val database = AppDatabase.getDatabase(requireContext())
-
-        GlobalScope.launch(Dispatchers.IO) {
-            val completed = database.habitDao().getCompletedHabitsCount(HomePage.USER_ID).toFloat()
-            val total = database.habitDao().getUserHabitsCount(HomePage.USER_ID).toFloat()
-
-            // The rest of the pie that is not occupied.
-            val notCompleted = total - completed
-
-            withContext(Dispatchers.Main) {
-
+                // Pie chart
                 if(total != 0f) {
                     // Create slices for the PieChart.
                     mPieChart.addPieSlice(
@@ -123,6 +108,17 @@ class ProfilePage : Fragment() {
                     view.findViewById<TextView>(R.id.completed).visibility = View.GONE
                     view.findViewById<TextView>(R.id.incompleted).visibility = View.GONE
                     view.findViewById<TextView>(R.id.no_data_message).visibility = View.VISIBLE
+                }
+
+                // Profile Pic
+                view.findViewById<ImageView>(R.id.profile_pic).setImageURI(profilePicUri)
+                view.findViewById<TextView>(R.id.username).text = user.username
+
+                view.findViewById<ImageView>(R.id.profile_pic).setOnClickListener {
+                    val intent = Intent(context, Camera::class.java)
+                    intent.putExtra("profilePic", profilePicUri)
+                    Camera.PAGE_TO_RETURN = HomePage::class
+                    startActivity(intent)
                 }
             }
         }
