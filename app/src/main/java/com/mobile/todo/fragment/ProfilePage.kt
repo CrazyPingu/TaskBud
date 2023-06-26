@@ -12,10 +12,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.Camera
 import com.mobile.todo.HomePage
 import com.mobile.todo.R
 import com.mobile.todo.Signup
+import com.mobile.todo.adapter.BadgeAdapter
+import com.mobile.todo.adapter.HabitAdapter
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Permission
@@ -40,6 +44,8 @@ class ProfilePage : Fragment() {
 
         val mPieChart = view.findViewById<PieChart>(R.id.piechart)
 
+        val recyclerView = view.findViewById<RecyclerView>(R.id.zone_badge)
+
         val database = AppDatabase.getDatabase(requireContext())
 
         GlobalScope.launch {
@@ -49,6 +55,12 @@ class ProfilePage : Fragment() {
             // The rest of the pie that is not occupied.
             val notCompleted = total - completed
 
+
+            ////////////////////////////////////////////////////////////
+            // Badge section
+            val badge = database.badgeDao().getAllBadge()
+
+            ////////////////////////////////////////////////////////////
             // Profile Pic section
             val user = database.userDao().getUser(HomePage.USER_ID)
             var profilePicUri = user.profilePic
@@ -113,6 +125,11 @@ class ProfilePage : Fragment() {
                     view.findViewById<TextView>(R.id.no_data_message).visibility = View.VISIBLE
                 }
 
+
+                // Badgge
+                recyclerView.adapter = BadgeAdapter(badge.toMutableList())
+                recyclerView.layoutManager = LinearLayoutManager(context)
+
                 // Profile Pic
                 view.findViewById<ImageView>(R.id.profile_pic).setImageURI(profilePicUri)
                 view.findViewById<TextView>(R.id.username).text = user.username
@@ -122,6 +139,9 @@ class ProfilePage : Fragment() {
                 }
             }
         }
+
+
+
         return view
     }
 

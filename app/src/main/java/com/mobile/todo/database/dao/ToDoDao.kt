@@ -24,7 +24,8 @@ interface ToDoDao {
 
     // Get the last inserted ID in the To Do table
     @Query("SELECT MAX(id) FROM ToDo")
-    suspend fun getLastInsertedId(): Int?
+    fun getLastInsertedId(): Int?
+
 
     @Query("UPDATE todo SET title = :title, description = :description, date = :date WHERE id = :todoId")
     fun updateToDo(todoId: Int, title: String, description: String, date: Date?)
@@ -34,4 +35,7 @@ interface ToDoDao {
 
     @Query("UPDATE todo SET completed = :completed WHERE id = :todoId")
     fun setCompleted(todoId: Int, completed: Boolean)
+
+    @Query("SELECT COUNT(*) AS num FROM ToDo WHERE completed = 1 and userId = :userId")
+    fun getNumCompleted(userId: Int) : Int
 }

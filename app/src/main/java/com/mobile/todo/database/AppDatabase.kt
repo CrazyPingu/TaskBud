@@ -56,6 +56,12 @@ abstract class AppDatabase : RoomDatabase() {
                         db.execSQL("INSERT INTO Tag (tag) VALUES ('favorites')")
 
                         // Insert the badge
+                        db.execSQL("INSERT INTO Badge(name, description, streak_bp, type, icon) VALUES (" +
+
+                                "'First Todo', 'Continue like this!',1,0," +
+                                "'android.resource://com.mobile.todo/drawable/default_profile_pic')" +
+                                "")
+
                     }
                 }).build()
                 INSTANCE = instance
