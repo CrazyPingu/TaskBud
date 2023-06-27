@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">todo</string>
+    <string name="app_name">TaskBud</string>
     <string name="placeholder_username">Username</string>
     <string name="placeholder_password">Password</string>
     <string name="placeholder_confirm_password">Confirm password</string>
