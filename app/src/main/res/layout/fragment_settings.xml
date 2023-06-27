@@ -60,5 +60,13 @@
         android:layout_marginTop="50dp"
         android:text="@string/logout" />
 
+    <ImageView
+        android:id="@+id/taskbud_stand_rx"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="bottom|end"
+        android:layout_below="@+id/logout"
+        android:src="@drawable/taskbud_stand_rx" />
+
 
 </RelativeLayout>
