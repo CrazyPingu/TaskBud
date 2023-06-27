@@ -73,7 +73,6 @@ class ProfilePage : Fragment() {
             } else {
                 // obtain the image URI
                 try {
-                    Log.d("Pro", profilePicUri.toString())
                     // Search for profile pic
                     val inputStream: InputStream? =
                         context?.contentResolver?.openInputStream(profilePicUri)

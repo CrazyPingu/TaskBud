@@ -62,7 +62,6 @@ class Permission {
         ): Boolean {
             for (permission in PERMISSION) {
                 if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    Log.d("AAA", permission.toString())
                     if (showDialog) {
                         showDialog(context)
                     }

@@ -194,7 +194,6 @@ class Signup : AppCompatActivity() {
             Permission.CAMERA_PERMISSION_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted, send to camera activity
-                    Log.d("AAA", "Entra")
                     redirectToCamera()
                 } else {
                     // Permission denied, show the dialog

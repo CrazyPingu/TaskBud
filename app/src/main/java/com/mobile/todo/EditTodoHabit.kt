@@ -120,9 +120,6 @@ class EditTodoHabit : AppCompatActivity() {
                             stringToDate(dateButton.text.toString())
                         )
 
-                        Log.d("EditTodoHabit", AppDatabase.getDatabase(this@EditTodoHabit)
-                            .searchDao().getTagsByToDoId(intent.getSerializableExtra(ID_EXTRA) as Int).toString())
-
                         // Update search table with tags related to the to do
                         AppDatabase.getDatabase(this@EditTodoHabit).searchDao().updateTagsForToDoId(
                             intent.getSerializableExtra(ID_EXTRA) as Int,
