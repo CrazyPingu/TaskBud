@@ -108,7 +108,7 @@ class TodoPage : Fragment() {
         return view
     }
 
-    private fun performSearch(query: String, database: AppDatabase, recyclerViewToDo: RecyclerView, viewText: TextView) {
+    private fun performSearch(query: String, database: AppDatabase, recyclerViewToDo: RecyclerView, no_result_text: TextView) {
         // TODO Handle query submit
         var resultToDoId: List<Int> // List of To Do Ids with submitted tag
         var isEmpty = false
@@ -120,23 +120,19 @@ class TodoPage : Fragment() {
                 val filteredToDos = todo.filter { resultToDoId.contains(it.id) }
                 val search = database.searchDao().getAllSearch()
 
-                if(filteredToDos.isEmpty())
-                    isEmpty = true
-
-                Log.d("TAG", filteredToDos.toString())
-
                 withContext(Dispatchers.Main) {
                     // Update the RecyclerView on the main thread
                     val adapter = ToDoAdapter(filteredToDos.toMutableList(), search.toMutableList())
                     recyclerViewToDo.adapter = adapter
                     recyclerViewToDo.layoutManager = LinearLayoutManager(requireContext())
                 }
+
+                if (filteredToDos.isEmpty())
+                    no_result_text.visibility = View.VISIBLE
             }
         }
 
-        Log.d("TAG", "isEmpty: $isEmpty")
-        if (isEmpty)
-            viewText.visibility = View.VISIBLE
+
 
         searchView.clearFocus()
     }
