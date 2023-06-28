@@ -3,6 +3,8 @@ package com.mobile.todo
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -23,6 +25,8 @@ class HomePage : AppCompatActivity() {
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
+    private lateinit var todoPage: TodoPage
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -31,7 +35,7 @@ class HomePage : AppCompatActivity() {
             USER_ID = Constant.getUser(this)
         }
 
-        if(intent.hasExtra("page")){
+        if (intent.hasExtra("page")) {
             pageToShow = intent.getIntExtra("page", R.id.navbar_todo)
         }
 
@@ -43,13 +47,16 @@ class HomePage : AppCompatActivity() {
             pageToShow = item.itemId
             when (item.itemId) {
                 R.id.navbar_todo -> {
-                    changeFragment(TodoPage.newInstance(USER_ID))
+                    todoPage = TodoPage.newInstance(USER_ID)
+                    changeFragment(todoPage)
                     true
                 }
+
                 R.id.navbar_habit -> {
                     changeFragment(HabitPage.newInstance(USER_ID))
                     true
                 }
+
                 R.id.navbar_profile -> {
                     if (intent.hasExtra("profilePic")) {
                         val profilePic = intent.getParcelableExtra<Uri>("profilePic")
@@ -59,15 +66,33 @@ class HomePage : AppCompatActivity() {
                     }
                     true
                 }
+
                 R.id.navbar_settings -> {
                     changeFragment(
                         SettingsPage.newInstance(AppCompatDelegate.getDefaultNightMode())
                     )
                     true
                 }
+
                 else -> false
             }
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+                when(pageToShow) {
+                    R.id.navbar_profile, R.id.navbar_habit, R.id.navbar_settings -> {
+                        pageToShow = R.id.navbar_todo
+                        startActivity(Intent(this@HomePage, HomePage::class.java))
+                    }
+                }
+                if(todoPage.isSearchViewOpen()){
+                    pageToShow = R.id.navbar_todo
+                    startActivity(Intent(this@HomePage, HomePage::class.java))
+                }
+            }
+        })
     }
 
     private fun changeFragment(fragment: Fragment) {
@@ -81,7 +106,9 @@ class HomePage : AppCompatActivity() {
         bottomNavigationView.selectedItemId = pageToShow
     }
 
-    override fun onBackPressed() {
-        startActivity(Intent(this, Login::class.java))
-    }
+
+//    override fun onBackPressed() {
+//        onBackPressedDispatcher.onBackPressed()
+//        startActivity(Intent(this, Login::class.java))
+//    }
 }
