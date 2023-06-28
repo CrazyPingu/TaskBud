@@ -1,5 +1,6 @@
 package com.mobile.todo.database.dao
 
+import android.net.Uri
 import androidx.room.*
 import com.mobile.todo.database.dataset.User
 
@@ -23,4 +24,9 @@ interface UserDao {
 
     @Query("UPDATE user SET profilePic = :profilePic WHERE id = :userId")
     fun updateProfilePic(userId: Int, profilePic: String)
+
+    @Query("SELECT profilePic FROM user WHERE id = :userId LIMIT 1;")
+    fun getProfilePic(userId: Int): Uri
+
+
 }

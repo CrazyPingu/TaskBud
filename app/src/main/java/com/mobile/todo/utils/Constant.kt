@@ -15,6 +15,7 @@ class Constant {
     companion object {
 
         val LOCKED_ICON : Uri = Uri.parse("android.resource://com.mobile.todo/drawable/badge_locked")
+        val DEFAULT_PROFILE_PIC : Uri = Uri.parse("android.resource://com.mobile.todo/drawable/default_profile_pic")
 
         fun getTheme(context: Context): Int {
             return context.getSharedPreferences(
@@ -57,16 +58,6 @@ class Constant {
                 context.resources.getString(R.string.shared_preferance_name),
                 Context.MODE_PRIVATE
             ).edit().putInt("user_id", -1).apply()
-        }
-
-        fun getDefaultIcon(context: Context): Uri {
-            return Uri.parse(
-                ContentResolver.SCHEME_ANDROID_RESOURCE
-                        + "://" + context.resources
-                    .getResourcePackageName(R.drawable.default_profile_pic)
-                        + '/' + context.resources.getResourceTypeName(R.drawable.default_profile_pic)
-                        + '/' + context.resources.getResourceEntryName(R.drawable.default_profile_pic)
-            )!!
         }
 
         fun getCurrentDate(): Date {

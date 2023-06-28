@@ -60,29 +60,30 @@ class ProfilePage : Fragment() {
 
             // All habits!
             if(database.habitDao().areAllHabitsCompleted(HomePage.USER_ID)){
-                Log.d("badge", "obtained badge all habits")
                 database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.allHabits.name)
             }
 
-            // favourite to fix
+            // favourite
             if(database.tagDao().usedFavouriteTag(HomePage.USER_ID)){
-                Log.d("badge", "obtained badge favourite")
                 database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.favourite.name)
             }
 
             // habit streak
             if(database.habitDao().badgeHabitStreak(HomePage.USER_ID)){
-                Log.d("badge", "obtained badge habit streak")
                 database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.habitStreak.name)
             }
 
             // todo streak
             if(database.toDoDao().badgeTodoStreak(HomePage.USER_ID)){
-                Log.d("badge", "obtained badge todo streak")
-                val badge = database.badgeDao().getAllBadge()
-                Log.d("badge", badge.toString())
                 database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.todoStreak.name)
             }
+
+            // nice shot
+            if(database.userDao().getProfilePic(HomePage.USER_ID) != Constant.DEFAULT_PROFILE_PIC){
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.niceShot.name)
+            }
+
+
 
 
             val badge = database.badgeDao().getAllBadgeFromUser(HomePage.USER_ID)
@@ -110,9 +111,9 @@ class ProfilePage : Fragment() {
                     // Case profile pic is not found
                     AppDatabase.getDatabase(requireContext()).userDao().updateProfilePic(
                         HomePage.USER_ID,
-                        Constant.getDefaultIcon(requireContext()).toString()
+                        Constant.DEFAULT_PROFILE_PIC.toString()
                     )
-                    profilePicUri = Constant.getDefaultIcon(requireContext())
+                    profilePicUri = Constant.DEFAULT_PROFILE_PIC
                 }
             }
 
@@ -172,7 +173,7 @@ class ProfilePage : Fragment() {
         return view
     }
 
-    private fun redirectToCamera(profilePicUri: Uri = Constant.getDefaultIcon(requireContext())) {
+    private fun redirectToCamera(profilePicUri: Uri = Constant.DEFAULT_PROFILE_PIC) {
         val intent = Intent(context, Camera::class.java)
         intent.putExtra("profilePic", profilePicUri)
         Camera.PAGE_TO_RETURN = HomePage::class

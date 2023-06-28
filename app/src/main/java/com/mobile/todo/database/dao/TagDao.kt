@@ -14,6 +14,7 @@ interface TagDao {
     @Query("SELECT * FROM tag")
     fun getAllTag(): List<Tag>
 
-    @Query("SELECT * FROM tag, todo WHERE userId = :userId AND tag = :favorite LIMIT 1;")
-    fun usedFavouriteTag(userId: Int, favorite : String = Tag.FAV): Boolean
+    @Query("SELECT EXISTS(SELECT 1 FROM Search WHERE tag = :tag AND toDoId IN (SELECT id FROM ToDo WHERE userId = :userId))")
+    fun usedFavouriteTag(userId: Int, tag: String = Tag.FAV): Boolean
+
 }

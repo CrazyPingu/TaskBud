@@ -135,7 +135,7 @@ class Signup : AppCompatActivity() {
                             },
                             if (profilePicImage == null) {
                                 // Set default profile pic
-                                Constant.getDefaultIcon(this@Signup)
+                                Constant.DEFAULT_PROFILE_PIC
                             } else {
                                 profilePicImage!!
                             }
