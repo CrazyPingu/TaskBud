@@ -42,4 +42,7 @@ interface ToDoDao {
 
     @Query("SELECT COUNT(*) >= :streakPb FROM ToDo WHERE completed = 1 AND userId = :userId")
     fun badgeTodoStreak(userId: Int, streakPb : Int = Badge.todoStreak.streak_bp!!): Boolean
+
+    @Query("SELECT EXISTS(SELECT 1 FROM ToDo WHERE userId = :userId)")
+    fun hasToDo(userId: Int): Boolean
 }

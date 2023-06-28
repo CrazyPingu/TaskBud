@@ -50,8 +50,8 @@ data class Badge(
 
         val tag: Badge = Badge(
             "Tag",
-            "Tried tag!",
-            1,
+            "Used tag 3 times!?!",
+            3,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_tag"),
         )
 
@@ -60,13 +60,6 @@ data class Badge(
             "Continue like this!",
             1,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_first_todo"),
-        )
-
-        val trash: Badge = Badge(
-            "Trash",
-            "Deleted smth?",
-            1,
-            Uri.parse("android.resource://com.mobile.todo/drawable/badge_trash"),
         )
 
 

@@ -83,6 +83,15 @@ class ProfilePage : Fragment() {
                 database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.niceShot.name)
             }
 
+            // tag
+            if(database.tagDao().usedTagBadge(HomePage.USER_ID)){
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.tag.name)
+            }
+
+            // first todo
+            if(database.toDoDao().hasToDo(HomePage.USER_ID)){
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.firstTodo.name)
+            }
 
 
 
