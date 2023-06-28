@@ -9,7 +9,7 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_margin="50dp"
-        android:src="@drawable/logo_icon" />
+        android:src="@drawable/taskbud_logo" />
 
     <RelativeLayout
         android:id="@+id/title_container"
