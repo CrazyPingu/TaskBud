@@ -1,12 +1,11 @@
-package com.mobile.todo.adapter
+package com.mobile.todo.utils
 
 import android.net.Uri
 
 data class BadgeContainer(
     val name: String,
     val description: String,
-    val streak_bp: Int,
-    val type: Boolean,
+    val streak_bp: Int?,
     val icon: Uri,
     val id : Int,
     val obtained : Boolean,

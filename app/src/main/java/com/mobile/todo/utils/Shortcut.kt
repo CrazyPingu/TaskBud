@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
+import android.util.Log
 import androidx.core.content.ContextCompat.getSystemService
 import com.mobile.todo.HomePage
 import com.mobile.todo.R

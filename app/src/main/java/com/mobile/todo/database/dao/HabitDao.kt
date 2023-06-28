@@ -5,7 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.mobile.todo.database.dataset.Badge
 import com.mobile.todo.database.dataset.Habit
+import com.mobile.todo.utils.Constant
 import java.util.Date
 
 @Dao
@@ -36,4 +38,10 @@ interface HabitDao {
 
     @Delete
     fun deleteHabit(habit: Habit)
+
+    @Query("SELECT COUNT(*) FROM habit WHERE userId = :userId AND streak >= :streakPb")
+    fun badgeHabitStreak(userId: Int, streakPb : Int = Badge.habitStreak.streak_bp!!): Boolean
+
+    @Query("SELECT COUNT(*) == SUM(CASE WHEN lastDayCompleted = :currentDay THEN 1 ELSE 0 END) FROM Habit WHERE userId = :userId")
+    fun areAllHabitsCompleted(userId: Int, currentDay: Date = Constant.getCurrentDate()): Boolean
 }

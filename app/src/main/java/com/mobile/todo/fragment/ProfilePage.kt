@@ -18,8 +18,8 @@ import com.mobile.todo.Camera
 import com.mobile.todo.HomePage
 import com.mobile.todo.R
 import com.mobile.todo.adapter.BadgeAdapter
-import com.mobile.todo.adapter.BadgeContainer
 import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.database.dataset.Badge
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Permission
 import kotlinx.coroutines.Dispatchers
@@ -57,10 +57,37 @@ class ProfilePage : Fragment() {
 
             ////////////////////////////////////////////////////////////
             // Badge section
+
+            // All habits!
+            if(database.habitDao().areAllHabitsCompleted(HomePage.USER_ID)){
+                Log.d("badge", "obtained badge all habits")
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, 1)
+            }
+
+            // favourite to fix
+            if(database.tagDao().usedFavouriteTag(HomePage.USER_ID)){
+                Log.d("badge", "obtained badge favourite")
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, 2)
+            }
+
+            // habit streak
+            if(database.habitDao().badgeHabitStreak(HomePage.USER_ID)){
+                Log.d("badge", "obtained badge habit streak")
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, 3)
+            }
+
+            // todo streak
+            if(database.toDoDao().badgeTodoStreak(HomePage.USER_ID)){
+                Log.d("badge", "obtained badge todo streak")
+                val badge = database.badgeDao().getAllBadge()
+                Log.d("badge", badge.toString())
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.todoStreak.id)
+            }
+
+
             val badge = database.badgeDao().getAllBadgeFromUser(HomePage.USER_ID)
 
-            val test = database.userBadgeDao().getAllUserBadge(HomePage.USER_ID)
-            Log.d("a", test.toString())
+
 
             ////////////////////////////////////////////////////////////
             // Profile Pic section

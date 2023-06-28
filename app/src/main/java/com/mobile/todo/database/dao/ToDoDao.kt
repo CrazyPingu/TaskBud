@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.mobile.todo.database.dataset.Badge
 import com.mobile.todo.database.dataset.Search
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
@@ -38,4 +39,7 @@ interface ToDoDao {
 
     @Query("SELECT COUNT(*) AS num FROM ToDo WHERE completed = 1 and userId = :userId")
     fun getNumCompleted(userId: Int) : Int
+
+    @Query("SELECT COUNT(*) >= :streakPb FROM ToDo WHERE completed = 1 AND userId = :userId")
+    fun badgeTodoStreak(userId: Int, streakPb : Int = Badge.todoStreak.streak_bp!!): Boolean
 }
