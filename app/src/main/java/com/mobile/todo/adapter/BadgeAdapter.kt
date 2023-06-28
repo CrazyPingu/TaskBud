@@ -1,4 +1,4 @@
-package com.mobile.todo.adapter
+package com.mobile.todo.utils
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.R
-import com.mobile.todo.database.dataset.Badge
-import com.mobile.todo.utils.Constant
+import com.mobile.todo.adapter.BadgeContainer
 
 class BadgeAdapter(private var itemList: MutableList<BadgeContainer>) :
     RecyclerView.Adapter<BadgeAdapter.ViewHolder>() {
