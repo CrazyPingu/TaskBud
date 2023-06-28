@@ -109,9 +109,7 @@ class TodoPage : Fragment() {
     }
 
     private fun performSearch(query: String, database: AppDatabase, recyclerViewToDo: RecyclerView, no_result_text: TextView) {
-        // TODO Handle query submit
         var resultToDoId: List<Int> // List of To Do Ids with submitted tag
-        var isEmpty = false
 
         GlobalScope.launch(Dispatchers.IO) {
             val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
