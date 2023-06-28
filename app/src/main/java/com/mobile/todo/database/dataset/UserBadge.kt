@@ -13,8 +13,8 @@ import androidx.room.PrimaryKey
         onDelete = ForeignKey.CASCADE
     ), ForeignKey(
         entity = Badge::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("badgeId"),
+        parentColumns = arrayOf("name"),
+        childColumns = arrayOf("badgeName"),
         onUpdate = ForeignKey.CASCADE,
         onDelete = ForeignKey.CASCADE
     )]
@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
 data class UserBadge(
     val obtained: Boolean,
     val userId: Int,
-    val badgeId: Int,
+    val badgeName: String,
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 )
 

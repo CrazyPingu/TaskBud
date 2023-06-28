@@ -16,11 +16,11 @@ interface BadgeDao {
     fun getAllBadge() : List<Badge>
 
     @Query("SELECT Badge.*, UserBadge.obtained " +
-            "FROM Badge INNER JOIN UserBadge ON Badge.id = UserBadge.badgeId " +
+            "FROM Badge INNER JOIN UserBadge ON Badge.name = UserBadge.badgeName " +
             "WHERE UserBadge.userId = :userId")
     fun getAllBadgeFromUser(userId: Int): List<BadgeContainer>
 
-    @Query("UPDATE UserBadge SET obtained = 1 WHERE userId = :userId AND badgeId = :badgeId")
-    fun obtainedBadge(userId: Int, badgeId: Int)
+    @Query("UPDATE UserBadge SET obtained = 1 WHERE userId = :userId AND badgeName = :badgeName")
+    fun obtainedBadge(userId: Int, badgeName: String)
 
 }

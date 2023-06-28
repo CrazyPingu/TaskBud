@@ -7,6 +7,5 @@ data class BadgeContainer(
     val description: String,
     val streak_bp: Int?,
     val icon: Uri,
-    val id : Int,
     val obtained : Boolean,
 )

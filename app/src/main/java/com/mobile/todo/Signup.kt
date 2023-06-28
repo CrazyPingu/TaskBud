@@ -148,7 +148,7 @@ class Signup : AppCompatActivity() {
 
                     for(badge in badges){
                         AppDatabase.getDatabase(this@Signup).userBadgeDao().
-                        insertBadge(UserBadge(false, userId, badge.id))
+                        insertBadge(UserBadge(false, userId, badge.name))
                     }
 
                     // Redirect to login

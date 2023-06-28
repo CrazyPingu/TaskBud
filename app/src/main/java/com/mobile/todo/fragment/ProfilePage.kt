@@ -61,19 +61,19 @@ class ProfilePage : Fragment() {
             // All habits!
             if(database.habitDao().areAllHabitsCompleted(HomePage.USER_ID)){
                 Log.d("badge", "obtained badge all habits")
-                database.badgeDao().obtainedBadge(HomePage.USER_ID, 1)
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.allHabits.name)
             }
 
             // favourite to fix
             if(database.tagDao().usedFavouriteTag(HomePage.USER_ID)){
                 Log.d("badge", "obtained badge favourite")
-                database.badgeDao().obtainedBadge(HomePage.USER_ID, 2)
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.favourite.name)
             }
 
             // habit streak
             if(database.habitDao().badgeHabitStreak(HomePage.USER_ID)){
                 Log.d("badge", "obtained badge habit streak")
-                database.badgeDao().obtainedBadge(HomePage.USER_ID, 3)
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.habitStreak.name)
             }
 
             // todo streak
@@ -81,7 +81,7 @@ class ProfilePage : Fragment() {
                 Log.d("badge", "obtained badge todo streak")
                 val badge = database.badgeDao().getAllBadge()
                 Log.d("badge", badge.toString())
-                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.todoStreak.id)
+                database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.todoStreak.name)
             }
 
 
