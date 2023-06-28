@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:id="@+id/no_result"
-            android:text="No To-Do's"
+            android:text="No To Do's"
             android:visibility="gone"
             android:textSize="20sp"/>
 

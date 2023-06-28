@@ -95,11 +95,21 @@
     </LinearLayout>
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/middle_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:id="@+id/title_badge"
+        android:text="Badge"
+        android:textSize="20sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/zone_badge"
         android:layout_width="285dp"
-        android:layout_height="250dp"
-        android:layout_below="@+id/middle_container"
+        android:layout_height="350dp"
+        android:layout_below="@+id/title_badge"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" />
 

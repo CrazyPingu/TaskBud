@@ -35,8 +35,8 @@ data class Badge(
         )
 
         val todoStreak: Badge = Badge(
-            "ToDo streak",
-            "A todo done 3 times",
+            "To Do streak",
+            "A to do done 3 times",
             3,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_todo_streak"),
         )
@@ -56,7 +56,7 @@ data class Badge(
         )
 
         val firstTodo: Badge = Badge(
-            "First Todo",
+            "First To Do",
             "Continue like this!",
             1,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_first_todo"),
