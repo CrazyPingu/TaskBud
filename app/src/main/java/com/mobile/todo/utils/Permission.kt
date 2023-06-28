@@ -36,16 +36,11 @@ class Permission {
             }
         }
 
-
-
-
         fun askLocationPermission(activity: Activity, showDialog: Boolean = false) {
             if (!checkPermission(activity, LOCATION_PERMISSION, showDialog)) {
                 ActivityCompat.requestPermissions(activity, LOCATION_PERMISSION, LOCATION_PERMISSION_CODE)
             }
         }
-
-
 
         fun checkCameraPermission(context: Context, showDialog: Boolean = false): Boolean {
             return checkPermission(context, CAMERA_PERMISSION, showDialog)
@@ -71,7 +66,6 @@ class Permission {
             return true
         }
 
-
         private var dialog: AlertDialog? = null
 
         fun showDialog(context: Context) {
@@ -92,7 +86,6 @@ class Permission {
 
             isDialogShown = true
         }
-
 
         fun openSettings(context: Context) {
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)

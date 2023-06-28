@@ -132,12 +132,8 @@ class TodoPage : Fragment() {
             }
         }
 
-
-
         searchView.clearFocus()
     }
-
-
 
     companion object {
         fun newInstance(idUser: Int) =

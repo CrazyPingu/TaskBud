@@ -1,5 +1,6 @@
 package com.mobile.todo.adapter
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -42,14 +43,26 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
         }
 
         holder.delete.setOnClickListener {
-            GlobalScope.launch {
-                AppDatabase.getDatabase(context.context).habitDao().deleteHabit(item)
-            }
-            val currentPosition = itemList.indexOf(item)
-            if (currentPosition != -1) {
-                itemList.removeAt(currentPosition)
-                notifyItemRemoved(currentPosition)
-            }
+            AlertDialog.Builder(context.context)
+                .setTitle("Delete habit")
+                .setMessage("Do you want to delete this habit?")
+                .setPositiveButton("OK") { dialog, _ ->
+                    // Remove habit from database
+                    GlobalScope.launch {
+                        AppDatabase.getDatabase(context.context).habitDao().deleteHabit(item)
+                    }
+                    val currentPosition = itemList.indexOf(item)
+                    if (currentPosition != -1) {
+                        itemList.removeAt(currentPosition)
+                        notifyItemRemoved(currentPosition)
+                    }
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
         }
 
         holder.textView.setOnClickListener {
