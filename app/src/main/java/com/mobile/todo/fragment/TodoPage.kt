@@ -133,10 +133,6 @@ class TodoPage : Fragment() {
         searchView.clearFocus()
     }
 
-    fun isSearchViewOpen(): Boolean {
-        return !searchView.isIconified
-    }
-
     companion object {
         fun newInstance(idUser: Int) =
             TodoPage().apply {

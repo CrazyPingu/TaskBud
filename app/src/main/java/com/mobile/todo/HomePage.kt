@@ -80,16 +80,17 @@ class HomePage : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-
                 when(pageToShow) {
                     R.id.navbar_profile, R.id.navbar_habit, R.id.navbar_settings -> {
                         pageToShow = R.id.navbar_todo
                         startActivity(Intent(this@HomePage, HomePage::class.java))
+                        return
                     }
-                }
-                if(todoPage.isSearchViewOpen()){
-                    pageToShow = R.id.navbar_todo
-                    startActivity(Intent(this@HomePage, HomePage::class.java))
+                    R.id.navbar_todo -> {
+                        pageToShow = R.id.navbar_todo
+                        startActivity(Intent(this@HomePage, HomePage::class.java))
+                        return
+                    }
                 }
             }
         })
