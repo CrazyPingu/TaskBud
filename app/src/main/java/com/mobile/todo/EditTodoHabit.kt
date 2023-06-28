@@ -140,6 +140,31 @@ class EditTodoHabit : AppCompatActivity() {
                                 Tag.FAV
                             )
                         }
+
+                        // Get a list of all tags in lowercase and
+                        val tagArray = tag.text.toString().toLowerCase()
+                            .split(" ")
+                            .distinct()
+                            .filter { it.isNotBlank() }
+
+                        // Remove all tags linked to the to do id
+                        AppDatabase.getDatabase(this@EditTodoHabit).searchDao().removeByToDoId(
+                            AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().getLastInsertedId()!!
+                        )
+
+                        // Add each tag to the tag table and to the search table linked to the to do id
+                        tagArray.forEach { tag ->
+                            AppDatabase.getDatabase(this@EditTodoHabit).tagDao().insertTag(
+                                Tag(tag)
+                            )
+
+                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao().insertSearch(
+                                Search(
+                                    AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().getLastInsertedId()!!,
+                                    tag
+                                )
+                            )
+                        }
                     } else {
                         // Add to do
                         AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().insertToDo(
