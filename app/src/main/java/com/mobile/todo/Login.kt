@@ -28,14 +28,15 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        Shortcut.removeTodoHabit(this)
+        Shortcut.addSignup(this)
+
         Constant.setTheme(this)
         rememberMe = findViewById(R.id.remember_me)
         if(Constant.getUser(this) != -1){
+            rememberMe.isChecked = true
             loginUser(Constant.getUser(this))
         }
-
-        Shortcut.removeTodoHabit(this)
-        Shortcut.addSignup(this)
 
         username = findViewById(R.id.username)
         password = findViewById(R.id.password)

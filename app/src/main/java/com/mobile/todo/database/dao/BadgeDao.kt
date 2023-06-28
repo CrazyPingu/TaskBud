@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.mobile.todo.adapter.BadgeContainer
+import com.mobile.todo.utils.BadgeContainer
 import com.mobile.todo.database.dataset.Badge
 
 @Dao
@@ -19,5 +19,8 @@ interface BadgeDao {
             "FROM Badge INNER JOIN UserBadge ON Badge.id = UserBadge.badgeId " +
             "WHERE UserBadge.userId = :userId")
     fun getAllBadgeFromUser(userId: Int): List<BadgeContainer>
+
+    @Query("UPDATE UserBadge SET obtained = 1 WHERE userId = :userId AND badgeId = :badgeId")
+    fun obtainedBadge(userId: Int, badgeId: Int)
 
 }
