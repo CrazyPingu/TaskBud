@@ -17,9 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.Camera
 import com.mobile.todo.HomePage
 import com.mobile.todo.R
-import com.mobile.todo.Signup
 import com.mobile.todo.adapter.BadgeAdapter
-import com.mobile.todo.adapter.HabitAdapter
+import com.mobile.todo.adapter.BadgeContainer
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Permission
@@ -58,7 +57,10 @@ class ProfilePage : Fragment() {
 
             ////////////////////////////////////////////////////////////
             // Badge section
-            val badge = database.badgeDao().getAllBadge()
+            val badge = database.badgeDao().getAllBadgeFromUser(HomePage.USER_ID)
+
+            val test = database.userBadgeDao().getAllUserBadge(HomePage.USER_ID)
+            Log.d("a", test.toString())
 
             ////////////////////////////////////////////////////////////
             // Profile Pic section
@@ -124,8 +126,7 @@ class ProfilePage : Fragment() {
                     view.findViewById<TextView>(R.id.no_data_message).visibility = View.VISIBLE
                 }
 
-
-                // Badgge
+                // Badge
                 recyclerView.adapter = BadgeAdapter(badge.toMutableList())
                 recyclerView.layoutManager = LinearLayoutManager(context)
 

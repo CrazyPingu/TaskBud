@@ -14,6 +14,8 @@ class Constant {
 
     companion object {
 
+        val LOCKED_ICON : Uri = Uri.parse("android.resource://com.mobile.todo/drawable/badge_locked")
+
         fun getTheme(context: Context): Int {
             return context.getSharedPreferences(
                 context.resources.getString(R.string.shared_preferance_name),

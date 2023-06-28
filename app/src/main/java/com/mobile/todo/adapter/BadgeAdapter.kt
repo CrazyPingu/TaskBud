@@ -8,8 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.R
 import com.mobile.todo.database.dataset.Badge
+import com.mobile.todo.utils.Constant
 
-class BadgeAdapter(private var itemList: MutableList<Badge>) :
+class BadgeAdapter(private var itemList: MutableList<BadgeContainer>) :
     RecyclerView.Adapter<BadgeAdapter.ViewHolder>() {
 
     private lateinit var context: ViewGroup
@@ -24,7 +25,11 @@ class BadgeAdapter(private var itemList: MutableList<Badge>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = itemList[position]
-        holder.image.setImageURI(item.icon)
+        if(!item.obtained){
+            holder.image.setImageURI(Constant.LOCKED_ICON)
+        }else{
+            holder.image.setImageURI(item.icon)
+        }
         holder.title.text = item.name
         holder.description.text = item.description
     }

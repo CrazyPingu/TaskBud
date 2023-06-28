@@ -15,6 +15,7 @@ import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.User
 import android.provider.Settings
 import android.util.Log
+import com.mobile.todo.database.dataset.UserBadge
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Permission
 import com.mobile.todo.utils.GpsFunction
@@ -140,6 +141,16 @@ class Signup : AppCompatActivity() {
                             }
                         )
                     AppDatabase.getDatabase(this@Signup).userDao().insertUser(user)
+
+                    val userId = AppDatabase.getDatabase(this@Signup).userDao().getUser(username, password).id
+                    // Add all the badge
+                    val badges = AppDatabase.getDatabase(this@Signup).badgeDao().getAllBadge()
+
+                    for(badge in badges){
+                        AppDatabase.getDatabase(this@Signup).userBadgeDao().
+                        insertBadge(UserBadge(false, userId, badge.id))
+                    }
+
                     // Redirect to login
                     startActivity(Intent(this@Signup, Login::class.java))
                 } else {
