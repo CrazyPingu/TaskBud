@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
     tools:context=".fragment.ProfilePage">
 
     <TextView
@@ -12,8 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/title_margin_bottom"
+        android:layout_marginTop="@dimen/title_margin_top"
         android:text="@string/title_profile"
-        android:textSize="@dimen/title_fragment" />
+        android:textStyle="bold"
+        android:textSize="@dimen/title" />
 
     <LinearLayout
         android:id="@+id/middle_container"
@@ -21,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <RelativeLayout

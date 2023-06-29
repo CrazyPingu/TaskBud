@@ -2,7 +2,6 @@ package com.mobile.todo
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -41,11 +40,6 @@ class Login : AppCompatActivity() {
         username = findViewById(R.id.username)
         password = findViewById(R.id.password)
         database = AppDatabase.getDatabase(this)
-
-        // Remove for production ////////////
-        username.text.append("a")
-        password.text.append("a")
-        /////////////////////////////////////
 
         // Redirect to Signup Activity
         findViewById<Button>(R.id.signup_button).setOnClickListener {
