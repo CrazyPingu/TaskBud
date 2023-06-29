@@ -14,29 +14,29 @@ data class Badge(
 ) {
     companion object {
         val allHabits: Badge = Badge(
-            "All habits!",
-            "Damn, you did all the daily habits?!?!",
+            "Full pie!",
+            "No habits left for today!",
             -1,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_all_habits"),
         )
 
         val favourite: Badge = Badge(
             "Favourite!",
-            "Are you a Sailor Moon fan?",
+            "Starred a to do, bright idea!",
             -1,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_favtag"),
         )
 
         val habitStreak: Badge = Badge(
-            "Habit streak",
-            "An habit done 3 times",
+            "Persistent",
+            "3 days of habit streak!",
             3,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_habit_streak"),
         )
 
         val todoStreak: Badge = Badge(
-            "To Do streak",
-            "A to do done 3 times",
+            "Clear space",
+            "3 to do completed, awesome!",
             3,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_todo_streak"),
         )
@@ -49,15 +49,15 @@ data class Badge(
         )
 
         val tag: Badge = Badge(
-            "Tag",
-            "Used tag 3 times!?!",
+            "Organizer",
+            "So tidy you have 3 tags!",
             3,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_tag"),
         )
 
         val firstTodo: Badge = Badge(
-            "First To Do",
-            "Continue like this!",
+            "First step",
+            "First to do created, keep going!",
             1,
             Uri.parse("android.resource://com.mobile.todo/drawable/badge_first_todo"),
         )

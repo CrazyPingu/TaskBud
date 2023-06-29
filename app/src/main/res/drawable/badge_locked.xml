@@ -19,9 +19,3 @@
       android:pathData="M11,17.816V19a1,1 0,0 0,2 0V17.816a3,3 0,1 0,-2 0ZM12,14a1,1 0,1 1,-1 1A1,1 0,0 1,12 14Z"
       android:fillColor="#6c2e7c"/>
 </vector>
-
-<!-- "Locked": keep improving your life to unlock!
-      or
-     "Locked": *insert description of locked badge*
-
-     default icon for unlocked badges -->

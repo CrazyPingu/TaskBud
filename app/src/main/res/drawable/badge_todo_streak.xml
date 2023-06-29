@@ -16,5 +16,3 @@
       android:pathData="M16.293,8.293 L10,14.586 7.707,12.293a1,1 0,0 0,-1.414 1.414l3,3a1,1 0,0 0,1.414 0l7,-7a1,1 0,0 0,-1.414 -1.414Z"
       android:fillColor="#6c2e7c"/>
 </vector>
-
-<!-- "Complete path": Complete X to do -->

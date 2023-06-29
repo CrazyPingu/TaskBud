@@ -19,5 +19,3 @@
       android:pathData="M13,15H11V13a1,1 0,0 0,-2 0v2H7a1,1 0,0 0,0 2H9v2a1,1 0,0 0,2 0V17h2a1,1 0,0 0,0 -2Z"
       android:fillColor="#6c2e7c"/>
 </vector>
-
-<!-- "First step": Add your first to do -->
