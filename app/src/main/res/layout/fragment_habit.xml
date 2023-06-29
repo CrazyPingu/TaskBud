@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,11 +16,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textStyle="bold"
             android:layout_marginTop="@dimen/title_margin_top"
             android:layout_marginBottom="@dimen/title_margin_bottom"
             android:text="@string/title_habit"
-            android:textSize="@dimen/title" />
+            android:textSize="@dimen/title"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -36,16 +36,24 @@
         android:id="@+id/expand_todo_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:background="@android:color/transparent"
         app:fab_addButtonColorNormal="@color/lavender"
-        app:fab_addButtonColorPressed="@color/lavender"
-        android:background="@android:color/transparent">
+        app:fab_addButtonColorPressed="@color/lavender">
 
-        <include layout="@layout/fab_menu"/>
+        <include layout="@layout/fab_menu" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
+    <TextView
+        android:id="@+id/no_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No habits"
+        android:textSize="20sp"
+        android:visibility="gone" />
 </RelativeLayout>
