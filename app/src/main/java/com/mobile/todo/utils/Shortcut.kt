@@ -38,7 +38,7 @@ class Shortcut {
             val todoShortcut = ShortcutInfo.Builder(context, "todo")
                 .setShortLabel("Todo")
                 .setLongLabel("Todo")
-                .setIcon(Icon.createWithResource(context, R.drawable.shortcut_monochrome_icon))
+                .setIcon(Icon.createWithResource(context, R.drawable.shortcut_todo_icon))
                 .setIntent(Intent(Intent.ACTION_VIEW, null, context, HomePage::class.java).apply {
                     putExtra("page", R.id.navbar_todo)
                 })
