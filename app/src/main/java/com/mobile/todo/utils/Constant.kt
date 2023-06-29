@@ -1,12 +1,10 @@
 package com.mobile.todo.utils
 
-import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import androidx.appcompat.app.AppCompatDelegate
 import com.mobile.todo.R
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 

@@ -6,8 +6,12 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
 import android.widget.TextView
-import com.google.android.gms.location.*
-import java.util.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.Priority
+import java.util.Locale
 
 
 class GpsFunction {

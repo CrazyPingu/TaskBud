@@ -5,15 +5,13 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import kotlin.reflect.KClass
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.mobile.todo.utils.Permission
 import java.io.ByteArrayOutputStream
+import kotlin.reflect.KClass
 
 
 class Camera : AppCompatActivity() {

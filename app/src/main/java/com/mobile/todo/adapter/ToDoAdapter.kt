@@ -1,7 +1,6 @@
 package com.mobile.todo.adapter
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.EditTodoHabit
@@ -19,7 +17,6 @@ import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Search
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
-import com.mobile.todo.utils.Permission
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
