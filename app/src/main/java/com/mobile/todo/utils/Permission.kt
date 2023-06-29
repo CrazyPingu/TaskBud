@@ -42,6 +42,10 @@ class Permission {
             }
         }
 
+        fun checkOnlyCamera(context: Context, showDialog: Boolean = false): Boolean {
+            return checkPermission(context, arrayOf(android.Manifest.permission.CAMERA), showDialog)
+        }
+
         fun checkCameraPermission(context: Context, showDialog: Boolean = false): Boolean {
             return checkPermission(context, CAMERA_PERMISSION, showDialog)
         }

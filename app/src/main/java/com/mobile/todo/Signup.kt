@@ -15,6 +15,7 @@ import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.User
 import android.provider.Settings
 import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import com.mobile.todo.database.dataset.UserBadge
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Permission
@@ -90,6 +91,12 @@ class Signup : AppCompatActivity() {
                 Permission.askCameraPermission(this)
             }
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                startActivity(Intent(this@Signup, Login::class.java))
+            }
+        })
     }
 
     private fun redirectToCamera() {
@@ -180,9 +187,6 @@ class Signup : AppCompatActivity() {
         super.onDestroy()
     }
 
-    override fun onBackPressed() {
-        startActivity(Intent(this, Login::class.java))
-    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

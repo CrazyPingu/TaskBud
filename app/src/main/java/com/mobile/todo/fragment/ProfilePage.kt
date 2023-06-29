@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -93,11 +94,7 @@ class ProfilePage : Fragment() {
                 database.badgeDao().obtainedBadge(HomePage.USER_ID, Badge.firstTodo.name)
             }
 
-
-
             val badge = database.badgeDao().getAllBadgeFromUser(HomePage.USER_ID)
-
-
 
             ////////////////////////////////////////////////////////////
             // Profile Pic section
@@ -173,7 +170,11 @@ class ProfilePage : Fragment() {
                 view.findViewById<TextView>(R.id.username).text = user.username
 
                 view.findViewById<ImageView>(R.id.profile_pic).setOnClickListener {
-                    redirectToCamera(profilePicUri)
+                    if (Permission.checkOnlyCamera(requireActivity())) {
+                        redirectToCamera(profilePicUri)
+                    } else {
+                        Permission.askCameraPermission(requireActivity())
+                    }
                 }
             }
         }
@@ -188,21 +189,6 @@ class ProfilePage : Fragment() {
         intent.putExtra("profilePic", profilePicUri)
         Camera.PAGE_TO_RETURN = HomePage::class
         startActivity(intent)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            Permission.CAMERA_PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    redirectToCamera()
-                }
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     companion object {
