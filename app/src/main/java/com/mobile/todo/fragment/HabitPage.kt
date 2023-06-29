@@ -42,9 +42,9 @@ class HabitPage : Fragment() {
         GlobalScope.launch {
             val habit = database.habitDao().getHabitsByUserId(userId)
             withContext(Dispatchers.Main) {
+                recyclerView.adapter = HabitAdapter(habit.toMutableList())
+                recyclerView.layoutManager = LinearLayoutManager(context)
                 if (habit.isEmpty()) {
-                    recyclerView.adapter = HabitAdapter(habit.toMutableList())
-                    recyclerView.layoutManager = LinearLayoutManager(context)
                     view.findViewById<View>(R.id.no_result).visibility = View.VISIBLE
                 } else {
                     view.findViewById<View>(R.id.no_result).visibility = View.GONE
