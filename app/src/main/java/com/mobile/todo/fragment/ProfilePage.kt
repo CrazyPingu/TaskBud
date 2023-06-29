@@ -158,6 +158,7 @@ class ProfilePage : Fragment() {
                     mPieChart.startAnimation()
 
                 } else {
+                    mPieChart.visibility = View.GONE
                     view.findViewById<TextView>(R.id.completed).visibility = View.GONE
                     view.findViewById<TextView>(R.id.incompleted).visibility = View.GONE
                     view.findViewById<TextView>(R.id.no_data_message).visibility = View.VISIBLE
