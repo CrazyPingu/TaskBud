@@ -7,6 +7,7 @@
         <item name="android:colorBackground">@color/background</item>
         <item name="colorError">@color/inverse</item>
         <item name="android:statusBarColor">@color/lavender</item>
+        <item name="colorSecondaryContainer">@color/lavender</item>
 
 
         <item name="textAppearanceHeadline1">@style/TextAppearance.MaterialComponents.Headline1
