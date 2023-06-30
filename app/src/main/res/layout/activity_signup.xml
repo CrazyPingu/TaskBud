@@ -75,7 +75,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
-                    app:passwordToggleEnabled="true">
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/lavender">
 
                     <EditText
                         android:id="@+id/password"
@@ -93,7 +94,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
-                    app:passwordToggleEnabled="true">
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/lavender">
 
                     <EditText
                         android:id="@+id/confirm_password"
