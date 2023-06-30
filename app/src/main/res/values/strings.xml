@@ -26,7 +26,7 @@
     <string name="habits_button">Habits stats</string>
     <string name="shared_preferance_name">AppSettings</string>
     <string name="remember_me">Remember me</string>
-    <string name="logout">logout</string>
+    <string name="logout">Logout</string>
     <string-array name="spinner_items">
         <item>@string/system_title</item>
         <item>@string/light_mode_title</item>
