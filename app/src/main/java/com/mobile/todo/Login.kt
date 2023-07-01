@@ -1,14 +1,29 @@
 package com.mobile.todo
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
+import android.os.Build
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.google.android.material.textfield.TextInputLayout
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
+import com.mobile.todo.utils.Monet
 import com.mobile.todo.utils.Shortcut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,8 +46,30 @@ class Login : AppCompatActivity() {
         Shortcut.addSignup(this)
 
         Constant.setTheme(this)
+
         rememberMe = findViewById(R.id.remember_me)
-        if(Constant.getUser(this) != -1){
+
+        val signupButton : Button = findViewById(R.id.signup_button)
+        val loginButton : Button = findViewById(R.id.login_button)
+
+
+        // Set monet color
+        if (Constant.getMonet(this)) {
+
+            Monet.setTextInputLayoutMonet(findViewById(R.id.username_layout), this)
+            Monet.setTextInputLayoutMonet(findViewById(R.id.password_layout), this, true)
+
+            findViewById<FrameLayout>(R.id.card).background = Monet.setBorderColorMonet(this)
+
+            Monet.setCheckBoxMonet(rememberMe, this)
+
+            Monet.setStatusBarMonet(this, window)
+
+            Monet.setButtonMonet(signupButton, this)
+            Monet.setButtonMonet(loginButton, this)
+        }
+
+        if (Constant.getUser(this) != -1) {
             rememberMe.isChecked = true
             loginUser(Constant.getUser(this))
         }
@@ -42,17 +79,17 @@ class Login : AppCompatActivity() {
         database = AppDatabase.getDatabase(this)
 
         // Redirect to Signup Activity
-        findViewById<Button>(R.id.signup_button).setOnClickListener {
+        signupButton.setOnClickListener {
             startActivity(Intent(this, Signup::class.java))
         }
 
-        findViewById<Button>(R.id.login_button).setOnClickListener {
+        loginButton.setOnClickListener {
             checkLoginUser()
         }
     }
 
-    private fun loginUser(userId : Int) {
-        if(rememberMe.isChecked){
+    private fun loginUser(userId: Int) {
+        if (rememberMe.isChecked) {
             Constant.saveUser(this@Login, userId)
             Shortcut.removeSignup(this)
             Shortcut.addTodoHabit(this)

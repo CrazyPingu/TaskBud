@@ -10,6 +10,7 @@
 
 
     <FrameLayout
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -52,6 +53,7 @@
                         android:autofillHints="username"
                         android:hint="@string/placeholder_username"
                         android:inputType="text"
+                        android:textCursorDrawable="@null"
                         tools:ignore="SpeakableTextPresentCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -71,6 +73,7 @@
                         android:layout_weight="1"
                         android:autofillHints="password"
                         android:hint="@string/placeholder_password"
+                        android:textCursorDrawable="@null"
                         android:inputType="textPassword"
                         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -94,11 +97,13 @@
                     <Button
                         android:id="@+id/signup_button"
                         android:layout_width="100dp"
+                        android:textColor="@color/white"
                         android:layout_height="wrap_content"
                         android:text="@string/signup" />
 
                     <Button
                         android:id="@+id/login_button"
+                        android:textColor="@color/white"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="80dp"

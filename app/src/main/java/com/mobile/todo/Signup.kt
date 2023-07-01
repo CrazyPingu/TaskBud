@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +23,7 @@ import com.mobile.todo.database.dataset.User
 import com.mobile.todo.database.dataset.UserBadge
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.GpsFunction
+import com.mobile.todo.utils.Monet
 import com.mobile.todo.utils.Permission
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -53,8 +55,23 @@ class Signup : AppCompatActivity() {
         gpsTextView = findViewById(R.id.gps)
         val profilePic = findViewById<ImageView>(R.id.profile_pic)
 
+        val loginButton : Button = findViewById(R.id.login_button)
+        val signupButton : Button = findViewById(R.id.signup_button)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+
+        if (Constant.getMonet(this)) {
+            Monet.setTextInputLayoutMonet(findViewById(R.id.username_layout), this)
+            Monet.setTextInputLayoutMonet(findViewById(R.id.password_layout), this, true)
+            Monet.setTextInputLayoutMonet(findViewById(R.id.confirm_password_layout), this, true)
+
+            Monet.setButtonMonet(loginButton, this)
+            Monet.setButtonMonet(signupButton, this)
+
+            Monet.setStatusBarMonet(this, window)
+
+            findViewById<FrameLayout>(R.id.frame_layout).background = Monet.setBorderColorMonet(this)
+        }
         if (Permission.checkLocationPermission(this)) {
             startTracking()
         } else {
@@ -77,12 +94,12 @@ class Signup : AppCompatActivity() {
         }
 
         // Redirect to Login Activity
-        findViewById<Button>(R.id.login_button).setOnClickListener {
+        loginButton.setOnClickListener {
             startActivity(Intent(this, Login::class.java))
         }
 
         // Signup button
-        findViewById<Button>(R.id.signup_button).setOnClickListener {
+        signupButton.setOnClickListener {
             writeData()
         }
 

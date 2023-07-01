@@ -7,6 +7,7 @@
     android:gravity="center_vertical">
 
     <FrameLayout
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -59,6 +60,7 @@
 
                     <EditText
                         android:id="@+id/username"
+                        android:textCursorDrawable="@null"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/logo"
@@ -80,6 +82,7 @@
 
                     <EditText
                         android:id="@+id/password"
+                        android:textCursorDrawable="@null"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:autofillHints="password"
@@ -101,6 +104,7 @@
                         android:id="@+id/confirm_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textCursorDrawable="@null"
                         android:autofillHints="password"
                         android:hint="@string/placeholder_confirm_password"
                         android:inputType="textPassword" />
@@ -119,11 +123,13 @@
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="80dp"
+                        android:textColor="@color/white"
                         android:text="@string/login" />
 
                     <Button
                         android:id="@+id/signup_button"
                         android:layout_width="100dp"
+                        android:textColor="@color/white"
                         android:layout_height="wrap_content"
                         android:text="@string/signup" />
 

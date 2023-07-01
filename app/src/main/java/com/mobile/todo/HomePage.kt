@@ -1,11 +1,14 @@
 package com.mobile.todo
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mobile.todo.fragment.HabitPage
@@ -13,7 +16,9 @@ import com.mobile.todo.fragment.ProfilePage
 import com.mobile.todo.fragment.SettingsPage
 import com.mobile.todo.fragment.TodoPage
 import com.mobile.todo.utils.Constant
+import com.mobile.todo.utils.Monet
 import kotlin.properties.Delegates
+
 
 class HomePage : AppCompatActivity() {
 
@@ -41,6 +46,14 @@ class HomePage : AppCompatActivity() {
         Constant.setTheme(this)
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        if (Constant.getMonet(this)) {
+            val colorAccent1 = resources.getColor(android.R.color.system_accent1_300, theme)
+            bottomNavigationView.itemActiveIndicatorColor = ColorStateList.valueOf(colorAccent1)
+
+            Monet.setStatusBarMonet(this, window)
+        }
+
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             pageToShow = item.itemId
@@ -106,9 +119,4 @@ class HomePage : AppCompatActivity() {
         bottomNavigationView.selectedItemId = pageToShow
     }
 
-
-//    override fun onBackPressed() {
-//        onBackPressedDispatcher.onBackPressed()
-//        startActivity(Intent(this, Login::class.java))
-//    }
 }
