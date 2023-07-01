@@ -5,14 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
 import com.mobile.todo.adapter.HabitAdapter
 import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.utils.Constant
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -39,6 +43,24 @@ class HabitPage : Fragment() {
 
         val database = AppDatabase.getDatabase(requireContext())
 
+
+        if(Constant.getMonet(requireContext())){
+//            val add_habit : ExtendedFloatingActionButton = view.findViewById(R.id.add_habit)
+//
+//            add_habit.backgroundTintList = ColorStateList.valueOf(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    Monet.getColor(
+//                        requireContext(),
+//                        R.color.lavender,
+//                        android.R.color.system_accent2_500
+//                    )
+//                )
+//            )
+
+        }
+
+
         GlobalScope.launch {
             val habit = database.habitDao().getHabitsByUserId(userId)
             withContext(Dispatchers.Main) {
@@ -52,7 +74,55 @@ class HabitPage : Fragment() {
             }
         }
 
-        view.findViewById<ImageView>(R.id.add_todo).setOnClickListener {
+
+
+        // FAB
+        val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fab_menu_shown)
+        val fadeOutAnimation = AnimationUtils.loadAnimation(context, R.anim.fab_menu_hide)
+
+        val showAddButton = view.findViewById<FloatingActionButton>(R.id.show_add)
+        val addTodoButton = view.findViewById<ExtendedFloatingActionButton>(R.id.add_todo)
+        val addHabitButton = view.findViewById<ExtendedFloatingActionButton>(R.id.add_habit)
+
+        fadeInAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+                showAddButton.isClickable = false
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                showAddButton.isClickable = true
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
+
+        fadeOutAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+                showAddButton.isClickable = false
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                addTodoButton.visibility = View.GONE
+                addHabitButton.visibility = View.GONE
+                showAddButton.isClickable = true
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
+
+        showAddButton.setOnClickListener {
+            if (addTodoButton.visibility == View.GONE) {
+                addTodoButton.visibility = View.VISIBLE
+                addHabitButton.visibility = View.VISIBLE
+                addTodoButton.startAnimation(fadeInAnimation)
+                addHabitButton.startAnimation(fadeInAnimation)
+            } else {
+                addTodoButton.startAnimation(fadeOutAnimation)
+                addHabitButton.startAnimation(fadeOutAnimation)
+            }
+        }
+
+        addTodoButton.setOnClickListener {
             startActivity(
                 Intent(
                     EditTodoHabit.newInstance(
@@ -63,7 +133,7 @@ class HabitPage : Fragment() {
             )
         }
 
-        view.findViewById<ImageView>(R.id.add_habit).setOnClickListener {
+        addHabitButton.setOnClickListener {
             startActivity(
                 Intent(
                     EditTodoHabit.newInstance(

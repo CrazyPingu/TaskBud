@@ -1,69 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/expand_todo_menu"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|end"
+    android:background="@null"
     android:orientation="vertical">
 
-        <LinearLayout
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/add_todo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="Add To Do"
+        android:backgroundTint="@color/lavender"
+        android:visibility="gone"
+        app:icon="@drawable/shortcut_todo_icon"
+        app:layout_anchorGravity="bottom|end" />
 
-        <TextView
-            android:layout_toRightOf="@+id/fab_add_habit_label"
-            android:layout_width="wrap_content"
-            android:text="Add habit"
-            android:layout_marginRight="-30dp"
-            android:background="@drawable/btn_round"
-            android:layout_marginTop="15dp"
-            android:paddingTop="5dp"
-            android:paddingRight="30dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:textStyle="bold"
-            android:textColor="@color/normal"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_height="wrap_content" />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/add_habit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:text="Add Habit"
+        android:backgroundTint="@color/lavender"
+        app:icon="@drawable/shortcut_habit_icon"
+        app:layout_anchorGravity="bottom|end" />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_habit"
-            android:layout_toRightOf="@+id/fab_add_habit_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/add_cross"
-            android:paddingBottom="15dp"
-            android:backgroundTint="@color/lavender"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/show_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/lavender"
+        android:src="@drawable/add_cross"
+        app:fabSize="mini" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_toRightOf="@+id/fab_add_todo_label"
-                    android:layout_width="wrap_content"
-                    android:text="Add to do"
-                    android:layout_marginRight="-30dp"
-                    android:background="@drawable/btn_round"
-                    android:layout_marginTop="15dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="30dp"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/normal"
-                    android:layout_gravity="center_horizontal|top"
-                    android:layout_height="wrap_content" />
-
-                <com.getbase.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/add_todo"
-                    android:layout_toRightOf="@+id/fab_add_todo_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/add_cross"
-                    android:paddingBottom="15dp"
-                    android:backgroundTint="@color/lavender"/>
-
-        </LinearLayout>
 </LinearLayout>

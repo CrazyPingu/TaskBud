@@ -16,7 +16,7 @@ class Monet {
 
     companion object {
 
-        private fun getColor(context: Context, defaultColor: Int, accentColor: Int): Int {
+        fun getColor(context: Context, defaultColor: Int, accentColor: Int): Int {
             return if (Constant.getMonet(context)) {
                 accentColor
             } else {

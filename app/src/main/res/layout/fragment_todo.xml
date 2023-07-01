@@ -64,21 +64,14 @@
 
         <!-- FAB Menu -->
 
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
-            android:id="@+id/expand_todo_menu"
+        <include
+            layout="@layout/fab_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:background="@android:color/transparent"
-            app:fab_addButtonColorNormal="@color/lavender"
-            app:fab_addButtonColorPressed="@color/lavender">
+            android:layout_margin="16dp" />
 
-            <include layout="@layout/fab_menu" />
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
     </RelativeLayout>
 
 </LinearLayout>
