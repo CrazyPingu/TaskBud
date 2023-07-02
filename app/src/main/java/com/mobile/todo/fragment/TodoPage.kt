@@ -182,12 +182,20 @@ class TodoPage : Fragment() {
     ) {
         var resultToDoId: List<Int> // List of To Do Ids with submitted tag
 
+        Log.d("Search", "Searching for $query")
         GlobalScope.launch(Dispatchers.IO) {
             val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
             if (query != null) {
-                resultToDoId = database.searchDao().getToDoIdsByTag(query)
-                val filteredToDos = todo.filter { resultToDoId.contains(it.id) }
+                val filteredToDos : List<ToDo>
                 val search = database.searchDao().getAllSearch()
+                if(query == ""){
+                    // case to show all todo
+                    filteredToDos = todo
+                }else{
+                    // case to show todo with tag
+                    resultToDoId = database.searchDao().getToDoIdsByTag(query)
+                    filteredToDos = todo.filter { resultToDoId.contains(it.id) }
+                }
 
                 withContext(Dispatchers.Main) {
                     // Update the RecyclerView on the main thread
@@ -198,6 +206,8 @@ class TodoPage : Fragment() {
 
                 if (filteredToDos.isEmpty())
                     no_result_text.visibility = View.VISIBLE
+            } else{
+                Log.d("Search", "Query is null")
             }
         }
 
