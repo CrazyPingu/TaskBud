@@ -229,7 +229,8 @@ class EditTodoHabit : AppCompatActivity() {
         }
     }
 
-    private fun stringToDate(date: String): Date {
+    private fun stringToDate(date: String): Date? {
+        if(date == "Select date") return null
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return format.parse(date)
     }
