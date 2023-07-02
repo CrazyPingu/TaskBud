@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
@@ -116,36 +117,20 @@ class EditTodoHabit : AppCompatActivity() {
                 } else if (type == TYPE.TODO) {
                     if (intent.hasExtra(ID_EXTRA)) {
                         // Update to do
+                        val id = intent.getSerializableExtra(ID_EXTRA) as Int
+
+                        // Remove all tags linked to the to do id
+                        AppDatabase.getDatabase(this@EditTodoHabit).searchDao().removeByToDoId(
+                            AppDatabase.getDatabase(this@EditTodoHabit).toDoDao()
+                                .getLastInsertedId()!!
+                        )
+
                         AppDatabase.getDatabase(this@EditTodoHabit).toDoDao().updateToDo(
-                            intent.getSerializableExtra(ID_EXTRA) as Int,
+                            id,
                             title.text.toString(),
                             description.text.toString(),
                             stringToDate(dateButton.text.toString())
                         )
-
-                        // Update search table with tags related to the to do
-                        AppDatabase.getDatabase(this@EditTodoHabit).searchDao().updateTagsForToDoId(
-                            intent.getSerializableExtra(ID_EXTRA) as Int,
-                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao()
-                                .getTagsByToDoId(intent.getSerializableExtra(ID_EXTRA) as Int),
-                        )
-
-                        // Add to search table with tag fav if the star checkbox is checked
-                        if (findViewById<CheckBox>(R.id.starCheckBoxEdit).isChecked) {
-                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao().insertSearch(
-                                Search(
-                                    AppDatabase.getDatabase(this@EditTodoHabit).toDoDao()
-                                        .getLastInsertedId()!!,
-                                    Tag.FAV
-                                )
-                            )
-                        } else {
-                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao()
-                                .removeTagFromToDoId(
-                                    intent.getSerializableExtra(ID_EXTRA) as Int,
-                                    Tag.FAV
-                                )
-                        }
 
                         // Get a list of all tags in lowercase and
                         val tagArray = tag.text.toString().toLowerCase()
@@ -153,11 +138,6 @@ class EditTodoHabit : AppCompatActivity() {
                             .distinct()
                             .filter { it.isNotBlank() }
 
-                        // Remove all tags linked to the to do id
-                        AppDatabase.getDatabase(this@EditTodoHabit).searchDao().removeByToDoId(
-                            AppDatabase.getDatabase(this@EditTodoHabit).toDoDao()
-                                .getLastInsertedId()!!
-                        )
 
                         // Add each tag to the tag table and to the search table linked to the to do id
                         tagArray.forEach { tag ->
@@ -167,11 +147,26 @@ class EditTodoHabit : AppCompatActivity() {
 
                             AppDatabase.getDatabase(this@EditTodoHabit).searchDao().insertSearch(
                                 Search(
-                                    AppDatabase.getDatabase(this@EditTodoHabit).toDoDao()
-                                        .getLastInsertedId()!!,
+                                    id,
                                     tag
                                 )
                             )
+                        }
+
+                        // Add to search table with tag fav if the star checkbox is checked
+                        if (findViewById<CheckBox>(R.id.starCheckBoxEdit).isChecked) {
+                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao().insertSearch(
+                                Search(
+                                    id,
+                                    Tag.FAV
+                                )
+                            )
+                        } else {
+                            AppDatabase.getDatabase(this@EditTodoHabit).searchDao()
+                                .removeTagFromToDoId(
+                                    id,
+                                    Tag.FAV
+                                )
                         }
                     } else {
                         // Add to do
@@ -180,7 +175,7 @@ class EditTodoHabit : AppCompatActivity() {
                                 title.text.toString(),
                                 description.text.toString(),
                                 if (dateButton.text.toString() == "Select date") null else
-                                stringToDate(dateButton.text.toString()),
+                                    stringToDate(dateButton.text.toString()),
                                 false,
                                 HomePage.USER_ID
                             )
@@ -230,7 +225,7 @@ class EditTodoHabit : AppCompatActivity() {
     }
 
     private fun stringToDate(date: String): Date? {
-        if(date == "Select date") return null
+        if (date == "Select date") return null
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return format.parse(date)
     }

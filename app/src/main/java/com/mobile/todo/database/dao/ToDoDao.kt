@@ -25,7 +25,7 @@ interface ToDoDao {
 
     // Get the last inserted ID in the To Do table
     @Query("SELECT MAX(id) FROM ToDo")
-    fun getLastInsertedId(): Int?
+    fun getLastInsertedId(): Int
 
 
     @Query("UPDATE todo SET title = :title, description = :description, date = :date WHERE id = :todoId")
