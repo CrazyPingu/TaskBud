@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchView
 import com.mobile.todo.R
 
-class SearchAdapter(private var itemList: MutableList<String>, private val searchView: SearchView) :
+
+class SearchAdapter(
+    private var itemList: MutableList<String>,
+    searchView: SearchView,
+) :
     RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     private lateinit var context: Context
-    private val searchViewText : EditText = searchView.editText
-
-    interface OnItemClickListener {
-        fun onItemClick(item: String)
-    }
+    private val searchViewText: EditText = searchView.editText
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context // Store the reference to the parent ViewGroup
