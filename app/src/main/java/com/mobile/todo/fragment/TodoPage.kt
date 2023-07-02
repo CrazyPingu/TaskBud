@@ -207,19 +207,22 @@ class TodoPage : Fragment() {
 
         searchBar.clearFocus()
     }
+
     private fun searchTag(
         starting: String,
         database: AppDatabase,
         recyclerView: RecyclerView
     ) {
         GlobalScope.launch {
-            val tagList = if (starting.isNullOrEmpty()) {
+            var tagList = if (starting.isNullOrEmpty()) {
                 database.tagDao().getAllTagsFromUser(HomePage.USER_ID)
             } else {
                 database.tagDao().getAllTagStartingWith(starting, HomePage.USER_ID)
             }
+            tagList = tagList.toMutableList()
+            tagList.add(0, Tag.FAV)
             withContext(Dispatchers.Main) {
-                recyclerView.adapter = SearchAdapter(tagList.toMutableList(), searchView)
+                recyclerView.adapter = SearchAdapter(tagList, searchView)
             }
         }
     }
