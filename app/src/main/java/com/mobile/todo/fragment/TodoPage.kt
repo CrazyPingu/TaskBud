@@ -85,10 +85,14 @@ class TodoPage : Fragment() {
         val suggestRecycler: RecyclerView = view.findViewById(R.id.suggest)
 // set result for search view
 
-        suggestRecycler.adapter = SearchAdapter(itemList)
+
+        val adapter = SearchAdapter(itemList, searchView)
+        suggestRecycler.adapter = adapter
+
         suggestRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         searchView.setupWithSearchBar(searchBar)
+
 
         // Add a listener for when the user presses enter after typing
         searchView.editText.setOnEditorActionListener { v, actionId, _ ->
@@ -102,10 +106,6 @@ class TodoPage : Fragment() {
                 false
             }
         }
-
-
-
-
 
 
         val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fab_menu_shown)
@@ -186,12 +186,12 @@ class TodoPage : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
             if (query != null) {
-                val filteredToDos : List<ToDo>
+                val filteredToDos: List<ToDo>
                 val search = database.searchDao().getAllSearch()
-                if(query == ""){
+                if (query == "") {
                     // case to show all todo
                     filteredToDos = todo
-                }else{
+                } else {
                     // case to show todo with tag
                     resultToDoId = database.searchDao().getToDoIdsByTag(query)
                     filteredToDos = todo.filter { resultToDoId.contains(it.id) }
@@ -204,10 +204,11 @@ class TodoPage : Fragment() {
                     recyclerViewToDo.layoutManager = LinearLayoutManager(requireContext())
                 }
 
-                if (filteredToDos.isEmpty())
+                if (filteredToDos.isEmpty()) {
                     no_result_text.visibility = View.VISIBLE
-            } else{
-                Log.d("Search", "Query is null")
+                } else {
+                    no_result_text.visibility = View.GONE
+                }
             }
         }
 

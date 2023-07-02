@@ -29,6 +29,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp">
 
+
             <com.google.android.material.search.SearchBar
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
@@ -51,43 +52,43 @@
             </com.google.android.material.search.SearchView>
 
 
-        <RelativeLayout
-            android:layout_marginTop="80dp"
-            android:id="@+id/todo_zone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewToDo"
+            <RelativeLayout
+                android:id="@+id/todo_zone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="20dp" />
-
-            <TextView
-                android:id="@+id/no_result"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="No To Do's"
-                android:textSize="20sp"
-                android:visibility="gone" />
+                android:layout_marginTop="80dp"
+                android:layout_weight="1">
 
-            <!-- FAB Menu -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewToDo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20dp" />
 
-            <include
-                layout="@layout/fab_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp" />
+                <TextView
+                    android:id="@+id/no_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="No To Do's"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
 
-        </RelativeLayout>
+                <!-- FAB Menu -->
+
+                <include
+                    layout="@layout/fab_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp" />
+
+            </RelativeLayout>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

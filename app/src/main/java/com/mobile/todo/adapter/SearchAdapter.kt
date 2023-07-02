@@ -1,19 +1,24 @@
 package com.mobile.todo.adapter
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.search.SearchView
 import com.mobile.todo.R
 
-class SearchAdapter(private var itemList: MutableList<String>) :
+class SearchAdapter(private var itemList: MutableList<String>, private val searchView: SearchView) :
     RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     private lateinit var context: Context
+    private val searchViewText : EditText = searchView.editText
+
+    interface OnItemClickListener {
+        fun onItemClick(item: String)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context // Store the reference to the parent ViewGroup
@@ -30,7 +35,8 @@ class SearchAdapter(private var itemList: MutableList<String>) :
 
         holder.textView.setOnClickListener(
             View.OnClickListener {
-                Log.d("SearchAdapter", "Clicked on ${itemList[position]}")
+                searchViewText.setText(item)
+                searchViewText.setSelection(searchViewText.text.length)
             }
         )
     }
