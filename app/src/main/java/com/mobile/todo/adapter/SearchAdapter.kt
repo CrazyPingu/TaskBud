@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@ import com.mobile.todo.R
 
 class SearchAdapter(
     private var itemList: MutableList<String>,
-    searchView: SearchView,
+    private var searchView: SearchView,
 ) :
     RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
@@ -37,6 +38,13 @@ class SearchAdapter(
             View.OnClickListener {
                 searchViewText.setText(item)
                 searchViewText.setSelection(searchViewText.text.length)
+
+
+                val editorInfo = EditorInfo()
+                editorInfo.actionId = EditorInfo.IME_ACTION_SEARCH
+
+                // Simulate the press of the search button
+                searchViewText.onEditorAction(editorInfo.actionId)
             }
         )
     }

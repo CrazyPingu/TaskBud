@@ -1,19 +1,16 @@
 package com.mobile.todo.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
-import android.widget.AdapterView
-import android.widget.EditText
 import android.widget.TextView
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,20 +27,19 @@ import com.mobile.todo.utils.Monet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.google.android.material.search.SearchView
+import com.google.android.material.search.SearchBar
+import com.mobile.todo.HomePage
 import kotlinx.coroutines.withContext
 
 class TodoPage : Fragment() {
 
     private var USER_ID: Int = 0
-    private lateinit var searchBar: com.google.android.material.search.SearchBar
-    private lateinit var searchView: com.google.android.material.search.SearchView
-
-    //    private lateinit var arrayAdapter: ArrayAdapter<String>
-    private lateinit var handler: Handler
+    private lateinit var searchBar: SearchBar
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_todo, container, false)
         val recyclerViewToDo = view.findViewById<RecyclerView>(R.id.recyclerViewToDo)
@@ -59,8 +55,9 @@ class TodoPage : Fragment() {
             val search = database.searchDao().getAllSearch()
             val tagList = AppDatabase.getDatabase(requireContext()).tagDao().getAllTag()
             for (tag in tagList) {
-                if (database.searchDao().isTagInSearch(tag.tag) || tag.tag == Tag.FAV)
-                    itemList.add(tag.tag)
+                if (database.searchDao().isTagInSearch(tag.tag) || tag.tag == Tag.FAV) itemList.add(
+                    tag.tag
+                )
             }
 
             if (todo.isEmpty()) {
@@ -83,18 +80,18 @@ class TodoPage : Fragment() {
         searchBar = view.findViewById(R.id.search_bar)
         searchView = view.findViewById(R.id.result_search)
         val suggestRecycler: RecyclerView = view.findViewById(R.id.suggest)
-// set result for search view
 
 
-        val adapter = SearchAdapter(itemList, searchView)
-        suggestRecycler.adapter = adapter
+        suggestRecycler.adapter = SearchAdapter(itemList, searchView)
 
         suggestRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         searchView.setupWithSearchBar(searchBar)
 
+        searchView.editText.doOnTextChanged { text, start, before, count ->
+            searchTag(text.toString(), database, suggestRecycler)
+        }
 
-        // Add a listener for when the user presses enter after typing
         searchView.editText.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = v.text.toString()
@@ -153,8 +150,7 @@ class TodoPage : Fragment() {
             startActivity(
                 Intent(
                     EditTodoHabit.newInstance(
-                        requireContext(),
-                        EditTodoHabit.Companion.TYPE.TODO
+                        requireContext(), EditTodoHabit.Companion.TYPE.TODO
                     )
                 )
             )
@@ -164,8 +160,7 @@ class TodoPage : Fragment() {
             startActivity(
                 Intent(
                     EditTodoHabit.newInstance(
-                        requireContext(),
-                        EditTodoHabit.Companion.TYPE.HABIT
+                        requireContext(), EditTodoHabit.Companion.TYPE.HABIT
                     )
                 )
             )
@@ -178,13 +173,11 @@ class TodoPage : Fragment() {
         query: String,
         database: AppDatabase,
         recyclerViewToDo: RecyclerView,
-        no_result_text: TextView
+        no_result_text: TextView,
     ) {
         var resultToDoId: List<Int> // List of To Do Ids with submitted tag
-
-        Log.d("Search", "Searching for $query")
         GlobalScope.launch(Dispatchers.IO) {
-            val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
+            val todo = database.toDoDao().getAllToDoByUserId(HomePage.USER_ID)
             if (query != null) {
                 val filteredToDos: List<ToDo>
                 val search = database.searchDao().getAllSearch()
@@ -214,14 +207,29 @@ class TodoPage : Fragment() {
 
         searchBar.clearFocus()
     }
+    private fun searchTag(
+        starting: String,
+        database: AppDatabase,
+        recyclerView: RecyclerView
+    ) {
+        GlobalScope.launch {
+            val tagList = if (starting.isNullOrEmpty()) {
+                database.tagDao().getAllTagsFromUser(HomePage.USER_ID)
+            } else {
+                database.tagDao().getAllTagStartingWith(starting, HomePage.USER_ID)
+            }
+            withContext(Dispatchers.Main) {
+                recyclerView.adapter = SearchAdapter(tagList.toMutableList(), searchView)
+            }
+        }
+    }
 
     companion object {
-        fun newInstance(idUser: Int) =
-            TodoPage().apply {
-                arguments = Bundle().apply {
-                    USER_ID = idUser
-                }
+        fun newInstance(idUser: Int) = TodoPage().apply {
+            arguments = Bundle().apply {
+                USER_ID = idUser
             }
+        }
     }
 }
 
