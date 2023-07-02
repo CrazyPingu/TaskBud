@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
 import com.mobile.todo.adapter.HabitAdapter
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.utils.Constant
+import com.mobile.todo.utils.Monet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -43,21 +43,14 @@ class HabitPage : Fragment() {
 
         val database = AppDatabase.getDatabase(requireContext())
 
+        val showAddButton = view.findViewById<ExtendedFloatingActionButton>(R.id.show_add)
+        val addTodoButton = view.findViewById<ExtendedFloatingActionButton>(R.id.add_todo)
+        val addHabitButton = view.findViewById<ExtendedFloatingActionButton>(R.id.add_habit)
 
         if(Constant.getMonet(requireContext())){
-//            val add_habit : ExtendedFloatingActionButton = view.findViewById(R.id.add_habit)
-//
-//            add_habit.backgroundTintList = ColorStateList.valueOf(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    Monet.getColor(
-//                        requireContext(),
-//                        R.color.lavender,
-//                        android.R.color.system_accent2_500
-//                    )
-//                )
-//            )
-
+            Monet.setFabMonet(showAddButton, requireContext())
+            Monet.setFabMonet(addTodoButton, requireContext())
+            Monet.setFabMonet(addHabitButton, requireContext())
         }
 
 
@@ -79,10 +72,6 @@ class HabitPage : Fragment() {
         // FAB
         val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fab_menu_shown)
         val fadeOutAnimation = AnimationUtils.loadAnimation(context, R.anim.fab_menu_hide)
-
-        val showAddButton = view.findViewById<FloatingActionButton>(R.id.show_add)
-        val addTodoButton = view.findViewById<ExtendedFloatingActionButton>(R.id.add_todo)
-        val addHabitButton = view.findViewById<ExtendedFloatingActionButton>(R.id.add_habit)
 
         fadeInAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {

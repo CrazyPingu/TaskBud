@@ -2,13 +2,16 @@ package com.mobile.todo.utils
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.VectorDrawable
 import android.view.Window
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.core.content.ContextCompat
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 import com.mobile.todo.R
 
@@ -43,7 +46,6 @@ class Monet {
             )
             return drawable
         }
-
 
         fun setTextInputLayoutMonet(
             layout: TextInputLayout,
@@ -122,6 +124,22 @@ class Monet {
         fun setStatusBarMonet(context: Context, window: Window) {
             window.statusBarColor =
                 ContextCompat.getColor(context, android.R.color.system_accent1_500)
+        }
+
+        fun setFabMonet(fab : ExtendedFloatingActionButton, context: Context) {
+            fab.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.system_accent3_500
+                )
+            )
+
+            fab.rippleColor = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.system_accent1_500
+                )
+            )
         }
     }
 }

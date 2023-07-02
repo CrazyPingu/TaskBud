@@ -13,8 +13,8 @@
         android:id="@+id/add_todo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add To Do"
         android:backgroundTint="@color/lavender"
+        android:text="Add To Do"
         android:visibility="gone"
         app:icon="@drawable/shortcut_todo_icon"
         app:layout_anchorGravity="bottom|end" />
@@ -23,21 +23,20 @@
         android:id="@+id/add_habit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginTop="20dp"
-        android:text="Add Habit"
         android:backgroundTint="@color/lavender"
+        android:text="Add Habit"
+        android:visibility="gone"
         app:icon="@drawable/shortcut_habit_icon"
         app:layout_anchorGravity="bottom|end" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/show_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
         android:backgroundTint="@color/lavender"
-        android:src="@drawable/add_cross"
-        app:fabSize="mini" />
+        app:icon="@drawable/add_cross" />
 
 </LinearLayout>

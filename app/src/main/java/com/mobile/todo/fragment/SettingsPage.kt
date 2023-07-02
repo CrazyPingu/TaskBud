@@ -63,7 +63,6 @@ class SettingsPage : Fragment() {
                 requireActivity().recreate()
             }
         }
-
         spinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
