@@ -1,12 +1,17 @@
 package com.mobile.todo.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.util.TypedValue
+import android.util.Xml
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +40,7 @@ import com.google.android.material.search.SearchView
 import com.google.android.material.search.SearchBar
 import com.mobile.todo.HomePage
 import kotlinx.coroutines.withContext
+import org.xmlpull.v1.XmlPullParserFactory
 
 class TodoPage : Fragment() {
 
@@ -79,12 +85,7 @@ class TodoPage : Fragment() {
         searchView = view.findViewById(R.id.result_search)
         val suggestRecycler: RecyclerView = view.findViewById(R.id.suggest)
 
-
-        suggestRecycler.adapter = SearchAdapter(itemList, searchView)
-
-        suggestRecycler.layoutManager = LinearLayoutManager(requireContext())
-
-        searchView.setupWithSearchBar(searchBar)
+//        searchView.setupWithSearchBar(searchBar)
 
         if (Constant.getMonet(requireContext())) {
             Monet.setFabMonet(showAddButton, requireContext())
@@ -92,9 +93,15 @@ class TodoPage : Fragment() {
             Monet.setFabMonet(addHabitButton, requireContext())
             Monet.setSearchBarMonet(searchBar, requireContext())
 
-//            searchView.editText.setBackgroundColor(Color.RED)
-//            searchView.navigationIcon?.setTint(Color.WHITE)
+            // switch theme for the search view; check styles.xml
+            searchView = Monet.setSearchViewMonet(searchView)
+            searchView.setupWithSearchBar(searchBar)
         }
+
+
+        suggestRecycler.adapter = SearchAdapter(itemList, searchView)
+
+        suggestRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         searchView.editText.doOnTextChanged { text, _, _, _ ->
             searchTag(text.toString(), database, suggestRecycler)
@@ -216,7 +223,6 @@ class TodoPage : Fragment() {
 
         searchBar.clearFocus()
     }
-
 
 
     private fun searchTag(

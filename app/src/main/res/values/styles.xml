@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomSearchViewTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorSurface">@color/lavender</item>
+        <item name="colorOnSurface">@color/inverse</item>
+    </style>
+
+    <style name="SearchViewWithAccent" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorSurface">@android:color/system_accent2_500</item>
+        <item name="colorOnSurface">@color/inverse</item>
+    </style>
+
+</resources>

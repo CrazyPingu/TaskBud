@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.view.ContextThemeWrapper
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.CheckBox
@@ -12,6 +14,7 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.search.SearchBar
+import com.google.android.material.search.SearchView
 import com.google.android.material.textfield.TextInputLayout
 import com.mobile.todo.R
 
@@ -209,6 +212,19 @@ class Monet {
                     )
                 )
             )
+        }
+
+        fun setSearchViewMonet(searchView: SearchView) : SearchView {
+            val context: Context = searchView.context
+            val themedContext: Context = ContextThemeWrapper(context, R.style.SearchViewWithAccent)
+
+            val newSearchView = SearchView(themedContext)
+            val parent: ViewGroup = searchView.parent as ViewGroup
+            val index: Int = parent.indexOfChild(searchView)
+            parent.removeView(searchView)
+            parent.addView(newSearchView, index)
+
+            return newSearchView
         }
 
     }

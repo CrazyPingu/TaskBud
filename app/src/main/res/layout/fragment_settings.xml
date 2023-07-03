@@ -56,18 +56,18 @@
         android:layout_below="@+id/title_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:visibility="visible"
+        android:background="@drawable/background_card"
+        android:orientation="horizontal"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
-        android:background="@drawable/background_card"
-        android:orientation="horizontal">
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:textSize="20sp"
-            android:text="Accent color:" />
+            android:text="Accent color:"
+            android:textSize="20sp" />
 
         <CheckBox
             android:id="@+id/monet_toggle"
@@ -88,9 +88,9 @@
             android:id="@+id/logout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:layout_centerVertical="true"
-            android:text="@string/logout" />
+            android:text="@string/logout"
+            android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/taskbud_stand_rx"
