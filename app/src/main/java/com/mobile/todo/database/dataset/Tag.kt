@@ -9,5 +9,7 @@ data class Tag(
 ) {
     companion object {
         const val FAV = "favorites"
+
+        const val SHOW_ALL = "show all"
     }
 }

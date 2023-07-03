@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchView
 import com.mobile.todo.R
+import com.mobile.todo.database.dataset.Tag
+import com.mobile.todo.database.dataset.Tag.Companion.FAV
 
 
 class SearchAdapter(
@@ -36,9 +38,12 @@ class SearchAdapter(
 
         holder.textView.setOnClickListener(
             View.OnClickListener {
-                searchViewText.setText(item)
-                searchViewText.setSelection(searchViewText.text.length)
-
+                if(item != Tag.SHOW_ALL) {
+                    searchViewText.setText(item)
+                    searchViewText.setSelection(searchViewText.text.length)
+                }else{
+                    searchViewText.text.clear()
+                }
 
                 val editorInfo = EditorInfo()
                 editorInfo.actionId = EditorInfo.IME_ACTION_SEARCH

@@ -216,15 +216,17 @@ class TodoPage : Fragment() {
         GlobalScope.launch {
             var tagList = if (starting.isNullOrEmpty()) {
                 database.tagDao().getAllTagsFromUser(HomePage.USER_ID)
+
             } else {
                 database.tagDao().getAllTagStartingWith(starting, HomePage.USER_ID)
             }
             tagList = tagList.toMutableList()
-            if(tagList.contains(Tag.FAV)){
-                // Remove and add to the top the FAV tag
-                tagList.remove(Tag.FAV)
-                tagList.add(0, Tag.FAV)
-            }
+
+            tagList.remove(Tag.SHOW_ALL)
+            tagList.add(0, Tag.SHOW_ALL)
+            tagList.remove(Tag.FAV)
+            tagList.add(1, Tag.FAV)
+
             withContext(Dispatchers.Main) {
                 recyclerView.adapter = SearchAdapter(tagList, searchView)
             }
