@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -77,19 +79,22 @@ class TodoPage : Fragment() {
         searchView = view.findViewById(R.id.result_search)
         val suggestRecycler: RecyclerView = view.findViewById(R.id.suggest)
 
-        if (Constant.getMonet(requireContext())) {
-            Monet.setFabMonet(showAddButton, requireContext())
-            Monet.setFabMonet(addTodoButton, requireContext())
-            Monet.setFabMonet(addHabitButton, requireContext())
-            Monet.setSearchBarMonet(searchBar, requireContext())
-        }
-
 
         suggestRecycler.adapter = SearchAdapter(itemList, searchView)
 
         suggestRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         searchView.setupWithSearchBar(searchBar)
+
+        if (Constant.getMonet(requireContext())) {
+            Monet.setFabMonet(showAddButton, requireContext())
+            Monet.setFabMonet(addTodoButton, requireContext())
+            Monet.setFabMonet(addHabitButton, requireContext())
+            Monet.setSearchBarMonet(searchBar, requireContext())
+
+//            searchView.editText.setBackgroundColor(Color.RED)
+//            searchView.navigationIcon?.setTint(Color.WHITE)
+        }
 
         searchView.editText.doOnTextChanged { text, _, _, _ ->
             searchTag(text.toString(), database, suggestRecycler)
@@ -193,23 +198,26 @@ class TodoPage : Fragment() {
                     filteredToDos = todo.filter { resultToDoId.contains(it.id) }
                 }
 
-                withContext(Dispatchers.Main) {
+                val handler = Handler(Looper.getMainLooper())
+                handler.post {
                     // Update the RecyclerView on the main thread
                     val adapter = ToDoAdapter(filteredToDos.toMutableList(), search.toMutableList())
                     recyclerViewToDo.adapter = adapter
                     recyclerViewToDo.layoutManager = LinearLayoutManager(requireContext())
-                }
 
-                if (filteredToDos.isEmpty()) {
-                    no_result_text.visibility = View.VISIBLE
-                } else {
-                    no_result_text.visibility = View.GONE
+                    if (filteredToDos.isEmpty()) {
+                        no_result_text.visibility = View.VISIBLE
+                    } else {
+                        no_result_text.visibility = View.GONE
+                    }
                 }
             }
         }
 
         searchBar.clearFocus()
     }
+
+
 
     private fun searchTag(
         starting: String,
