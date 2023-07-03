@@ -2,24 +2,25 @@ package com.mobile.todo.utils
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.VectorDrawable
 import android.view.Window
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.search.SearchBar
 import com.google.android.material.textfield.TextInputLayout
 import com.mobile.todo.R
+
 
 class Monet {
 
     companion object {
 
-        fun getColor(context: Context, defaultColor: Int, accentColor: Int): Int {
+        private fun getColor(context: Context, defaultColor: Int, accentColor: Int): Int {
             return if (Constant.getMonet(context)) {
                 accentColor
             } else {
@@ -27,10 +28,43 @@ class Monet {
             }
         }
 
-        fun setBorderColorMonet(context: Context): Drawable {
+        fun setDeleteButtonMonet(imageView: ImageView, context: Context) {
+            imageView.imageTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    getColor(
+                        context,
+                        R.color.lavender,
+                        android.R.color.system_accent2_500
+                    )
+                )
+            )
+        }
+
+        fun setBorderColorMonet(context: Context, drawableInt : Int = R.drawable.background_card): Drawable {
             val drawable = ContextCompat.getDrawable(
                 context,
-                R.drawable.background_card
+                drawableInt
+            ) as GradientDrawable
+
+            drawable.setStroke(
+                context.resources.getDimensionPixelSize(R.dimen.width_stroke_card),
+                ContextCompat.getColor(
+                    context,
+                    getColor(
+                        context,
+                        R.color.lavender,
+                        android.R.color.system_accent2_500
+                    )
+                )
+            )
+            return drawable
+        }
+
+        fun setCursorMonet(context: Context): Drawable {
+            val drawable = ContextCompat.getDrawable(
+                context,
+                R.drawable.cursor
             ) as GradientDrawable
 
             drawable.setStroke(
@@ -126,7 +160,16 @@ class Monet {
                 ContextCompat.getColor(context, android.R.color.system_accent1_500)
         }
 
-        fun setFabMonet(fab : ExtendedFloatingActionButton, context: Context) {
+        fun setSearchBarMonet(searchBar: SearchBar, context: Context) {
+            searchBar.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.system_accent2_500
+                )
+            )
+        }
+
+        fun setFabMonet(fab: ExtendedFloatingActionButton, context: Context) {
             fab.backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     context,
@@ -141,5 +184,32 @@ class Monet {
                 )
             )
         }
+
+        fun setEditText(editText: EditText, context: Context) {
+            editText.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    context,
+                    android.R.color.system_accent2_500
+                )
+            )
+
+            editText.textCursorDrawable = setCursorMonet(context)
+        }
+
+        fun setButtonTextMonet(button: Button, context: Context) {
+            button.setTextColor(
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        context,
+                        getColor(
+                            context,
+                            R.color.lavender,
+                            android.R.color.system_accent2_500
+                        )
+                    )
+                )
+            )
+        }
+
     }
 }

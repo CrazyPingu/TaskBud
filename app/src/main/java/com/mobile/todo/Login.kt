@@ -53,6 +53,10 @@ class Login : AppCompatActivity() {
         val loginButton : Button = findViewById(R.id.login_button)
 
 
+        username = findViewById(R.id.username)
+        password = findViewById(R.id.password)
+        database = AppDatabase.getDatabase(this)
+
         // Set monet color
         if (Constant.getMonet(this)) {
 
@@ -73,10 +77,6 @@ class Login : AppCompatActivity() {
             rememberMe.isChecked = true
             loginUser(Constant.getUser(this))
         }
-
-        username = findViewById(R.id.username)
-        password = findViewById(R.id.password)
-        database = AppDatabase.getDatabase(this)
 
         // Redirect to Signup Activity
         signupButton.setOnClickListener {

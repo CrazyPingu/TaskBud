@@ -15,5 +15,7 @@
     <color name="piechart_completed">#FFBB86FC</color>
     <color name="piechart_incompleted">#C84242</color>
 
+    <color name="background_inverse">#2e2e2e</color>
+
     <color name="violet">#86329a</color>
 </resources>

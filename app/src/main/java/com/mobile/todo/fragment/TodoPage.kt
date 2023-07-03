@@ -1,6 +1,8 @@
 package com.mobile.todo.fragment
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -71,15 +73,16 @@ class TodoPage : Fragment() {
         }
 
 
+        searchBar = view.findViewById(R.id.search_bar)
+        searchView = view.findViewById(R.id.result_search)
+        val suggestRecycler: RecyclerView = view.findViewById(R.id.suggest)
+
         if (Constant.getMonet(requireContext())) {
             Monet.setFabMonet(showAddButton, requireContext())
             Monet.setFabMonet(addTodoButton, requireContext())
             Monet.setFabMonet(addHabitButton, requireContext())
+            Monet.setSearchBarMonet(searchBar, requireContext())
         }
-
-        searchBar = view.findViewById(R.id.search_bar)
-        searchView = view.findViewById(R.id.result_search)
-        val suggestRecycler: RecyclerView = view.findViewById(R.id.suggest)
 
 
         suggestRecycler.adapter = SearchAdapter(itemList, searchView)
@@ -88,7 +91,7 @@ class TodoPage : Fragment() {
 
         searchView.setupWithSearchBar(searchBar)
 
-        searchView.editText.doOnTextChanged { text, start, before, count ->
+        searchView.editText.doOnTextChanged { text, _, _, _ ->
             searchTag(text.toString(), database, suggestRecycler)
         }
 

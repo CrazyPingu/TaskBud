@@ -3,6 +3,7 @@ package com.mobile.todo.adapter
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mobile.todo.EditTodoHabit
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
@@ -22,6 +24,7 @@ import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Monet
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+
 
 class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchList: MutableList<Search>) :
     RecyclerView.Adapter<ToDoAdapter.ViewHolder>() {
@@ -47,6 +50,7 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
         if(Constant.getMonet(context)){
             Monet.setCheckBoxMonet(holder.checkbox, context)
             Monet.setCheckBoxMonet(holder.starCheckBoxItem, context)
+//            Monet.setDeleteButtonMonet(holder.delete, context)
         }
 
         val result = searchList.any { search ->
@@ -58,7 +62,7 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
         }
 
         holder.delete.setOnClickListener {
-            AlertDialog.Builder(context)
+            val dialog = MaterialAlertDialogBuilder(context)
                 .setTitle("Delete to do")
                 .setMessage("Do you want to delete this to do?")
                 .setPositiveButton("OK") { dialog, _ ->
@@ -77,7 +81,15 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
                     dialog.dismiss()
                 }
                 .create()
-                .show()
+
+            dialog.show()
+
+            if(Constant.getMonet(context)) {
+                Monet.setButtonTextMonet(dialog.getButton(AlertDialog.BUTTON_POSITIVE), context)
+                Monet.setButtonTextMonet(dialog.getButton(AlertDialog.BUTTON_NEGATIVE), context)
+            }
+
+
         }
 
         holder.textView.setOnClickListener {

@@ -27,29 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
-
-
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Search your tag" />
-
-            <com.google.android.material.search.SearchView
-                android:id="@+id/result_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Search your tag"
-                app:layout_anchor="@id/search_bar">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/suggest"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:layout_marginHorizontal="30dp" />
-            </com.google.android.material.search.SearchView>
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/lavender">
 
 
             <RelativeLayout
@@ -89,6 +68,30 @@
                     android:layout_marginBottom="16dp" />
 
             </RelativeLayout>
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/lavender"
+                android:hint="Search your tag" />
+
+            <com.google.android.material.search.SearchView
+                android:id="@+id/result_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Search your tag"
+                app:closeIcon="@color/lavender"
+                app:layout_anchor="@id/search_bar">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/suggest"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_marginHorizontal="30dp" />
+            </com.google.android.material.search.SearchView>
+
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

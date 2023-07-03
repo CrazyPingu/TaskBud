@@ -16,6 +16,8 @@ import com.mobile.todo.database.dataset.Habit
 import com.mobile.todo.database.dataset.Search
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
+import com.mobile.todo.utils.Constant
+import com.mobile.todo.utils.Monet
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -33,12 +35,33 @@ class EditTodoHabit : AppCompatActivity() {
         val title = findViewById<EditText>(R.id.title)
         val description = findViewById<EditText>(R.id.description)
         val tag = findViewById<EditText>(R.id.tag)
+        val favouriteCheckbox = findViewById<CheckBox>(R.id.starCheckBoxEdit)
+
+        val confirmButton = findViewById<Button>(R.id.confirm)
+        val cancelButton = findViewById<Button>(R.id.cancel)
 
         val type = intent.getSerializableExtra(TYPE_EXTRA) as TYPE
         if (type == TYPE.HABIT) {
             dateButton.visibility = View.GONE
-            findViewById<EditText>(R.id.tag).visibility = View.GONE
-            findViewById<CheckBox>(R.id.starCheckBoxEdit).visibility = View.GONE
+            tag.visibility = View.GONE
+            favouriteCheckbox.visibility = View.GONE
+        }
+
+        if(Constant.getMonet(this)){
+            Monet.setStatusBarMonet(this, window)
+            Monet.setEditText(title, this)
+
+            description.background = Monet.setBorderColorMonet(this, R.drawable.background_square)
+            description.textCursorDrawable = Monet.setCursorMonet(this)
+
+            tag.background = Monet.setBorderColorMonet(this, R.drawable.background_square)
+            tag.textCursorDrawable = Monet.setCursorMonet(this)
+
+            Monet.setButtonMonet(confirmButton, this)
+            Monet.setButtonMonet(cancelButton, this)
+            Monet.setButtonMonet(dateButton, this)
+
+            Monet.setCheckBoxMonet(favouriteCheckbox, this)
         }
 
         if (intent.hasExtra(ID_EXTRA)) {
@@ -91,7 +114,7 @@ class EditTodoHabit : AppCompatActivity() {
             dpd.show() // Show DatePickerDialog
         }
 
-        findViewById<Button>(R.id.confirm).setOnClickListener {
+        confirmButton.setOnClickListener {
             if (title.text.toString() == "") {
                 Toast.makeText(this, "Title must not be empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -219,7 +242,7 @@ class EditTodoHabit : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.cancel).setOnClickListener {
+        cancelButton.setOnClickListener {
             onBackPressed()
         }
     }

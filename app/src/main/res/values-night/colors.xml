@@ -7,4 +7,6 @@
 
     <color name="piechart_completed">#742DCC</color>
     <color name="piechart_incompleted">#4C1616</color>
+
+    <color name="background_inverse">#E0E0E0</color>
 </resources>
