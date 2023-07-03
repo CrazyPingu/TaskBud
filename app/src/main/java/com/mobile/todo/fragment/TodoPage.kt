@@ -220,7 +220,11 @@ class TodoPage : Fragment() {
                 database.tagDao().getAllTagStartingWith(starting, HomePage.USER_ID)
             }
             tagList = tagList.toMutableList()
-            tagList.add(0, Tag.FAV)
+            if(tagList.contains(Tag.FAV)){
+                // Remove and add to the top the FAV tag
+                tagList.remove(Tag.FAV)
+                tagList.add(0, Tag.FAV)
+            }
             withContext(Dispatchers.Main) {
                 recyclerView.adapter = SearchAdapter(tagList, searchView)
             }
