@@ -56,7 +56,9 @@
         android:layout_below="@+id/title_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="10dp"
         android:background="@drawable/background_card"
         android:orientation="horizontal">
 
@@ -64,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:textSize="20sp"
             android:text="Accent color:" />
 
         <CheckBox
