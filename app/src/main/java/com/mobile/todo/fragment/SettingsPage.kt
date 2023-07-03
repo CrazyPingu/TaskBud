@@ -40,19 +40,18 @@ class SettingsPage : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val spinner: Spinner = view.findViewById(R.id.theme_toggle)
-        val monetZone : LinearLayout = view.findViewById(R.id.monet_zone)
+        val monetZone: LinearLayout = view.findViewById(R.id.monet_zone)
         var click = false
 
         if (Constant.checkVersionMonet()) {
             monetZone.visibility = VISIBLE
 
             checkBox = view.findViewById(R.id.monet_toggle)
-
             checkBox.isChecked = Constant.getMonet(requireContext())
 
-            val drawable = Monet.setBorderColorMonet(requireContext())
-            view.findViewById<RelativeLayout>(R.id.title_layout).background = drawable
-            monetZone.background = drawable
+            view.findViewById<RelativeLayout>(R.id.title_layout).background =
+                Monet.setBorderColorMonet(requireContext())
+            monetZone.background = Monet.setBorderColorMonet(requireContext())
 
             Monet.setCheckBoxMonet(checkBox, requireContext())
 
@@ -98,7 +97,6 @@ class SettingsPage : Fragment() {
                             )
                         }
                     }
-
                     requireActivity().recreate()
 
                 }
