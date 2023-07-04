@@ -73,6 +73,8 @@ class Login : AppCompatActivity() {
             Monet.setButtonMonet(loginButton, this)
         }
 
+        Constant.refreshWidget(this)
+
         if (Constant.getUser(this) != -1) {
             rememberMe.isChecked = true
             loginUser(Constant.getUser(this))

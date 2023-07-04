@@ -1,18 +1,24 @@
 package com.mobile.todo.utils
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
+import android.util.Log
+import android.view.View
 import android.widget.EditText
+import android.widget.RemoteViews
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.mobile.todo.R
 import com.mobile.todo.fragment.SettingsPage
+import com.mobile.todo.widget.TodoWidget
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -95,5 +101,33 @@ class Constant {
             return formatter.parse(formattedDate)!!
         }
 
+        fun refreshWidget(context: Context) {
+
+            Log.d("AAAA", "aggiornato widget")
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val remoteViews = RemoteViews(context.packageName, R.layout.todo_widget).also {
+                it.setViewVisibility(R.id.list_view, if (getUser(context) != -1) View.VISIBLE else View.GONE)
+                it.setViewVisibility(R.id.login_button, if (getUser(context) == -1) View.VISIBLE else View.GONE)
+            }
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(
+                ComponentName(context, TodoWidget::class.java)
+            )
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetIds, remoteViews)
+
+            // Notify the widget that the data has changed
+            for (appWidgetId in appWidgetIds) {
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.list_view)
+            }
+
+//            val appWidgetManager = AppWidgetManager.getInstance(context)
+//            val remoteViews = RemoteViews(context.packageName, R.layout.todo_widget).also {
+//                it.setViewVisibility(R.id.list_view, if (getUser(context) != -1) View.VISIBLE else View.GONE)
+//                it.setViewVisibility(R.id.login_button, if (getUser(context) == -1) View.VISIBLE else View.GONE)
+//            }
+//            val appWidgetId = appWidgetManager.getAppWidgetIds(
+//                ComponentName(context, TodoWidget::class.java)
+//            )
+//            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews)
+        }
     }
 }
