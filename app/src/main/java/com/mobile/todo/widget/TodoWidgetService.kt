@@ -4,12 +4,16 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
+import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.utils.Constant
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TodoWidgetService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory {
@@ -21,6 +25,7 @@ class TodoWidgetService : RemoteViewsService() {
 
         private val appWidgetId: Int
         private lateinit var data: List<ToDo>
+        private lateinit var favouriteTodo : List<Int>
 
         init {
             this.appWidgetId = intent.getIntExtra(
@@ -38,6 +43,8 @@ class TodoWidgetService : RemoteViewsService() {
             val userId = Constant.getUser(context)
 
             data = database.toDoDao().getAllToDoByUserId(userId)
+
+            favouriteTodo = database.toDoDao().getToDoByUserIdTag(userId)
         }
 
         override fun onDestroy() {
@@ -55,18 +62,25 @@ class TodoWidgetService : RemoteViewsService() {
 
             val todoId : Int = data[position].id
 
-            val intent = Intent()
-            intent.putExtra(TodoWidget.EXTRA_ITEM_ID, todoId)
-            intent.putExtra(TodoWidget.EXTRA_ITEM_COMPLETED, data[position].completed)
+            views.setCompoundButtonChecked(R.id.starCheckBox, favouriteTodo.contains(data[position].id))
+
+            views.setCompoundButtonChecked(R.id.checkbox, data[position].completed)
 
             if (data[position].completed) {
-                views.setInt(R.id.checkbox, "setBackgroundResource", R.drawable.badge_favtag)
                 views.setInt(R.id.todo_title, "setPaintFlags", Paint.STRIKE_THRU_TEXT_FLAG)
             } else {
-                views.setInt(R.id.checkbox, "setBackgroundResource", R.drawable.badge_all_habits)
                 views.setInt(R.id.todo_title, "setPaintFlags", Paint.HINTING_OFF)
             }
-            views.setOnClickFillInIntent(R.id.checkbox, intent)
+
+            val checkTodoIntent = Intent()
+            checkTodoIntent.putExtra(TodoWidget.EXTRA_ITEM_ID, todoId)
+            checkTodoIntent.putExtra(TodoWidget.EXTRA_ITEM_COMPLETED, data[position].completed)
+            views.setOnClickFillInIntent(R.id.checkbox, checkTodoIntent)
+
+            val favouriteIntent = Intent()
+            favouriteIntent.putExtra(TodoWidget.EXTRA_ITEM_ID, todoId)
+            favouriteIntent.putExtra(TodoWidget.SET_TO_FAV, favouriteTodo.contains(data[position].id))
+            views.setOnClickFillInIntent(R.id.starCheckBox, favouriteIntent)
 
             return views
         }

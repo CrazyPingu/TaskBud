@@ -75,6 +75,7 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
                         itemList.removeAt(currentPosition)
                         notifyItemRemoved(currentPosition)
                     }
+                    Constant.refreshWidget(context)
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancel") { dialog, _ ->
@@ -118,6 +119,8 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
                 holder.textView.paintFlags =
                     holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
+
+            Constant.refreshWidget(context)
         }
 
         holder.starCheckBoxItem.setOnCheckedChangeListener { _, isChecked ->
@@ -132,6 +135,8 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
                         .removeTagFromToDoId(item.id, Tag.FAV)
                 }
             }
+
+            Constant.refreshWidget(context)
         }
     }
 

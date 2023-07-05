@@ -8,9 +8,11 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.widget.RemoteViews
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mobile.todo.Login
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
+import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.utils.Constant
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,6 +21,8 @@ class TodoWidget : AppWidgetProvider() {
 
     companion object {
         const val ACTION_TOAST = "com.mobile.todo.widget.ACTION_TOAST"
+        const val SET_TO_FAV = "com.mobile.todo.widget.SET_TO_FAV"
+        const val DELETE_TODO = "com.mobile.todo.widget.DELETE_TODO"
         const val EXTRA_ITEM_ID = "com.mobile.todo.widget.EXTRA_ITEM_ID_TODO"
         const val EXTRA_ITEM_COMPLETED = "com.mobile.todo.widget.EXTRA_ITEM_ID"
     }
@@ -34,31 +38,44 @@ class TodoWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onDeleted(context: Context?, appWidgetIds: IntArray?) {
-//        Toast.makeText(context, "onDeleted", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onEnabled(context: Context) {
-//        Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onDisabled(context: Context) {
-//        Toast.makeText(context, "onDisabled", Toast.LENGTH_SHORT).show()
-    }
-
     override fun onReceive(context: Context?, intent: Intent?) {
         if (ACTION_TOAST == intent?.action && context != null) {
-            GlobalScope.launch {
-                val todoId = intent.getIntExtra(EXTRA_ITEM_ID, -1)
-                val completed = intent.getBooleanExtra(EXTRA_ITEM_COMPLETED, false)
+            val todoId = intent.getIntExtra(EXTRA_ITEM_ID, -1)
 
-                if (todoId == -1) {
-                    return@launch
-                }
+
+            if (todoId == -1) {
+                return
+            }
+
+
+            GlobalScope.launch {
 
                 val database = AppDatabase.getDatabase(context)
 
-                database.toDoDao().setCompleted(todoId, !completed)
+                if(intent.hasExtra(SET_TO_FAV)) {
+                    if(intent.extras?.getBoolean(SET_TO_FAV) == true) {
+                        database.searchDao().removeTagFromToDoId(todoId, Tag.FAV)
+                    }else{
+                        database.searchDao().addTagToToDoId(todoId, Tag.FAV)
+                    }
+                }else if(intent.hasExtra(DELETE_TODO)) {
+                    val dialog = MaterialAlertDialogBuilder(context)
+                        .setTitle("Delete to do")
+                        .setMessage("Do you want to delete this to do?")
+                        .setPositiveButton("OK") { dialog, _ ->
+                            // Remove to do from database
+
+                        }
+                        .setNegativeButton("Cancel") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .create().show()
+                }else {
+                    val completed = intent.getBooleanExtra(EXTRA_ITEM_COMPLETED, false)
+                    database.toDoDao().setCompleted(todoId, !completed)
+                }
+
+
                 Constant.refreshWidget(context)
             }
         }
@@ -91,9 +108,6 @@ internal fun updateAppWidget(
     // set the intent for the button to Login
     val intent = Intent(context, Login::class.java)
     val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-
-
 
     views.setOnClickPendingIntent(R.id.login_button, pendingIntent)
 
