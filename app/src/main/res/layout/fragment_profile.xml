@@ -1,142 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ProfilePage">
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/title_margin_top"
-        android:layout_marginBottom="@dimen/title_margin_bottom"
-        android:text="@string/title_profile"
-        android:textSize="@dimen/title"
-        android:textStyle="bold" />
+        tools:context=".fragment.ProfilePage">
 
-    <LinearLayout
-        android:id="@+id/middle_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal">
-
-        <RelativeLayout
+        <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="50dp">
-
-            <FrameLayout
-                android:id="@+id/profile_pic_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/profile_pic"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/default_profile_pic" />
-
-                <ImageView
-                    android:id="@+id/small_image"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="bottom|end"
-                    android:background="@null"
-                    android:src="@drawable/edit_image" />
-
-            </FrameLayout>
-
-            <TextView
-                android:layout_marginTop="30dp"
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/profile_pic_container"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/title_margin_top"
+            android:layout_marginBottom="@dimen/title_margin_bottom"
+            android:text="@string/title_profile"
+            android:textSize="@dimen/title"
+            android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/middle_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_below="@id/title"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:text="Habits stats"
-                android:textSize="20sp" />
+                android:layout_marginEnd="50dp">
 
-            <TextView
-                android:id="@+id/no_data_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:gravity="center_vertical"
-                android:text="No data available"
-                android:visibility="gone" />
+                <FrameLayout
+                    android:id="@+id/profile_pic_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            <org.eazegraph.lib.charts.PieChart
-                android:id="@+id/piechart"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center" />
+                    <ImageView
+                        android:id="@+id/profile_pic"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/default_profile_pic" />
+
+                    <ImageView
+                        android:id="@+id/small_image"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="bottom|end"
+                        android:background="@null"
+                        android:src="@drawable/edit_image" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/profile_pic_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="30dp" />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/completed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
-                    android:drawablePadding="10dp"
-                    android:text="Completed"
-                    app:drawableStartCompat="@drawable/square_pie_completed" />
+                    android:text="Habits stats"
+                    android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/incompleted"
+                    android:id="@+id/no_data_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:text="Not completed"
-                    app:drawableStartCompat="@drawable/square_pie_incompleted" />
+                    android:layout_marginTop="40dp"
+                    android:gravity="center_vertical"
+                    android:text="No data available"
+                    android:visibility="gone" />
+
+                <org.eazegraph.lib.charts.PieChart
+                    android:id="@+id/piechart"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/completed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:drawablePadding="10dp"
+                        android:text="Completed"
+                        app:drawableStartCompat="@drawable/square_pie_completed" />
+
+                    <TextView
+                        android:id="@+id/incompleted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:text="Not completed"
+                        app:drawableStartCompat="@drawable/square_pie_incompleted" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/middle_container"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="Badge"
+            android:textSize="20sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/zone_badge"
+            android:layout_width="285dp"
+            android:nestedScrollingEnabled="false"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_badge"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp" />
 
 
-    <TextView
-        android:id="@+id/title_badge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/middle_container"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="Badge"
-        android:textSize="20sp" />
+    </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/zone_badge"
-        android:layout_width="285dp"
-        android:layout_height="350dp"
-        android:layout_below="@+id/title_badge"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
-
-
-</RelativeLayout>
+</ScrollView>
