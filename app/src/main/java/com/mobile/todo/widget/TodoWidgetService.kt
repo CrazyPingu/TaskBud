@@ -3,14 +3,13 @@ package com.mobile.todo.widget
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.utils.Constant
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class TodoWidgetService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory {
@@ -54,8 +53,24 @@ class TodoWidgetService : RemoteViewsService() {
 
             views.setTextViewText(R.id.todo_title, data[position].title)
 
+            val todoId : Int = data[position].id
+
+            val intent = Intent()
+            intent.putExtra(TodoWidget.EXTRA_ITEM_ID, todoId)
+            intent.putExtra(TodoWidget.EXTRA_ITEM_COMPLETED, data[position].completed)
+
+            if (data[position].completed) {
+                views.setInt(R.id.checkbox, "setBackgroundResource", R.drawable.badge_favtag)
+                views.setInt(R.id.todo_title, "setPaintFlags", Paint.STRIKE_THRU_TEXT_FLAG)
+            } else {
+                views.setInt(R.id.checkbox, "setBackgroundResource", R.drawable.badge_all_habits)
+                views.setInt(R.id.todo_title, "setPaintFlags", Paint.HINTING_OFF)
+            }
+            views.setOnClickFillInIntent(R.id.checkbox, intent)
+
             return views
         }
+
 
         override fun getLoadingView(): RemoteViews {
             return RemoteViews(context.packageName, R.layout.list_widget)

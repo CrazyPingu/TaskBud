@@ -102,8 +102,6 @@ class Constant {
         }
 
         fun refreshWidget(context: Context) {
-
-            Log.d("AAAA", "aggiornato widget")
             val appWidgetManager = AppWidgetManager.getInstance(context)
             val remoteViews = RemoteViews(context.packageName, R.layout.todo_widget).also {
                 it.setViewVisibility(R.id.list_view, if (getUser(context) != -1) View.VISIBLE else View.GONE)
