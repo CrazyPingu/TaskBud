@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">TaskBud</string>
+    <string name="placeholder_username">Username</string>
+    <string name="placeholder_password">Password</string>
+    <string name="placeholder_confirm_password">Confirm password</string>
+    <string name="logo_description">Logo</string>
+    <string name="gps">Location Disabled</string>
+    <string name="gps_permission_denied">Enable location permission</string>
+    <string name="login">Log in</string>
+    <string name="signup">Sign up</string>
+    <string name="select_photo">Select photo</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="loading_city">Loading city…</string>
+    <!-- Bottom navigation -->
+    <string name="title_todo">To Do\'s</string>
+    <string name="title_habit">Habits</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_settings">Settings</string>
+    <string name="theme_mode_toggle_title">Theme: </string>
+    <!-- Settings   -->
+    <string name="system_title">System</string>
+    <string name="dark_mode_title">Dark Mode</string>
+    <string name="light_mode_title">Light Mode</string>
+    <string name="badge_button">Badge</string>
+    <string name="monet_mode_title">Monet</string>
+    <string name="habits_button">Habits stats</string>
+    <string name="shared_preferance_name">AppSettings</string>
+    <string name="remember_me">Remember me</string>
+    <string name="logout">Logout</string>
+    <string-array name="spinner_items">
+        <item>@string/system_title</item>
+        <item>@string/light_mode_title</item>
+        <item>@string/dark_mode_title</item>
+    </string-array>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">Show To do\'s!</string>
+</resources>

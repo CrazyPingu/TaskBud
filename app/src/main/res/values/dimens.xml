@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Card values -->
+    <dimen name="corner_values_card">30dp</dimen>
+    <dimen name="width_stroke_card">2dp</dimen>
+    <!-- Background edit text -->
+    <dimen name="width_stroke_edit">@dimen/width_stroke_card</dimen>
+
+    <dimen name="title">30sp</dimen>
+    <dimen name="title_margin_top">50dp</dimen>
+    <dimen name="title_margin_bottom">30dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">0dp</dimen>
+</resources>

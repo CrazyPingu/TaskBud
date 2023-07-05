@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50dp"
+        android:src="@drawable/taskbud_logo" />
+
+    <RelativeLayout
+        android:id="@+id/title_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:hint="Title"
+            android:textSize="20dp" />
+
+        <CheckBox
+            android:id="@+id/starCheckBoxEdit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:button="@drawable/checkbox_star_selector"
+            android:layout_toEndOf="@+id/title" />
+
+        <EditText
+            android:id="@+id/tag"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:background="@drawable/background_square"
+            android:hint="Insert tag"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/description_container"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/title_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="17dp" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_below="@+id/title_description"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_square"
+            android:gravity="top|start"
+            android:hint="click here to edit"
+            android:padding="10dp" />
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/lavender"
+        android:drawableEnd="@drawable/calendar_icon"
+        android:text="Select date" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_toEndOf="@+id/cancel"
+            android:text="@string/confirm" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

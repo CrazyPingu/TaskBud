@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.SettingsPage">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/title_margin_top"
+        android:layout_marginBottom="@dimen/title_margin_bottom"
+        android:text="@string/title_settings"
+        android:textSize="@dimen/title"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/background_card"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/theme_toggle_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:gravity="end"
+            android:text="@string/theme_mode_toggle_title"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/theme_toggle"
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/theme_toggle_title"
+            android:entries="@array/spinner_items" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/monet_zone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/background_card"
+        android:orientation="horizontal"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Accent color:"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/monet_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monet_zone"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="50dp">
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/logout"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/taskbud_stand_rx"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_toEndOf="@+id/logout"
+            android:src="@drawable/taskbud_stand_rx" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
