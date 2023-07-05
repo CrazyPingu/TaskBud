@@ -17,8 +17,11 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.mobile.todo.R
+import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.fragment.SettingsPage
 import com.mobile.todo.widget.TodoWidget
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -117,15 +120,6 @@ class Constant {
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.list_view)
             }
 
-//            val appWidgetManager = AppWidgetManager.getInstance(context)
-//            val remoteViews = RemoteViews(context.packageName, R.layout.todo_widget).also {
-//                it.setViewVisibility(R.id.list_view, if (getUser(context) != -1) View.VISIBLE else View.GONE)
-//                it.setViewVisibility(R.id.login_button, if (getUser(context) == -1) View.VISIBLE else View.GONE)
-//            }
-//            val appWidgetId = appWidgetManager.getAppWidgetIds(
-//                ComponentName(context, TodoWidget::class.java)
-//            )
-//            appWidgetManager.partiallyUpdateAppWidget(appWidgetId, remoteViews)
         }
     }
 }

@@ -6,6 +6,8 @@
     android:initialLayout="@layout/todo_widget"
     android:minWidth="260dp"
     android:minHeight="110dp"
+    android:minSdkVersion="31"
+
     android:previewImage="@drawable/example_appwidget_preview"
     android:previewLayout="@layout/todo_widget"
     android:resizeMode="horizontal|vertical"

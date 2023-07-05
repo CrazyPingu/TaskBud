@@ -25,6 +25,7 @@
         tools:targetApi="tiramisu">
         <receiver
             android:name=".widget.TodoWidget"
+            android:enabled="@bool/isWidgetEnabled"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

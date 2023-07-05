@@ -52,13 +52,13 @@ class TodoWidget : AppWidgetProvider() {
 
                 val database = AppDatabase.getDatabase(context)
 
-                if(intent.hasExtra(SET_TO_FAV)) {
-                    if(intent.extras?.getBoolean(SET_TO_FAV) == true) {
+                if (intent.hasExtra(SET_TO_FAV)) {
+                    if (intent.extras?.getBoolean(SET_TO_FAV) == true) {
                         database.searchDao().removeTagFromToDoId(todoId, Tag.FAV)
-                    }else{
+                    } else {
                         database.searchDao().addTagToToDoId(todoId, Tag.FAV)
                     }
-                }else if(intent.hasExtra(DELETE_TODO)) {
+                } else if (intent.hasExtra(DELETE_TODO)) {
                     val dialog = MaterialAlertDialogBuilder(context)
                         .setTitle("Delete to do")
                         .setMessage("Do you want to delete this to do?")
@@ -70,7 +70,7 @@ class TodoWidget : AppWidgetProvider() {
                             dialog.dismiss()
                         }
                         .create().show()
-                }else {
+                } else {
                     val completed = intent.getBooleanExtra(EXTRA_ITEM_COMPLETED, false)
                     database.toDoDao().setCompleted(todoId, !completed)
                 }

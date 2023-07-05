@@ -14,6 +14,7 @@ import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.utils.Constant
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class TodoWidgetService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory {
@@ -25,7 +26,7 @@ class TodoWidgetService : RemoteViewsService() {
 
         private val appWidgetId: Int
         private lateinit var data: List<ToDo>
-        private lateinit var favouriteTodo : List<Int>
+        private lateinit var favouriteTodo: List<Int>
 
         init {
             this.appWidgetId = intent.getIntExtra(
@@ -60,9 +61,12 @@ class TodoWidgetService : RemoteViewsService() {
 
             views.setTextViewText(R.id.todo_title, data[position].title)
 
-            val todoId : Int = data[position].id
+            val todoId: Int = data[position].id
 
-            views.setCompoundButtonChecked(R.id.starCheckBox, favouriteTodo.contains(data[position].id))
+            views.setCompoundButtonChecked(
+                R.id.starCheckBox,
+                favouriteTodo.contains(data[position].id)
+            )
 
             views.setCompoundButtonChecked(R.id.checkbox, data[position].completed)
 
@@ -79,7 +83,10 @@ class TodoWidgetService : RemoteViewsService() {
 
             val favouriteIntent = Intent()
             favouriteIntent.putExtra(TodoWidget.EXTRA_ITEM_ID, todoId)
-            favouriteIntent.putExtra(TodoWidget.SET_TO_FAV, favouriteTodo.contains(data[position].id))
+            favouriteIntent.putExtra(
+                TodoWidget.SET_TO_FAV,
+                favouriteTodo.contains(data[position].id)
+            )
             views.setOnClickFillInIntent(R.id.starCheckBox, favouriteIntent)
 
             return views

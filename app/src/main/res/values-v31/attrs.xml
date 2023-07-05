@@ -4,5 +4,5 @@
         <attr name="appWidgetInnerRadius" format="dimension" />
         <attr name="appWidgetRadius" format="dimension" />
     </declare-styleable>
-    <bool name="isWidgetEnabled">false</bool>
+    <bool name="isWidgetEnabled">true</bool>
 </resources>
