@@ -59,6 +59,7 @@ class Signup : AppCompatActivity() {
         val signupButton : Button = findViewById(R.id.signup_button)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        Constant.refreshWidget(this)
 
         if (Constant.getMonet(this)) {
             Monet.setTextInputLayoutMonet(findViewById(R.id.username_layout), this)

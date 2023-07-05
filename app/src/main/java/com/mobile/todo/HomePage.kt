@@ -39,6 +39,8 @@ class HomePage : AppCompatActivity() {
             USER_ID = Constant.getUser(this)
         }
 
+        Constant.refreshWidget(this)
+
         if (intent.hasExtra("page")) {
             pageToShow = intent.getIntExtra("page", R.id.navbar_todo)
         }

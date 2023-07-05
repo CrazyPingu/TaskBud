@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="20dp" />
+
+    <TextView
+        android:id="@+id/todo_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@+id/starCheckBox"
+        android:layout_toEndOf="@+id/checkbox"
+        android:gravity="center_vertical"
+        android:textSize="20sp" />
+
+    <CheckBox
+        android:id="@+id/starCheckBox"
+        style="@style/MyCheckBoxStyle"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="20dp"
+        android:button="@drawable/checkbox_star_selector" />
+
+
+
+</RelativeLayout>

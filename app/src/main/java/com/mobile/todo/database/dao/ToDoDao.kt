@@ -45,4 +45,8 @@ interface ToDoDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM ToDo WHERE userId = :userId)")
     fun hasToDo(userId: Int): Boolean
+
+    @Query("SELECT todo.id FROM todo, search, tag WHERE todo.id = search.todoId AND search.tag = tag.tag AND tag.tag = :tag AND todo.userId = :userId")
+    fun getToDoByUserIdTag(userId: Int, tag: String = Tag.FAV): List<Int>
+
 }
