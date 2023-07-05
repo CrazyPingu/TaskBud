@@ -8,6 +8,10 @@
         <item name="android:statusBarColor">@color/lavender</item>
         <item name="colorSecondaryContainer">@color/lavender</item>
 
+        <item name="colorOnPrimary">@color/normal</item>
+
+
+
         <item name="colorAccent">@color/background_inverse</item>
 
         <item name="elevationOverlayEnabled">false</item>

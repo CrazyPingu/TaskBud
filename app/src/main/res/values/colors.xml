@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background">#E0E0E0</color>
     <color name="lavender">#8692f7</color>
-    <color name="inverse">#FF000000</color>
+    <color name="inverse">#000000</color>
     <color name="normal">#FFFFFFFF</color>
 
     <color name="piechart_completed">#FFBB86FC</color>

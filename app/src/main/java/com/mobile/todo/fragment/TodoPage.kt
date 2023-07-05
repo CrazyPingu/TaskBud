@@ -19,6 +19,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -149,15 +150,18 @@ class TodoPage : Fragment() {
             override fun onAnimationRepeat(animation: Animation) {}
         })
 
+
         showAddButton.setOnClickListener {
             if (addTodoButton.visibility == View.GONE) {
                 addTodoButton.visibility = View.VISIBLE
                 addHabitButton.visibility = View.VISIBLE
                 addTodoButton.startAnimation(fadeInAnimation)
                 addHabitButton.startAnimation(fadeInAnimation)
+                showAddButton.icon = ContextCompat.getDrawable(requireContext(), R.drawable.close_cross)
             } else {
                 addTodoButton.startAnimation(fadeOutAnimation)
                 addHabitButton.startAnimation(fadeOutAnimation)
+                showAddButton.icon = ContextCompat.getDrawable(requireContext(), R.drawable.add_cross)
             }
         }
 

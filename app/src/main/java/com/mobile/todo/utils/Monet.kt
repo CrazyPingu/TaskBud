@@ -186,6 +186,7 @@ class Monet {
                     android.R.color.system_accent1_500
                 )
             )
+
         }
 
         fun setEditText(editText: EditText, context: Context) {
