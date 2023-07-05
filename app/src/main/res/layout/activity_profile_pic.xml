@@ -14,27 +14,27 @@
 
     <ImageView
         android:id="@+id/profile_pic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:src="@drawable/default_profile_pic" />
 
-    <LinearLayout
+
+    <RelativeLayout
+        android:layout_marginTop="30dp"
         android:id="@+id/select_source"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profile_pic"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_below="@id/profile_pic"
+        android:layout_centerHorizontal="true">
 
         <ImageView
             android:id="@+id/select_camera"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="80dp"
             android:contentDescription="Take photo from camera"
             android:src="@drawable/camera_icon" />
 
@@ -42,12 +42,30 @@
             android:id="@+id/select_gallery"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginStart="50dp"
+            android:layout_toEndOf="@+id/select_camera"
             android:contentDescription="Take photo from gallery"
             android:src="@drawable/gallery_icon" />
 
-    </LinearLayout>
 
+        <TextView
+            android:id="@+id/text_view_camera"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/select_camera"
+            android:layout_marginEnd="80dp"
+            android:gravity="center"
+            android:text="Camera" />
+
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/text_view_camera"
+            android:layout_below="@+id/select_gallery"
+            android:gravity="center"
+            android:text="Gallery"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

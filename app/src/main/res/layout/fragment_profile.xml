@@ -11,11 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/title_margin_bottom"
         android:layout_marginTop="@dimen/title_margin_top"
+        android:layout_marginBottom="@dimen/title_margin_bottom"
         android:text="@string/title_profile"
-        android:textStyle="bold"
-        android:textSize="@dimen/title" />
+        android:textSize="@dimen/title"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/middle_container"
@@ -28,16 +28,31 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp">
+            android:layout_marginEnd="50dp">
 
-            <include
+            <FrameLayout
                 android:id="@+id/profile_pic_container"
-                layout="@layout/template_profile_pic"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/profile_pic"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/default_profile_pic" />
+
+                <ImageView
+                    android:id="@+id/small_image"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="bottom|end"
+                    android:background="@null"
+                    android:src="@drawable/edit_image" />
+
+            </FrameLayout>
 
             <TextView
+                android:layout_marginTop="30dp"
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,14 +64,21 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:text="Habits stats"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/no_data_message"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="40dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
                 android:gravity="center_vertical"
                 android:text="No data available"
                 android:visibility="gone" />
@@ -64,7 +86,8 @@
             <org.eazegraph.lib.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="100dp"
-                android:layout_height="100dp" />
+                android:layout_height="100dp"
+                android:layout_gravity="center" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -98,12 +121,12 @@
 
 
     <TextView
+        android:id="@+id/title_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/middle_container"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:id="@+id/title_badge"
         android:text="Badge"
         android:textSize="20sp" />
 
