@@ -22,6 +22,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -52,6 +53,9 @@ class TodoPage : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        if(!isAdded){
+            return null
+        }
         val view = inflater.inflate(R.layout.fragment_todo, container, false)
         val recyclerViewToDo = view.findViewById<RecyclerView>(R.id.recyclerViewToDo)
         val database = AppDatabase.getDatabase(requireContext())
@@ -61,10 +65,11 @@ class TodoPage : Fragment() {
         val addTodoButton = view.findViewById<ExtendedFloatingActionButton>(R.id.add_todo)
         val addHabitButton = view.findViewById<ExtendedFloatingActionButton>(R.id.add_habit)
 
-        GlobalScope.launch {
+
+        GlobalScope.launch(Dispatchers.IO) {
             val todo = database.toDoDao().getAllToDoByUserId(USER_ID)
             val search = database.searchDao().getAllSearch()
-            val tagList = AppDatabase.getDatabase(requireContext()).tagDao().getAllTag()
+            val tagList = database.tagDao().getAllTag()
             for (tag in tagList) {
                 if (database.searchDao().isTagInSearch(tag.tag) || tag.tag == Tag.FAV) itemList.add(
                     tag.tag
@@ -72,7 +77,9 @@ class TodoPage : Fragment() {
             }
 
             if (todo.isEmpty()) {
-                view.findViewById<TextView>(R.id.no_result).visibility = View.VISIBLE
+                withContext(Dispatchers.Main) {
+                    view.findViewById<TextView>(R.id.no_result).visibility = View.VISIBLE
+                }
             }
 
             withContext(Dispatchers.Main) {
@@ -80,6 +87,7 @@ class TodoPage : Fragment() {
                 recyclerViewToDo.layoutManager = LinearLayoutManager(context)
             }
         }
+
 
 
         searchBar = view.findViewById(R.id.search_bar)
@@ -209,8 +217,7 @@ class TodoPage : Fragment() {
                     filteredToDos = todo.filter { resultToDoId.contains(it.id) }
                 }
 
-                val handler = Handler(Looper.getMainLooper())
-                handler.post {
+                withContext(Dispatchers.Main) {
                     // Update the RecyclerView on the main thread
                     val adapter = ToDoAdapter(filteredToDos.toMutableList(), search.toMutableList())
                     recyclerViewToDo.adapter = adapter

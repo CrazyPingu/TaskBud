@@ -21,8 +21,10 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.mobile.todo.HomePage
 import com.mobile.todo.Login
 import com.mobile.todo.R
 import com.mobile.todo.utils.Constant
@@ -34,10 +36,15 @@ class SettingsPage : Fragment() {
     private var SELECTED_THEME: Int = 0
     private lateinit var checkBox: CheckBox
 
+    private var currentTheme: Int = AppCompatDelegate.MODE_NIGHT_NO // Or however you initialize this.
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if(!isAdded){
+            return null
+        }
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val spinner: Spinner = view.findViewById(R.id.theme_toggle)
         val monetZone: LinearLayout = view.findViewById(R.id.monet_zone)
@@ -45,6 +52,8 @@ class SettingsPage : Fragment() {
 
         if (Constant.checkVersionMonet()) {
             monetZone.visibility = VISIBLE
+
+            currentTheme = Constant.getTheme(requireContext())
 
             checkBox = view.findViewById(R.id.monet_toggle)
             checkBox.isChecked = Constant.getMonet(requireContext())
@@ -97,8 +106,8 @@ class SettingsPage : Fragment() {
                             )
                         }
                     }
-                    requireActivity().recreate()
 
+                    requireActivity().recreate()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -114,6 +123,15 @@ class SettingsPage : Fragment() {
             startActivity(Intent(requireContext(), Login::class.java))
         }
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Check if the theme has changed.
+        if (Constant.getTheme(requireContext()) != currentTheme) {
+            // If the theme has changed, recreate the activity.
+            recreate(requireActivity())
+        }
     }
 
 

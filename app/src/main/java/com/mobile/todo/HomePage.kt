@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -35,6 +36,8 @@ class HomePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        Log.d("AAAA", "onCreate: ")
+
         if (Constant.getUser(this) != -1) {
             USER_ID = Constant.getUser(this)
         }
@@ -56,35 +59,36 @@ class HomePage : AppCompatActivity() {
             Monet.setStatusBarMonet(this, window)
         }
 
+        val todoPage = TodoPage.newInstance(USER_ID)
+        val habitPage = HabitPage.newInstance(USER_ID)
+        val profilePage = if (intent.hasExtra("profilePic")) {
+            val profilePic = intent.getParcelableExtra<Uri>("profilePic")
+            ProfilePage.newInstance(profilePic!!)
+        } else {
+            ProfilePage.newInstance()
+        }
+        val settingsPage = SettingsPage.newInstance(AppCompatDelegate.getDefaultNightMode())
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             pageToShow = item.itemId
             when (item.itemId) {
                 R.id.navbar_todo -> {
-                    todoPage = TodoPage.newInstance(USER_ID)
                     changeFragment(todoPage)
                     true
                 }
 
                 R.id.navbar_habit -> {
-                    changeFragment(HabitPage.newInstance(USER_ID))
+                    changeFragment(habitPage)
                     true
                 }
 
                 R.id.navbar_profile -> {
-                    if (intent.hasExtra("profilePic")) {
-                        val profilePic = intent.getParcelableExtra<Uri>("profilePic")
-                        changeFragment(ProfilePage.newInstance(profilePic!!))
-                    } else {
-                        changeFragment(ProfilePage.newInstance())
-                    }
+                    changeFragment(profilePage)
                     true
                 }
 
                 R.id.navbar_settings -> {
-                    changeFragment(
-                        SettingsPage.newInstance(AppCompatDelegate.getDefaultNightMode())
-                    )
+                    changeFragment(settingsPage)
                     true
                 }
 
@@ -94,12 +98,13 @@ class HomePage : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                when(pageToShow) {
+                when (pageToShow) {
                     R.id.navbar_profile, R.id.navbar_habit, R.id.navbar_settings -> {
                         pageToShow = R.id.navbar_todo
                         startActivity(Intent(this@HomePage, HomePage::class.java))
                         return
                     }
+
                     R.id.navbar_todo -> {
                         pageToShow = R.id.navbar_todo
                         startActivity(Intent(this@HomePage, HomePage::class.java))

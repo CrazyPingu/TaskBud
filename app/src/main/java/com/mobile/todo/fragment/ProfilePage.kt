@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.todo.Camera
@@ -37,6 +38,9 @@ class ProfilePage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if(!isAdded){
+            return null
+        }
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         val mPieChart = view.findViewById<PieChart>(R.id.piechart)
@@ -45,7 +49,7 @@ class ProfilePage : Fragment() {
 
         val database = AppDatabase.getDatabase(requireContext())
 
-        GlobalScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             // Variable required for the pie chart
             val completed = database.habitDao().getCompletedHabitsCount(HomePage.USER_ID).toFloat()
             val total = database.habitDao().getUserHabitsCount(HomePage.USER_ID).toFloat()
@@ -98,7 +102,7 @@ class ProfilePage : Fragment() {
             val user = database.userDao().getUser(HomePage.USER_ID)
             var profilePicUri = user.profilePic
             if (PROFILE_PIC_IMAGE != Uri.EMPTY) {
-                AppDatabase.getDatabase(requireContext()).userDao().updateProfilePic(
+                database.userDao().updateProfilePic(
                     HomePage.USER_ID,
                     PROFILE_PIC_IMAGE.toString()
                 )
@@ -112,7 +116,7 @@ class ProfilePage : Fragment() {
                     inputStream?.close()
                 } catch (e: IOException) {
                     // Case profile pic is not found
-                    AppDatabase.getDatabase(requireContext()).userDao().updateProfilePic(
+                    database.userDao().updateProfilePic(
                         HomePage.USER_ID,
                         Constant.DEFAULT_PROFILE_PIC.toString()
                     )
