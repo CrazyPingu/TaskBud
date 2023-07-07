@@ -25,6 +25,7 @@ import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.GpsFunction
 import com.mobile.todo.utils.Monet
 import com.mobile.todo.utils.Permission
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -145,7 +146,7 @@ class Signup : AppCompatActivity() {
                 .show()
         } else {
 
-            GlobalScope.launch {
+             GlobalScope.launch(Dispatchers.IO) {
                 if (AppDatabase.getDatabase(this@Signup).userDao().getUser(username) == null) {
                     val user =
                         User(

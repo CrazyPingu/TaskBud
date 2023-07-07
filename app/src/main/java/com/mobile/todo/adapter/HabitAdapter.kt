@@ -14,13 +14,17 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mobile.todo.EditTodoHabit
+import com.mobile.todo.HomePage
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Habit
+import com.mobile.todo.fragment.HabitPage
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Monet
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HabitAdapter(private var itemList: MutableList<Habit>) :
     RecyclerView.Adapter<HabitAdapter.ViewHolder>() {
@@ -30,8 +34,7 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context // Store the reference to the parent ViewGroup
         return ViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
         )
     }
 
@@ -45,20 +48,27 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
             holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         }
 
-        if(Constant.getMonet(context)){
+        if (Constant.getMonet(context)) {
             Monet.setCheckBoxMonet(holder.checkbox, context)
             Monet.setCheckBoxMonet(holder.starCheckBoxItem, context)
 //            Monet.setDeleteButtonMonet(holder.delete, context)
         }
 
         holder.delete.setOnClickListener {
-            val dialog = MaterialAlertDialogBuilder(context)
-                .setTitle("Delete habit")
+            val dialog = MaterialAlertDialogBuilder(context).setTitle("Delete habit")
                 .setMessage("Do you want to delete this habit?")
                 .setPositiveButton("OK") { dialog, _ ->
                     // Remove habit from database
-                    GlobalScope.launch {
+                    GlobalScope.launch(Dispatchers.IO) {
                         AppDatabase.getDatabase(context).habitDao().deleteHabit(item)
+                        val size = AppDatabase.getDatabase(context).habitDao().getHabitsByUserId(HomePage.USER_ID).size
+                        withContext(Dispatchers.Main) {
+                            if (size == 0) {
+                                (context as HomePage).findViewById<View>(R.id.no_result).visibility = View.VISIBLE
+                            } else {
+                                (context as HomePage).findViewById<View>(R.id.no_result).visibility = View.GONE
+                            }
+                        }
                     }
                     val currentPosition = itemList.indexOf(item)
                     if (currentPosition != -1) {
@@ -66,15 +76,13 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
                         notifyItemRemoved(currentPosition)
                     }
                     dialog.dismiss()
-                }
-                .setNegativeButton("Cancel") { dialog, _ ->
+                }.setNegativeButton("Cancel") { dialog, _ ->
                     dialog.dismiss()
-                }
-                .create()
+                }.create()
 
-                dialog.show()
+            dialog.show()
 
-            if(Constant.getMonet(context)){
+            if (Constant.getMonet(context)) {
                 Monet.setButtonTextMonet(dialog.getButton(AlertDialog.BUTTON_POSITIVE), context)
                 Monet.setButtonTextMonet(dialog.getButton(AlertDialog.BUTTON_NEGATIVE), context)
             }
@@ -82,8 +90,7 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
 
         holder.textView.setOnClickListener {
             startActivity(
-                context,
-                Intent(
+                context, Intent(
                     EditTodoHabit.newInstance(
                         context, EditTodoHabit.Companion.TYPE.HABIT, item.id
                     )
@@ -93,15 +100,14 @@ class HabitAdapter(private var itemList: MutableList<Habit>) :
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                GlobalScope.launch {
+                 GlobalScope.launch(Dispatchers.IO) {
                     AppDatabase.getDatabase(context).habitDao()
                         .increaseStreak(item.id, Constant.getCurrentDate())
                 }
                 holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             } else {
-                GlobalScope.launch {
-                    AppDatabase.getDatabase(context).habitDao()
-                        .resetLastDay(item.id)
+                 GlobalScope.launch(Dispatchers.IO) {
+                    AppDatabase.getDatabase(context).habitDao().resetLastDay(item.id)
                 }
                 holder.textView.paintFlags =
                     holder.textView.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()

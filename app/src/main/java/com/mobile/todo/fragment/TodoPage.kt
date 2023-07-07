@@ -241,10 +241,9 @@ class TodoPage : Fragment() {
         database: AppDatabase,
         recyclerView: RecyclerView
     ) {
-        GlobalScope.launch {
+         GlobalScope.launch(Dispatchers.IO) {
             var tagList = if (starting.isNullOrEmpty()) {
                 database.tagDao().getAllTagsFromUser(HomePage.USER_ID)
-
             } else {
                 database.tagDao().getAllTagStartingWith(starting, HomePage.USER_ID)
             }

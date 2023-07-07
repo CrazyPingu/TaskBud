@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mobile.todo.EditTodoHabit
+import com.mobile.todo.HomePage
 import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Search
@@ -22,8 +23,10 @@ import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.database.dataset.ToDo
 import com.mobile.todo.utils.Constant
 import com.mobile.todo.utils.Monet
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchList: MutableList<Search>) :
@@ -67,8 +70,16 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
                 .setMessage("Do you want to delete this to do?")
                 .setPositiveButton("OK") { dialog, _ ->
                     // Remove to do from database
-                    GlobalScope.launch {
+                     GlobalScope.launch(Dispatchers.IO) {
                         AppDatabase.getDatabase(context).toDoDao().deleteToDo(item)
+                        val size = AppDatabase.getDatabase(context).toDoDao().getAllToDoByUserId(HomePage.USER_ID).size
+                         withContext(Dispatchers.Main){
+                             if (size == 0) {
+                                 (context as HomePage).findViewById<View>(R.id.no_result).visibility = View.VISIBLE
+                             } else {
+                                 (context as HomePage).findViewById<View>(R.id.no_result).visibility = View.GONE
+                             }
+                         }
                     }
                     val currentPosition = itemList.indexOf(item)
                     if (currentPosition != -1) {
@@ -106,13 +117,13 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
 
         holder.checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                GlobalScope.launch {
+                 GlobalScope.launch(Dispatchers.IO) {
                     AppDatabase.getDatabase(context).toDoDao()
                         .setCompleted(item.id, isChecked)
                 }
                 holder.textView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             } else {
-                GlobalScope.launch {
+                 GlobalScope.launch(Dispatchers.IO) {
                     AppDatabase.getDatabase(context).toDoDao()
                         .setCompleted(item.id, isChecked)
                 }
@@ -125,12 +136,12 @@ class ToDoAdapter(private var itemList: MutableList<ToDo>, private var searchLis
 
         holder.starCheckBoxItem.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                GlobalScope.launch {
+                 GlobalScope.launch(Dispatchers.IO) {
                     AppDatabase.getDatabase(context).searchDao()
                         .insertSearch(Search(item.id,  Tag.FAV))
                 }
             } else {
-                GlobalScope.launch {
+                 GlobalScope.launch(Dispatchers.IO) {
                     AppDatabase.getDatabase(context).searchDao()
                         .removeTagFromToDoId(item.id, Tag.FAV)
                 }

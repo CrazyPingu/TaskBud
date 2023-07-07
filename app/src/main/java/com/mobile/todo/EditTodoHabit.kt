@@ -123,7 +123,7 @@ class EditTodoHabit : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            GlobalScope.launch {
+             GlobalScope.launch(Dispatchers.IO) {
                 if (type == TYPE.HABIT) {
                     if (intent.hasExtra(ID_EXTRA)) {
                         database.habitDao().updateHabit(

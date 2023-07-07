@@ -14,6 +14,7 @@ import com.mobile.todo.R
 import com.mobile.todo.database.AppDatabase
 import com.mobile.todo.database.dataset.Tag
 import com.mobile.todo.utils.Constant
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -48,7 +49,7 @@ class TodoWidget : AppWidgetProvider() {
             }
 
 
-            GlobalScope.launch {
+             GlobalScope.launch(Dispatchers.IO) {
 
                 val database = AppDatabase.getDatabase(context)
 
