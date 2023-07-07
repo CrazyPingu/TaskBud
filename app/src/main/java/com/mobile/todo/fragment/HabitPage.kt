@@ -2,6 +2,7 @@ package com.mobile.todo.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,7 @@ class HabitPage : Fragment() {
         }
 
 
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.IO) {
             val habit = database.habitDao().getHabitsByUserId(userId)
             withContext(Dispatchers.Main) {
                 recyclerView.adapter = HabitAdapter(habit.toMutableList())

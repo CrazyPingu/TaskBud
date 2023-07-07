@@ -28,15 +28,6 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="30dp" />
 
-        <TextView
-            android:id="@+id/no_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="No habits"
-            android:textSize="20sp"
-            android:visibility="gone" />
-
     </LinearLayout>
 
     <!-- FAB Menu -->
@@ -47,5 +38,14 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="24dp"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/no_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No habits"
+        android:textSize="20sp"
+        android:visibility="gone" />
 
 </RelativeLayout>
