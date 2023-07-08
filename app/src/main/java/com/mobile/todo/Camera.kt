@@ -1,16 +1,22 @@
 package com.mobile.todo
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.io.OutputStream
 import kotlin.reflect.KClass
 
 
@@ -80,23 +86,31 @@ class Camera : AppCompatActivity() {
                 profilePicImage = if (data?.extras?.getParcelable<Bitmap>("data") is Bitmap) {
                     getImageUri(data.extras?.get("data") as Bitmap)
                 } else {
-                    data?.data!!
+                    data?.data!!.let { uri ->
+                        val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                        getImageUri(bitmap)
+                    }
                 }
                 profilePic.setImageURI(profilePicImage)
             }
         }
 
+
+
+
     private fun getImageUri(inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(
-            this.contentResolver,
-            inImage,
-            null,
-            null
-        )
-        return Uri.parse(path)
+        val fileName = "ProfilePic_" + System.currentTimeMillis() + ".jpeg"
+
+        this.openFileOutput(fileName, MODE_PRIVATE).use { outStream ->
+            inImage.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
+        }
+
+        return Uri.fromFile(File(filesDir, fileName))
     }
+
+
+
+
 
 
     override fun onBackPressed() {
