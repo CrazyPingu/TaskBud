@@ -36,8 +36,6 @@ class HomePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        Log.d("AAAA", "onCreate: ")
-
         if (Constant.getUser(this) != -1) {
             USER_ID = Constant.getUser(this)
         }
@@ -59,36 +57,32 @@ class HomePage : AppCompatActivity() {
             Monet.setStatusBarMonet(this, window)
         }
 
-        val todoPage = TodoPage.newInstance(USER_ID)
-        val habitPage = HabitPage.newInstance(USER_ID)
-        val profilePage = if (intent.hasExtra("profilePic")) {
-            val profilePic = intent.getParcelableExtra<Uri>("profilePic")
-            ProfilePage.newInstance(profilePic!!)
-        } else {
-            ProfilePage.newInstance()
-        }
-        val settingsPage = SettingsPage.newInstance(AppCompatDelegate.getDefaultNightMode())
-
         bottomNavigationView.setOnItemSelectedListener { item ->
             pageToShow = item.itemId
             when (item.itemId) {
                 R.id.navbar_todo -> {
-                    changeFragment(todoPage)
+                    changeFragment(TodoPage.newInstance(USER_ID))
                     true
                 }
 
                 R.id.navbar_habit -> {
-                    changeFragment(habitPage)
+                    changeFragment(HabitPage.newInstance(USER_ID))
                     true
                 }
 
                 R.id.navbar_profile -> {
+                    val profilePage = if (intent.hasExtra("profilePic")) {
+                        val profilePic = intent.getParcelableExtra<Uri>("profilePic")
+                        ProfilePage.newInstance(profilePic!!)
+                    } else {
+                        ProfilePage.newInstance()
+                    }
                     changeFragment(profilePage)
                     true
                 }
 
                 R.id.navbar_settings -> {
-                    changeFragment(settingsPage)
+                    changeFragment(SettingsPage.newInstance(AppCompatDelegate.getDefaultNightMode()))
                     true
                 }
 

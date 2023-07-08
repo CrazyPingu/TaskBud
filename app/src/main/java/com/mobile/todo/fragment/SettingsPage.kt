@@ -107,7 +107,7 @@ class SettingsPage : Fragment() {
                         }
                     }
 
-                    requireActivity().recreate()
+                    // requireActivity().recreate()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -130,7 +130,7 @@ class SettingsPage : Fragment() {
         // Check if the theme has changed.
         if (Constant.getTheme(requireContext()) != currentTheme) {
             // If the theme has changed, recreate the activity.
-            recreate(requireActivity())
+            requireActivity().recreate()
         }
     }
 
