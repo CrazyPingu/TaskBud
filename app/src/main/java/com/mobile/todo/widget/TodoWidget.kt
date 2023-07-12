@@ -23,7 +23,6 @@ class TodoWidget : AppWidgetProvider() {
     companion object {
         const val ACTION_TOAST = "com.mobile.todo.widget.ACTION_TOAST"
         const val SET_TO_FAV = "com.mobile.todo.widget.SET_TO_FAV"
-        const val DELETE_TODO = "com.mobile.todo.widget.DELETE_TODO"
         const val EXTRA_ITEM_ID = "com.mobile.todo.widget.EXTRA_ITEM_ID_TODO"
         const val EXTRA_ITEM_COMPLETED = "com.mobile.todo.widget.EXTRA_ITEM_ID"
     }
@@ -59,25 +58,12 @@ class TodoWidget : AppWidgetProvider() {
                     } else {
                         database.searchDao().addTagToToDoId(todoId, Tag.FAV)
                     }
-                } else if (intent.hasExtra(DELETE_TODO)) {
-                    val dialog = MaterialAlertDialogBuilder(context)
-                        .setTitle("Delete to do")
-                        .setMessage("Do you want to delete this to do?")
-                        .setPositiveButton("OK") { dialog, _ ->
-                            // Remove to do from database
-
-                        }
-                        .setNegativeButton("Cancel") { dialog, _ ->
-                            dialog.dismiss()
-                        }
-                        .create().show()
                 } else {
                     val completed = intent.getBooleanExtra(EXTRA_ITEM_COMPLETED, false)
                     database.toDoDao().setCompleted(todoId, !completed)
+                    Constant.refreshWidget(context)
                 }
 
-
-                Constant.refreshWidget(context)
             }
         }
 
