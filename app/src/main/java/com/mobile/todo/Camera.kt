@@ -13,6 +13,8 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.mobile.todo.utils.Constant
+import com.mobile.todo.utils.Monet
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -76,6 +78,12 @@ class Camera : AppCompatActivity() {
                 intent.putExtra("profilePic", profilePicImage)
             }
             startActivity(intent)
+        }
+
+        if(Constant.getMonet(this)){
+            Monet.setButtonMonet(confirmButton, this)
+            Monet.setButtonMonet(cancelButton, this)
+            Monet.setStatusBarMonet(this, window)
         }
     }
 
